@@ -1,5 +1,5 @@
 // 뉴스 수집기: 기사 제목·링크·날짜·언론사만 모은다 (본문은 언론사 저작물이라 가져오지 않는다)
-//   1) 한국여자축구연맹 보도자료 (kwff.or.kr/press)
+//   1) 한국여자축구연맹 보도자료 (kwff.or.kr/press)와 공지사항 (kwff.or.kr/notice)
 //   2) 구글 뉴스 검색 RSS: 'WK리그', 'W코리아컵'
 //   3) WK League News (영문 팬 매체) RSS
 // 최근 60일, 최대 120건. 같은 제목은 하나만 남긴다.
@@ -27,8 +27,16 @@ try {
     if (title && d) items.push({ title, url: `https://www.kwff.or.kr/press/${m[1]}`, source: '한국여자축구연맹', kind: 'official', date: iso(`20${d[1]}-${d[2]}-${d[3]}T12:00:00+09:00`) });
   }
 } catch (e) { fail.push('연맹 보도자료'); }
+// 1-2) 연맹 공지사항
+try {
+  const h = await get('https://www.kwff.or.kr/notice');
+  for (const m of h.matchAll(/<a href="\/notice\/(\d+)"[^>]*>([\s\S]*?)<\/a>/g)) {
+    const title = ent((m[2].match(/<p[^>]*>([\s\S]*?)<\/p>/) || [])[1]), d = m[2].match(/(\d{2})\.(\d{2})\.(\d{2})/);
+    if (title && d) items.push({ title, url: `https://www.kwff.or.kr/notice/${m[1]}`, source: '한국여자축구연맹 공지', kind: 'official', date: iso(`20${d[1]}-${d[2]}-${d[3]}T12:00:00+09:00`) });
+  }
+} catch (e) { fail.push('연맹 공지사항'); }
 // 2) 구글 뉴스 검색
-for (const q of ['WK리그', 'W코리아컵']) {
+for (const q of ['WK리그', 'W코리아컵', 'WK리그 드래프트']) {
   try {
     const x = await get(`https://news.google.com/rss/search?q=${encodeURIComponent(q)}&hl=ko&gl=KR&ceid=KR:ko`);
     for (const it of x.split('<item>').slice(1)) {

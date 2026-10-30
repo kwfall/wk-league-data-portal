@@ -21,7 +21,7 @@
     // 보기 방식: 모바일 버전이면 mobile 표시, 휴대폰에서 PC 버전을 고르면 컴퓨터 화면 너비로 그린다
     var md = null;
     try { md = sessionStorage.getItem('wk-mode'); } catch (e) {}
-    if (md === 'mobile') document.documentElement.classList.add('mobile');
+    if (md === 'mobile') document.documentElement.classList.add(window.top === window && !matchMedia('(max-width: 900px)').matches ? 'phone-frame' : 'mobile');
     if (md === 'pc' && matchMedia('(max-width: 900px)').matches) document.querySelector('meta[name=viewport]').setAttribute('content', 'width=1280');
   })();
 </script>
@@ -57,6 +57,7 @@
 <script src="roster.js"></script>
 <script src="cup.js"></script>
 <script src="nsf.js"></script>
+<script src="draft.js"></script>
 <script src="news.js"></script>
 <script src="abroad.js"></script>
 <script src="abroad-names.js"></script>
@@ -65,6 +66,7 @@
 <script src="assets/app.js"></script>
 <script src="assets/pages/home.js"></script>
 <script src="assets/pages/cup.js"></script>
+<script src="assets/pages/draft.js"></script>
 <script src="assets/pages/news.js"></script>
 <script src="assets/pages/abroad.js"></script>
 <script src="assets/pages/table.js"></script>

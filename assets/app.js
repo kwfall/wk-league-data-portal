@@ -69,7 +69,7 @@
     return `<div class="legend" style="margin-bottom:8px"><span><span class="dot" style="background:var(--s1)"></span>${t('득점')}</span><span><span class="dot" style="background:var(--s2)"></span>${t('실점')}</span></div><svg viewBox="0 0 ${W} ${H}" role="img">${g}</svg><details><summary>${t('표로 보기')}</summary><div class="scroll">${tbl}</div></details>`;
   };
 
-  const NAV = [['', '홈'], ['table', '순위'], ['matches', '일정·결과'], ['teams', '팀'], ['players', '선수'], ['news', '소식'], ['cup', 'W코리아컵'], ['nsf', '전국체전'], ['analysis', '팀 분석'], ['compare', '비교'], ['best', '베스트 11'], ['qor', '라운드 QOR'], ['abroad', '해외파'], ['go', '경기장 가는 길'], ['predict', '예측'], ['history', '역대 기록']];
+  const NAV = [['', '홈'], ['table', '순위'], ['matches', '일정·결과'], ['teams', '팀'], ['players', '선수'], ['news', '소식'], ['draft', '드래프트'], ['cup', 'W코리아컵'], ['nsf', '전국체전'], ['analysis', '팀 분석'], ['compare', '비교'], ['best', '베스트 11'], ['qor', '라운드 QOR'], ['abroad', '해외파'], ['go', '경기장 가는 길'], ['predict', '예측'], ['history', '역대 기록']];
   function render() {
     const [, name = '', arg = ''] = location.hash.match(/^#\/([^/]*)\/?(.*)$/) || [];
     const key = name || 'home', page = WK.pages[key], B = WK.season(S.season);
@@ -101,12 +101,13 @@
   const mq = matchMedia('(max-width: 640px)'), place = () => { const to = document.querySelector(mq.matches && !document.documentElement.classList.contains('mobile') ? '.drawer-tools' : '.tools'); if (to) to.append(document.getElementById('lang'), document.getElementById('theme')); }; // 카드·포스터 화면에는 윗줄이 없다
   mq.addEventListener('change', place); place();
   // 전체 메뉴 펼치기·접기
-  WK.menu = (open) => { const d = document.getElementById('drawer'), b = document.getElementById('menu'); d.hidden = !open; b.setAttribute('aria-expanded', String(open)); };
+  WK.menu = (open) => { const d = document.getElementById('drawer'), b = document.getElementById('menu'); if (!d || !b) return; d.hidden = !open; b.setAttribute('aria-expanded', String(open)); };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') WK.menu(false); });
   addEventListener('hashchange', () => WK.menu(false));
   document.addEventListener('click', (e) => {
     if (e.target.closest('#menu')) return WK.menu(document.getElementById('drawer').hidden);
-    if (!document.getElementById('drawer').hidden && !e.target.closest('.drawer-tools')) WK.menu(false); // 메뉴 항목이나 바깥을 누르면 접는다
+    const dr = document.getElementById('drawer');
+    if (dr && !dr.hidden && !e.target.closest('.drawer-tools')) WK.menu(false); // 메뉴 항목이나 바깥을 누르면 접는다
     if (e.target.id === 'theme') { const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = next; save('wk-theme', next); return WK.rerender(); }
     const lb = e.target.closest('#lang button');
     if (lb) { WK.lang = lb.dataset.lang; save('wk-lang', WK.lang); return WK.rerender(); }
@@ -183,7 +184,7 @@
   WK.small = matchMedia('(max-width: 900px)').matches || matchMedia('(pointer: coarse)').matches || WK.mode === 'pc' && /Mobi|Android|iPhone/.test(navigator.userAgent);
   WK.setMode = (m) => {
     try { sessionStorage.setItem('wk-mode', m); } catch (e) { /* 저장이 막힌 환경 */ }
-    location.reload();
+    (window.top !== window ? window.top : window).location.reload(); // 휴대폰 틀 안에서 누르면 바깥 화면까지 새로 그린다
   };
   function chooser() {
     const el = document.createElement('div');
@@ -208,7 +209,7 @@
     if (WK.mode === 'mobile') {
       if (!b) { b = document.createElement('button'); b.id = 'modebtn'; b.type = 'button'; document.querySelector('.tools').prepend(b); }
       b.className = 'btn mode-top'; b.dataset.modeSet = 'pc'; b.textContent = t('PC 버전');
-    } else if (WK.mode === 'pc' || WK.small) {
+    } else {
       // PC 버전: 윗줄 시즌·언어 옆에 모바일 버전 단추
       if (!b) { b = document.createElement('button'); b.id = 'modebtn'; b.type = 'button'; document.querySelector('.tools').prepend(b); }
       b.className = 'btn mode-top'; b.dataset.modeSet = 'mobile'; b.textContent = t('모바일 버전');
@@ -221,9 +222,14 @@
   }, true);
 
   WK.start = function () {
+    // 컴퓨터에서 모바일 버전: 휴대폰 크기 틀 안에 같은 사이트를 띄운다 (틀 안에서는 휴대폰 화면 규칙이 그대로 적용된다)
+    if (document.documentElement.classList.contains('phone-frame')) {
+      document.body.innerHTML = `<div class="pf"><div class="pf-bar"><b>${t('모바일 버전')}</b><span>${t('컴퓨터에서 휴대폰 화면으로 보는 중입니다.')}</span><button class="btn mode-top" data-mode-set="pc">${t('PC 버전')}</button></div><iframe src="${location.href}" title="${t('모바일 버전')}"></iframe></div>`;
+      return;
+    }
     addEventListener('hashchange', render);
     render();
-    if (!WK.mode && WK.small) chooser();
+    if (!WK.mode) chooser(); // 컴퓨터든 휴대폰이든 창을 새로 열면 먼저 묻는다
     setInterval(poll, 60 * 1000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
   };

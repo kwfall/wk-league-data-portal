@@ -409,6 +409,10 @@ html.mobile #tabbar svg { width: 22px; height: 22px; fill: none; stroke: current
 html.mobile #tabbar [aria-current="page"] { color: var(--ink); font-weight: 600; }
 html.mobile body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); font-size: 15px; }
 html.mobile .hero { min-height: 200px; }
+/* 컴퓨터에서 모바일 버전을 고르면 휴대폰 크기 화면 안에 사이트를 띄운다 */
+.pf { min-height: 100vh; display: grid; justify-items: center; align-content: start; gap: 12px; padding: 16px; background: var(--bg); }
+.pf-bar { display: flex; align-items: center; gap: 12px; font-size: 14px; color: var(--ink-2); }
+.pf iframe { width: 390px; height: min(844px, calc(100vh - 80px)); border: 10px solid #111; border-radius: 36px; background: var(--surface); box-shadow: 0 10px 40px rgba(0,0,0,.18); }
 html.mobile #menu { display: none; } /* 모바일 버전은 아래쪽 '전체 메뉴'만 쓴다 */
 /* 모바일 버전 윗줄: 첫 줄 로고·시즌, 둘째 줄 PC 버전·언어·화면 모드 */
 html.mobile .top-in { flex-wrap: wrap; height: auto; row-gap: 0; padding-block: 6px; }
@@ -425,6 +429,15 @@ html.mobile .mlist .mrow { padding-block: 12px; }
 html.mobile .card h2 { font-size: 18px; }
 html.mobile table { font-size: 14px; }
 html.mobile .src { display: block; margin-top: 2px; }
+
+/* 드래프트 */
+.dhero { display: flex; align-items: center; gap: 20px; }
+.dhero .dd { display: grid; place-items: center; min-width: 120px; padding: 12px 16px; border-radius: 12px; background: var(--ink); color: var(--surface); }
+.dhero .dd b { font: 700 30px var(--mono); line-height: 1.1; } .dhero .dd span { font-size: 12px; opacity: .85; }
+.dsteps { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.dsteps li { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); } .dsteps li:last-child { border-bottom: 0; }
+.dsteps span { font-family: var(--mono); font-size: 14px; }
+@media (max-width: 640px) { .dhero { flex-direction: column; align-items: stretch; text-align: center; } }
 
 #tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--surface); border-radius: 6px; padding: 6px 9px; font-size: 12.5px; display: none; max-width: 260px; line-height: 1.45; }
 footer { max-width: 1200px; margin: 0 auto; padding: 0 20px 40px; color: var(--muted); font-size: 12px; line-height: 1.7; }
