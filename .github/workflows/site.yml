@@ -1,25 +1,25 @@
-# WK리그 Data: 연맹 기록과 뉴스를 15분마다 다시 모아 GitHub Pages 에 배포한다.
+# WK리그 Data: 연맹 기록과 뉴스를 30분마다 다시 모아 Cloudflare(https://data.kwfall.workers.dev/)에 배포한다.
 # 내 컴퓨터에서 고친 내용을 올려도(push) 바로 다시 배포된다. 수집이 실패하면 저장소에 있는 기록으로 배포한다.
+# 비공개 저장소의 무료 실행 시간(한 달 2,000분) 안에 들도록 30분마다 돈다.
+# 필요한 비밀 값: CLOUDFLARE_API_TOKEN (저장소 Settings → Secrets and variables → Actions)
 name: 기록 갱신과 배포
 
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/30 * * * *'
   push:
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: deploy
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -48,17 +48,8 @@ jobs:
       - name: 배포 파일 준비
         run: node tools/build-site.mjs
         env:
-          SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          SITE_URL: https://data.kwfall.workers.dev/
+      - name: Cloudflare 에 올리기
+        run: npx --yes wrangler@4.151.0 deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
