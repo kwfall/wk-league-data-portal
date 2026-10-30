@@ -22,7 +22,7 @@ for (const d of dirs) if (existsSync(d)) for (const f of await readdir(d, { recu
 { const w = {}; new Function('window', await readFile('cardnews.js', 'utf8'))(w); for (const c of w.WK_CARDS || []) if (existsSync(c.src)) files.add(c.src); }
 
 // 링크 미리보기(인스타그램·카카오톡 등)는 이미지 주소가 전체 주소여야 잘 뜬다
-const site = (process.env.SITE_URL || '').replace(/\/?$/, '/');
+const site = (process.env.SITE_URL || '').replace(/\/?$/, '/').replace(/^https?:\/\/[^/]+/, (h) => h.toLowerCase());
 if (process.env.SITE_URL) html = html.replace(/(<meta property="og:(?:image|url)" content=")([^"]*)"/g, (m, a, v) => `${a}${site}${v.replace(/^\.?\//, '')}"`);
 await writeFile(path.join(OUT, 'index.html'), html);
 files.delete('index.html');
