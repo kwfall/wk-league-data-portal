@@ -27,7 +27,7 @@
       return m.finished ? `<a class="chip" href="#/match/${m.id}" data-tip="${tip}">${body}</a>` : `<span class="chip up" data-tip="${tip}">${body}</span>`;
     };
     const cup = (U.cupMatches ? U.cupMatches() : []).filter((m) => !S.mTeam || m.home === S.mTeam || m.away === S.mTeam);
-    const cupChip = (m) => { const fin = m.hs != null, nm = (x) => (WK.logo(x) ? WK.tn(x) : t(x)); return `<a class="chip cupc${fin ? '' : ' up'}" href="#/${m.comp}" data-tip="${U.esc(`${t(m.comp === 'nsf' ? '전국체전' : 'W코리아컵')} · ${nm(m.home)} – ${nm(m.away)}${m.venue ? ' · ' + t(WK.vn(m.venue)) : ''}`)}"><em class="c-${m.comp}">${t(m.tag)}</em>${U.logo(m.home, 18)}${fin ? `<b>${m.hs}:${m.as}</b>` : `<i>${m.time || ''}</i>`}${U.logo(m.away, 18)}</a>`; };
+    const cupChip = (m) => { const fin = m.hs != null, nm = (x) => (WK.logo(x) ? WK.tn(x) : t(x)); return `<a class="chip cupc${fin ? '' : ' up'}" href="#/${m.comp}/${m.idx}" data-tip="${U.esc(`${t(m.comp === 'nsf' ? '전국체전' : 'W코리아컵')} · ${nm(m.home)} – ${nm(m.away)}${m.venue ? ' · ' + t(WK.vn(m.venue)) : ''}`)}"><em class="c-${m.comp}">${t(m.tag)}</em>${U.logo(m.home, 18)}${fin ? `<b>${m.hs}:${m.as}</b>` : `<i>${m.time || ''}</i>`}${U.logo(m.away, 18)}</a>`; };
     let cells = '';
     for (let i = 0; i < first.getDay(); i++) cells += '<div class="cd off"></div>';
     for (let d = 1; d <= days; d++) {
@@ -63,9 +63,9 @@
     const F = prep(B, true);
     if (!F) return '';
     const list = F.all.filter((m) => m.datetime.startsWith(S.mMonth) && (!S.mTeam || m.home === S.mTeam || m.away === S.mTeam));
-    return `<section class="card" style="margin-top:0"><div class="head"><div class="bar"><h2 style="margin-right:6px">${t('경기 달력')}</h2>${monthNav(F, false)}${teamPick(B, '')}</div>${U.src()}</div>
+    return `<section class="card" style="margin-top:0"><div class="head"><div class="bar"><h2 style="margin-right:6px">${t(WK.mode === 'mobile' ? '이달의 경기' : '경기 달력')}</h2>${monthNav(F, false)}${teamPick(B, '')}</div>${U.src()}</div>
       <p class="desc" style="margin:0 0 4px">${S.mTeam ? t('{team} 경기만 보고 있습니다. 고른 팀은 다음에 열 때도 유지됩니다.', { team: U.tname(S.mTeam) }) : t('팀을 고르면 그 팀 경기만 볼 수 있습니다. 종료된 경기를 누르면 경기 기록으로 이동합니다.')}</p>
-      ${calendar(B, list, S.mMonth)}<p class="more"><a class="link" href="#/matches">${t('일정·결과 전체 보기')} →</a></p></section>`;
+      ${WK.mode === 'mobile' ? `<div class="mlist">${list.length ? list.map((m, i) => (i === 0 || list[i - 1].datetime.slice(0, 10) !== m.datetime.slice(0, 10) ? `<div class="mday">${U.date(m.datetime)}</div>` : '') + matchRow(m)).join('') : `<div class="empty">${t('이 달에는 경기가 없습니다.')}</div>`}</div>` : calendar(B, list, S.mMonth)}<p class="more"><a class="link" href="#/matches">${t('일정·결과 전체 보기')} →</a></p></section>`;
   };
 
   WK.pages.matches = function (B) {

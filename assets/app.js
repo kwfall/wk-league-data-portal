@@ -79,7 +79,9 @@
     document.querySelector('.brand span').textContent = t('WK리그 Data');
     const links = (list) => list.map(([k, l]) => `<a href="#/${k}" ${k === group ? 'aria-current="page"' : ''}>${t(l)}</a>`).join('');
     document.querySelector('nav').innerHTML = links(NAV.slice(0, 5));
-    document.querySelector('.drawer-in').innerHTML = links(NAV) + `<a class="ig-link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all ↗</a>`;
+    document.querySelector('.drawer-in').innerHTML = links(NAV) + `<a class="ig-link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all ↗</a>`
+      + (WK.mode === 'mobile' ? `<button type="button" class="mode-sw" data-mode-set="pc">${t('PC 버전으로 보기')}</button>` : `<button type="button" class="mode-sw" data-mode-set="mobile">${t('모바일 버전으로 보기')}</button>`);
+    if (WK.afterTabs) WK.afterTabs();
     document.getElementById('menu').setAttribute('aria-label', t('메뉴'));
     document.getElementById('season').innerHTML = WK.seasons.map((s) => `<option value="${s}" ${s === S.season ? 'selected' : ''}>${t('{y}시즌', { y: s })}</option>`).join('');
     const dark = document.documentElement.dataset.theme === 'dark';
@@ -176,9 +178,40 @@
   }
   WK.flash = (msg) => { let el = document.getElementById('flash'); if (!el) { el = document.createElement('div'); el.id = 'flash'; el.setAttribute('role', 'status'); document.body.append(el); } el.textContent = msg; el.classList.add('on'); clearTimeout(WK._flashT); WK._flashT = setTimeout(() => el.classList.remove('on'), 4000); };
 
+  // 보기 방식 고르기: 휴대폰으로 처음 들어오면 모바일/PC 중에서 고르게 한다
+  WK.mode = (() => { try { return localStorage.getItem('wk-mode') || ''; } catch (e) { return ''; } })();
+  WK.setMode = (m) => {
+    try { localStorage.setItem('wk-mode', m); } catch (e) { /* 저장이 막힌 환경에서는 이번 방문에만 */ }
+    location.reload();
+  };
+  function chooser() {
+    const el = document.createElement('div');
+    el.id = 'chooser'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
+    el.innerHTML = `<div class="ch-in"><img src="assets/logo.svg" alt="" width="48" height="48"><h2>${t('어떤 화면으로 볼까요?')}</h2><p>${t('나중에 메뉴(≡)에서 언제든 바꿀 수 있습니다.')}</p>
+      <button class="ch-b on" data-mode-set="mobile"><b>${t('모바일 버전')}</b><span>${t('휴대폰에 맞춘 큰 글씨와 아래쪽 메뉴')}</span></button>
+      <button class="ch-b" data-mode-set="pc"><b>${t('PC 버전')}</b><span>${t('컴퓨터와 같은 화면 (확대해서 보기)')}</span></button></div>`;
+    document.body.append(el);
+  }
+  // 모바일 버전: 아래쪽 고정 메뉴
+  function tabbar() {
+    const bar = document.getElementById('tabbar') || document.body.appendChild(Object.assign(document.createElement('nav'), { id: 'tabbar' }));
+    bar.setAttribute('aria-label', t('메뉴'));
+    const cur = (location.hash.match(/^#\/([^/]*)/) || [, ''])[1];
+    const group = { match: 'matches', team: 'teams', player: 'players', home: '' }[cur] ?? cur;
+    const I = { '': 'M3 10.5 12 3l9 7.5V21h-6v-6H9v6H3z', table: 'M4 5h16M4 12h16M4 19h16M4 5v14M20 5v14', matches: 'M4 6h16v14H4zM4 10h16M8 3v5M16 3v5', players: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6' };
+    bar.innerHTML = [['', '홈'], ['table', '순위'], ['matches', '일정'], ['players', '선수']].map(([k, l]) => `<a href="#/${k}" ${group === k ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${I[k]}"/></svg><span>${t(l)}</span></a>`).join('')
+      + `<button type="button" data-open-menu><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>${t('전체 메뉴')}</span></button>`;
+  }
+  WK.afterTabs = () => { if (WK.mode === 'mobile') tabbar(); };
+  document.addEventListener('click', (e) => {
+    const m = e.target.closest('[data-mode-set]'); if (m) return WK.setMode(m.dataset.modeSet);
+    if (e.target.closest('[data-open-menu]')) { e.stopPropagation(); WK.menu(document.getElementById('drawer').hidden); }
+  }, true);
+
   WK.start = function () {
     addEventListener('hashchange', render);
     render();
+    if (!WK.mode && (matchMedia('(max-width: 900px)').matches || matchMedia('(pointer: coarse)').matches)) chooser();
     setInterval(poll, 60 * 1000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
   };

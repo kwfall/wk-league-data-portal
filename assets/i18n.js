@@ -383,6 +383,11 @@
     ['제주 서귀포 (결승: 서귀포축구공원)', 'Seogwipo, Jeju (final: Seogwipo Football Park)', '済州・西帰浦（決勝: 西帰浦サッカー公園）'], ['서귀포축구공원', 'Seogwipo Football Park', '西帰浦サッカー公園'],
     ['승부차기 승 · 스코어 확인 필요', 'won on penalties · score not confirmed', 'PK戦で勝利 · スコア未確認'], ['득점: 김가연 84분 / 문미라', 'Scorers: Kim Ga-yeon 84\u2032 / Moon Mi-ra', '得点: キム・ガヨン 84分 / ムン・ミラ'],
     ['방문 통계는 개인을 알아볼 수 없는 형태로만 집계합니다 (Cloudflare Web Analytics, 쿠키 없음).', 'Visits are counted only in a form that cannot identify individuals (Cloudflare Web Analytics, no cookies).', '訪問統計は個人を特定できない形でのみ集計します（Cloudflare Web Analytics、Cookieなし）。'],
+    ['어떤 화면으로 볼까요?', 'How would you like to view the site?', 'どちらの画面で見ますか？'], ['나중에 메뉴(≡)에서 언제든 바꿀 수 있습니다.', 'You can change this any time from the menu (≡).', 'あとでメニュー(≡)からいつでも変えられます。'],
+    ['모바일 버전', 'Mobile', 'モバイル版'], ['휴대폰에 맞춘 큰 글씨와 아래쪽 메뉴', 'Larger text and a bottom menu for phones', 'スマートフォン向けの大きな文字と下部メニュー'], ['PC 버전', 'Desktop', 'PC版'], ['컴퓨터와 같은 화면 (확대해서 보기)', 'The same layout as on a computer (zoom to read)', 'パソコンと同じ画面（拡大して見る）'],
+    ['PC 버전으로 보기', 'Switch to desktop', 'PC版で見る'], ['모바일 버전으로 보기', 'Switch to mobile', 'モバイル版で見る'], ['전체 메뉴', 'Menu', 'メニュー'], ['일정', 'Fixtures', '日程'], ['이 달에는 경기가 없습니다.', 'No matches this month.', '今月は試合がありません。'],
+    ['이달의 경기', 'Matches this month', '今月の試合'],
+    ['고른 경기', 'Selected match', '選んだ試合'], ['득점: 강지우 / 상대 자책골, 김미연 · 후반 36분 김민서(인천) 퇴장', 'Scorers: Kang Ji-woo / own goal, Kim Mi-yeon · Kim Min-seo (Incheon) sent off 81′', '得点: カン・ジウ / オウンゴール、キム・ミヨン · 後半36分 キム・ミンソ(仁川)退場'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],

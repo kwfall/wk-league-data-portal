@@ -373,7 +373,8 @@ table.cup td.won .name { font-weight: 600; color: var(--ink); } table.cup td { v
 .cupgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .cupm { display: grid; grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr); align-items: center; gap: 10px; background: var(--wash); border-radius: 10px; padding: 16px 12px; }
 .cupm .tm { display: flex; flex-direction: column; align-items: center; gap: 6px; text-align: center; min-width: 0; } .cupm .tm b { font-weight: 600; font-size: 14px; }
-.cupm .mid { text-align: center; } .cupm .mid b { display: block; font: 600 22px var(--mono); } .cupm .mid span { font-size: 12px; color: var(--ink-2); }
+.cupm .mid { text-align: center; } .cupm .mid span { display: block; }
+.card.picked { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); } .cupm .mid b { display: block; font: 600 22px var(--mono); } .cupm .mid span { font-size: 12px; color: var(--ink-2); }
 @media (max-width: 640px) { .cupgrid { grid-template-columns: 1fr; } }
 
 #flash { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); background: var(--ink); color: var(--surface); padding: 10px 16px; border-radius: 8px; font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .25s, transform .25s; z-index: 60; }
@@ -387,6 +388,29 @@ table.cup td.won .name { font-weight: 600; color: var(--ink); } table.cup td { v
 .news .ttl { color: var(--ink); line-height: 1.5; } .news .ttl:hover { text-decoration: underline; }
 .news .by { font-size: 12px; color: var(--ink-2); display: inline-flex; gap: 4px; align-items: center; white-space: nowrap; }
 @media (max-width: 640px) { .news .nw { grid-template-columns: max-content minmax(0, 1fr); } .news .ttl { grid-column: 1 / -1; } .news .by { grid-column: 1 / -1; } }
+
+/* 보기 방식 고르기 */
+#chooser { position: fixed; inset: 0; z-index: 80; background: rgba(10, 10, 12, .55); display: flex; align-items: flex-end; justify-content: center; padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+#chooser .ch-in { background: var(--surface); color: var(--ink); border-radius: 16px; padding: 24px 20px 20px; width: 100%; max-width: 420px; display: grid; gap: 10px; text-align: center; }
+#chooser img { margin: 0 auto 4px; border-radius: 10px; }
+#chooser h2 { margin: 0; font-size: 20px; } #chooser p { margin: 0 0 6px; font-size: 13px; color: var(--ink-2); }
+#chooser .ch-b { display: grid; gap: 2px; text-align: left; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); cursor: pointer; font: inherit; }
+#chooser .ch-b b { font-size: 16px; } #chooser .ch-b span { font-size: 13px; color: var(--ink-2); }
+#chooser .ch-b.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.drawer .mode-sw { grid-column: 1 / -1; justify-self: start; margin: 6px 8px 0; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+/* 모바일 버전 */
+#tabbar { display: none; }
+html.mobile #tabbar { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--line); padding: 4px max(4px, env(safe-area-inset-right, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(4px, env(safe-area-inset-left, 0px)); }
+html.mobile #tabbar a, html.mobile #tabbar button { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 0; font: inherit; font-size: 11px; color: var(--ink-2); background: none; border: 0; cursor: pointer; }
+html.mobile #tabbar svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+html.mobile #tabbar [aria-current="page"] { color: var(--ink); font-weight: 600; }
+html.mobile body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); font-size: 15px; }
+html.mobile .hero { min-height: 200px; }
+html.mobile .mlist .mrow { padding-block: 12px; }
+.mday { font-size: 13px; font-weight: 600; color: var(--ink-2); padding: 12px 0 2px; border-bottom: 1px solid var(--line); }
+html.mobile .card h2 { font-size: 18px; }
+html.mobile table { font-size: 14px; }
+html.mobile .src { display: block; margin-top: 2px; }
 
 #tip { position: fixed; z-index: 50; pointer-events: none; background: var(--ink); color: var(--surface); border-radius: 6px; padding: 6px 9px; font-size: 12.5px; display: none; max-width: 260px; line-height: 1.45; }
 footer { max-width: 1200px; margin: 0 auto; padding: 0 20px 40px; color: var(--muted); font-size: 12px; line-height: 1.7; }
