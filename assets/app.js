@@ -178,16 +178,17 @@
   }
   WK.flash = (msg) => { let el = document.getElementById('flash'); if (!el) { el = document.createElement('div'); el.id = 'flash'; el.setAttribute('role', 'status'); document.body.append(el); } el.textContent = msg; el.classList.add('on'); clearTimeout(WK._flashT); WK._flashT = setTimeout(() => el.classList.remove('on'), 4000); };
 
-  // 보기 방식 고르기: 휴대폰으로 처음 들어오면 모바일/PC 중에서 고르게 한다
-  WK.mode = (() => { try { return localStorage.getItem('wk-mode') || ''; } catch (e) { return ''; } })();
+  // 보기 방식 고르기: 휴대폰으로 들어올 때마다(창을 새로 열 때마다) 모바일/PC 중에서 고르게 한다
+  WK.mode = (() => { try { return sessionStorage.getItem('wk-mode') || ''; } catch (e) { return ''; } })();
+  WK.small = matchMedia('(max-width: 900px)').matches || matchMedia('(pointer: coarse)').matches || WK.mode === 'pc' && /Mobi|Android|iPhone/.test(navigator.userAgent);
   WK.setMode = (m) => {
-    try { localStorage.setItem('wk-mode', m); } catch (e) { /* 저장이 막힌 환경에서는 이번 방문에만 */ }
+    try { sessionStorage.setItem('wk-mode', m); } catch (e) { /* 저장이 막힌 환경 */ }
     location.reload();
   };
   function chooser() {
     const el = document.createElement('div');
     el.id = 'chooser'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-modal', 'true');
-    el.innerHTML = `<div class="ch-in"><img src="assets/logo.svg" alt="" width="48" height="48"><h2>${t('어떤 화면으로 볼까요?')}</h2><p>${t('나중에 메뉴(≡)에서 언제든 바꿀 수 있습니다.')}</p>
+    el.innerHTML = `<div class="ch-in"><img src="assets/logo.svg" alt="" width="48" height="48"><h2>${t('어떤 화면으로 볼까요?')}</h2><p>${t('고른 뒤에도 화면에 보이는 단추로 언제든 바꿀 수 있고, 창을 새로 열면 다시 물어봅니다.')}</p>
       <button class="ch-b on" data-mode-set="mobile"><b>${t('모바일 버전')}</b><span>${t('휴대폰에 맞춘 큰 글씨와 아래쪽 메뉴')}</span></button>
       <button class="ch-b" data-mode-set="pc"><b>${t('PC 버전')}</b><span>${t('컴퓨터와 같은 화면 (확대해서 보기)')}</span></button></div>`;
     document.body.append(el);
@@ -202,7 +203,17 @@
     bar.innerHTML = [['', '홈'], ['table', '순위'], ['matches', '일정'], ['players', '선수']].map(([k, l]) => `<a href="#/${k}" ${group === k ? 'aria-current="page"' : ''}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${I[k]}"/></svg><span>${t(l)}</span></a>`).join('')
       + `<button type="button" data-open-menu><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg><span>${t('전체 메뉴')}</span></button>`;
   }
-  WK.afterTabs = () => { if (WK.mode === 'mobile') tabbar(); };
+  function modeSwitch() {
+    let b = document.getElementById('modebtn');
+    if (WK.mode === 'mobile') {
+      if (!b) { b = document.createElement('button'); b.id = 'modebtn'; b.type = 'button'; document.querySelector('.tools').prepend(b); }
+      b.className = 'btn mode-top'; b.dataset.modeSet = 'pc'; b.textContent = t('PC 버전');
+    } else if (WK.mode === 'pc' && WK.small) {
+      if (!b) { b = document.createElement('button'); b.id = 'modebtn'; b.type = 'button'; document.body.append(b); }
+      b.className = 'mode-bottom'; b.dataset.modeSet = 'mobile'; b.textContent = t('모바일 버전으로 보기');
+    }
+  }
+  WK.afterTabs = () => { if (WK.mode === 'mobile') tabbar(); modeSwitch(); };
   document.addEventListener('click', (e) => {
     const m = e.target.closest('[data-mode-set]'); if (m) return WK.setMode(m.dataset.modeSet);
     if (e.target.closest('[data-open-menu]')) { e.stopPropagation(); WK.menu(document.getElementById('drawer').hidden); }
@@ -211,7 +222,7 @@
   WK.start = function () {
     addEventListener('hashchange', render);
     render();
-    if (!WK.mode && (matchMedia('(max-width: 900px)').matches || matchMedia('(pointer: coarse)').matches)) chooser();
+    if (!WK.mode && WK.small) chooser();
     setInterval(poll, 60 * 1000);
     document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
   };

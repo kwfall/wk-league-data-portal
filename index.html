@@ -20,7 +20,7 @@
     document.documentElement.dataset.theme = th;
     // 보기 방식: 모바일 버전이면 mobile 표시, 휴대폰에서 PC 버전을 고르면 컴퓨터 화면 너비로 그린다
     var md = null;
-    try { md = localStorage.getItem('wk-mode'); } catch (e) {}
+    try { md = sessionStorage.getItem('wk-mode'); } catch (e) {}
     if (md === 'mobile') document.documentElement.classList.add('mobile');
     if (md === 'pc' && matchMedia('(max-width: 900px)').matches) document.querySelector('meta[name=viewport]').setAttribute('content', 'width=1280');
   })();

@@ -390,14 +390,17 @@ table.cup td.won .name { font-weight: 600; color: var(--ink); } table.cup td { v
 @media (max-width: 640px) { .news .nw { grid-template-columns: max-content minmax(0, 1fr); } .news .ttl { grid-column: 1 / -1; } .news .by { grid-column: 1 / -1; } }
 
 /* 보기 방식 고르기 */
-#chooser { position: fixed; inset: 0; z-index: 80; background: rgba(10, 10, 12, .55); display: flex; align-items: flex-end; justify-content: center; padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
-#chooser .ch-in { background: var(--surface); color: var(--ink); border-radius: 16px; padding: 24px 20px 20px; width: 100%; max-width: 420px; display: grid; gap: 10px; text-align: center; }
+#chooser { position: fixed; inset: 0; z-index: 80; background: rgba(10, 10, 12, .6); display: flex; align-items: center; justify-content: center; padding: 16px max(16px, env(safe-area-inset-right, 0px)) calc(16px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+#chooser .ch-in { background: var(--surface); color: var(--ink); border-radius: 20px; padding: 32px 22px 24px; width: 100%; max-width: 460px; display: grid; gap: 14px; text-align: center; }
 #chooser img { margin: 0 auto 4px; border-radius: 10px; }
-#chooser h2 { margin: 0; font-size: 20px; } #chooser p { margin: 0 0 6px; font-size: 13px; color: var(--ink-2); }
-#chooser .ch-b { display: grid; gap: 2px; text-align: left; padding: 14px 16px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); cursor: pointer; font: inherit; }
-#chooser .ch-b b { font-size: 16px; } #chooser .ch-b span { font-size: 13px; color: var(--ink-2); }
+#chooser h2 { margin: 0; font-size: 24px; } #chooser p { margin: 0 0 6px; font-size: 14px; color: var(--ink-2); }
+#chooser .ch-b { display: grid; gap: 4px; text-align: left; padding: 20px 18px; border-radius: 12px; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); cursor: pointer; font: inherit; }
+#chooser .ch-b b { font-size: 19px; } #chooser .ch-b span { font-size: 14px; color: var(--ink-2); }
 #chooser .ch-b.on { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
 .drawer .mode-sw { grid-column: 1 / -1; justify-self: start; margin: 6px 8px 0; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 14px; cursor: pointer; }
+/* 보기 방식 바꾸기 단추 */
+.btn.mode-top { font-size: 13px; font-weight: 600; padding: 5px 10px; white-space: nowrap; }
+.mode-bottom { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; border: 0; background: var(--ink); color: var(--surface); font: inherit; font-weight: 700; font-size: 4vw; padding: 2.2vw 0 calc(2.2vw + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
 /* 모바일 버전 */
 #tabbar { display: none; }
 html.mobile #tabbar { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--line); padding: 4px max(4px, env(safe-area-inset-right, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(4px, env(safe-area-inset-left, 0px)); }
