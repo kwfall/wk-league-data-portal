@@ -80,7 +80,7 @@
     const links = (list) => list.map(([k, l]) => `<a href="#/${k}" ${k === group ? 'aria-current="page"' : ''}>${t(l)}</a>`).join('');
     document.querySelector('nav').innerHTML = links(NAV.slice(0, 5));
     document.querySelector('.drawer-in').innerHTML = links(NAV) + `<a class="ig-link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all ↗</a>`
-      + (WK.mode === 'mobile' ? `<button type="button" class="mode-sw" data-mode-set="pc">${t('PC 버전으로 보기')}</button>` : `<button type="button" class="mode-sw" data-mode-set="mobile">${t('모바일 버전으로 보기')}</button>`);
+      ;
     if (WK.afterTabs) WK.afterTabs();
     document.getElementById('menu').setAttribute('aria-label', t('메뉴'));
     document.getElementById('season').innerHTML = WK.seasons.map((s) => `<option value="${s}" ${s === S.season ? 'selected' : ''}>${t('{y}시즌', { y: s })}</option>`).join('');
@@ -98,7 +98,7 @@
   const save = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* 저장이 막힌 환경에서는 이번 방문에만 적용 */ } };
 
   // 좁은 화면에서는 언어·화면 모드 단추를 펼친 메뉴 안으로 옮겨 윗줄에 사이트 이름이 보이게 한다
-  const mq = matchMedia('(max-width: 640px)'), place = () => { const to = document.querySelector(mq.matches ? '.drawer-tools' : '.tools'); if (to) to.append(document.getElementById('lang'), document.getElementById('theme')); }; // 카드·포스터 화면에는 윗줄이 없다
+  const mq = matchMedia('(max-width: 640px)'), place = () => { const to = document.querySelector(mq.matches && !document.documentElement.classList.contains('mobile') ? '.drawer-tools' : '.tools'); if (to) to.append(document.getElementById('lang'), document.getElementById('theme')); }; // 카드·포스터 화면에는 윗줄이 없다
   mq.addEventListener('change', place); place();
   // 전체 메뉴 펼치기·접기
   WK.menu = (open) => { const d = document.getElementById('drawer'), b = document.getElementById('menu'); d.hidden = !open; b.setAttribute('aria-expanded', String(open)); };
@@ -208,9 +208,10 @@
     if (WK.mode === 'mobile') {
       if (!b) { b = document.createElement('button'); b.id = 'modebtn'; b.type = 'button'; document.querySelector('.tools').prepend(b); }
       b.className = 'btn mode-top'; b.dataset.modeSet = 'pc'; b.textContent = t('PC 버전');
-    } else if (WK.mode === 'pc' && WK.small) {
-      if (!b) { b = document.createElement('button'); b.id = 'modebtn'; b.type = 'button'; document.body.append(b); }
-      b.className = 'mode-bottom'; b.dataset.modeSet = 'mobile'; b.textContent = t('모바일 버전으로 보기');
+    } else if (WK.mode === 'pc' || WK.small) {
+      // PC 버전: 윗줄 시즌·언어 옆에 모바일 버전 단추
+      if (!b) { b = document.createElement('button'); b.id = 'modebtn'; b.type = 'button'; document.querySelector('.tools').prepend(b); }
+      b.className = 'btn mode-top'; b.dataset.modeSet = 'mobile'; b.textContent = t('모바일 버전');
     }
   }
   WK.afterTabs = () => { if (WK.mode === 'mobile') tabbar(); modeSwitch(); };

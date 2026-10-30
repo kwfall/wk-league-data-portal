@@ -400,7 +400,7 @@ table.cup td.won .name { font-weight: 600; color: var(--ink); } table.cup td { v
 .drawer .mode-sw { grid-column: 1 / -1; justify-self: start; margin: 6px 8px 0; border: 1px solid var(--line-2); background: var(--surface); color: var(--ink); border-radius: 8px; padding: 8px 12px; font: inherit; font-size: 14px; cursor: pointer; }
 /* 보기 방식 바꾸기 단추 */
 .btn.mode-top { font-size: 13px; font-weight: 600; padding: 5px 10px; white-space: nowrap; }
-.mode-bottom { position: fixed; left: 0; right: 0; bottom: 0; z-index: 70; border: 0; background: var(--ink); color: var(--surface); font: inherit; font-weight: 700; font-size: 4vw; padding: 2.2vw 0 calc(2.2vw + env(safe-area-inset-bottom, 0px)); cursor: pointer; }
+.btn.mode-top[data-mode-set="mobile"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
 /* 모바일 버전 */
 #tabbar { display: none; }
 html.mobile #tabbar { display: grid; grid-template-columns: repeat(5, 1fr); position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; background: var(--surface); border-top: 1px solid var(--line); padding: 4px max(4px, env(safe-area-inset-right, 0px)) calc(4px + env(safe-area-inset-bottom, 0px)) max(4px, env(safe-area-inset-left, 0px)); }
@@ -410,6 +410,16 @@ html.mobile #tabbar [aria-current="page"] { color: var(--ink); font-weight: 600;
 html.mobile body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); font-size: 15px; }
 html.mobile .hero { min-height: 200px; }
 html.mobile #menu { display: none; } /* 모바일 버전은 아래쪽 '전체 메뉴'만 쓴다 */
+/* 모바일 버전 윗줄: 첫 줄 로고·시즌, 둘째 줄 PC 버전·언어·화면 모드 */
+html.mobile .top-in { flex-wrap: wrap; height: auto; row-gap: 0; padding-block: 6px; }
+html.mobile .brand { flex: 1 1 auto; order: 0; }
+html.mobile .tools { display: contents; }
+html.mobile #season { order: 1; }
+html.mobile .top-in::after { content: ''; flex-basis: 100%; height: 0; order: 2; }
+html.mobile #modebtn, html.mobile #lang, html.mobile #theme { order: 3; margin-top: 6px; }
+html.mobile #modebtn { margin-right: auto; }
+html.mobile .tools .seg button { padding: 5px 9px; font-size: 13px; }
+html.mobile #theme { padding: 5px 10px; font-size: 13px; }
 html.mobile .mlist .mrow { padding-block: 12px; }
 .mday { font-size: 13px; font-weight: 600; color: var(--ink-2); padding: 12px 0 2px; border-bottom: 1px solid var(--line); }
 html.mobile .card h2 { font-size: 18px; }
