@@ -1,12 +1,12 @@
 # WK리그 Data: 연맹 기록과 뉴스를 30분마다 다시 모아 Cloudflare(https://wk-league-data.kwfall.workers.dev/)에 배포한다.
 # 내 컴퓨터에서 고친 내용을 올려도(push) 바로 다시 배포된다. 수집이 실패하면 저장소에 있는 기록으로 배포한다.
 # 비공개 저장소의 무료 실행 시간(한 달 2,000분) 안에 들도록 30분마다 돈다.
+# 30분마다 실행 신호는 Cloudflare Worker 가 보낸다 (Cloudflare 비밀 값 GH_TOKEN 필요).
 # 필요한 비밀 값: CLOUDFLARE_API_TOKEN (저장소 Settings → Secrets and variables → Actions)
 name: 기록 갱신과 배포
 
 on:
-  schedule:
-    - cron: '*/30 * * * *'
+  # 30분마다 Cloudflare(worker.js)가 workflow_dispatch 로 실행시킨다. GitHub 자체 예약은 자주 건너뛰어서 쓰지 않는다
   push:
     branches: [main]
   workflow_dispatch:
