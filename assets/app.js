@@ -70,8 +70,25 @@
   };
 
   const NAV = [['', '홈'], ['table', '순위'], ['matches', '일정·결과'], ['teams', '팀'], ['players', '선수'], ['news', '소식'], ['draft', '드래프트'], ['cup', 'W코리아컵'], ['nsf', '전국체전'], ['analysis', '팀 분석'], ['compare', '비교'], ['best', '베스트 11'], ['qor', '라운드 QOR'], ['abroad', '해외파'], ['go', '경기장 가는 길'], ['predict', '예측'], ['history', '역대 기록']];
+  // 방문 기록: 화면(페이지)마다 머문 시간을 보낸다. 쿠키를 쓰지 않고, 창을 닫으면 사라지는 임시 번호로 한 번의 방문을 묶는다.
+  const track = (() => {
+    if (!/\.workers\.dev$/.test(location.hostname)) return () => {};
+    let visit = ''; try { visit = sessionStorage.getItem('wk-visit') || ''; if (!visit) { visit = Math.random().toString(36).slice(2, 12); sessionStorage.setItem('wk-visit', visit); } } catch (e) { visit = Math.random().toString(36).slice(2, 12); }
+    let cur = null, since = 0, shown = 0;
+    const send = () => {
+      if (!cur) return;
+      const secs = Math.round((shown + (document.hidden ? 0 : Date.now() - since)) / 1000);
+      if (secs >= 1) { const body = JSON.stringify({ v: visit, p: cur, s: Math.min(secs, 1800), m: document.documentElement.classList.contains('mobile') ? 'mobile' : 'pc', l: WK.lang }); try { navigator.sendBeacon('/api/track', body); } catch (e) { /* 보내지 못하면 넘어간다 */ } }
+      shown = 0; since = Date.now();
+    };
+    document.addEventListener('visibilitychange', () => { if (document.hidden) { shown += Date.now() - since; send(); cur = cur; } else since = Date.now(); });
+    addEventListener('pagehide', send);
+    return (page) => { if (page === cur) return; send(); cur = page; since = Date.now(); shown = 0; };
+  })();
+
   function render() {
     const [, name = '', arg = ''] = location.hash.match(/^#\/([^/]*)\/?(.*)$/) || [];
+    track(name || 'home');
     const key = name || 'home', page = WK.pages[key], B = WK.season(S.season);
     const group = { match: 'matches', team: 'teams', player: 'players', home: '' }[key] ?? name;
     document.documentElement.lang = WK.lang;
@@ -87,7 +104,7 @@
     const dark = document.documentElement.dataset.theme === 'dark';
     document.querySelectorAll('#lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === WK.lang));
     const tb = document.getElementById('theme'); tb.textContent = dark ? t('라이트') : t('다크'); tb.setAttribute('aria-label', dark ? t('라이트 모드로 전환') : t('다크 모드로 전환'));
-    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}<br>${t('방문 통계는 개인을 알아볼 수 없는 형태로만 집계합니다 (Cloudflare Web Analytics, 쿠키 없음).')}</span>`; foot();
+    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}<br>${t('방문 통계(지역은 시·도 단위, 화면별 머문 시간)는 개인을 알아볼 수 없는 형태로만 모읍니다. 쿠키와 IP 주소는 저장하지 않습니다.')}</span>`; foot();
     WK.afterRender = null;
     const main = document.querySelector('main'), y = WK._keep ? scrollY : 0;
     main.innerHTML = page ? page(B, decodeURIComponent(arg)) : `<h1>${t((NAV.find(([k]) => k === group) || [, '페이지'])[1])}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;

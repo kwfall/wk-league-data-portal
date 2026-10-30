@@ -6,6 +6,8 @@
   "compatibility_date": "2025-09-01",
   "workers_dev": true,
   "main": "worker.js",
+  // 방문 기록(화면별 머문 시간, 시·도)을 쌓는 곳
+  "analytics_engine_datasets": [{ "binding": "EVENTS", "dataset": "wk_events" }],
   // /admin 만 worker.js 가 먼저 받아 비밀번호를 묻고, 나머지는 사이트 파일을 그대로 보낸다
-  "assets": { "directory": "./_site", "binding": "ASSETS", "run_worker_first": ["/admin", "/admin/*", "/_admin.json"] }
+  "assets": { "directory": "./_site", "binding": "ASSETS", "run_worker_first": ["/admin", "/admin/*", "/_admin.json", "/api/*"] }
 }

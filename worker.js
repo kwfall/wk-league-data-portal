@@ -9,6 +9,7 @@ export default {
   async fetch(req, env) {
     const url = new URL(req.url);
     if (url.pathname === '/_admin.json') return new Response('Not found', { status: 404 }); // 요약 파일은 관리자 화면 안에서만 읽는다
+    if (url.pathname === '/api/track') return track(req, env);
     if (!url.pathname.startsWith('/admin')) return env.ASSETS.fetch(req);
     if (!env.ADMIN_PASSWORD) return page('관리자 비밀번호가 아직 설정되지 않았습니다', '<p>Cloudflare 대시보드에서 ADMIN_PASSWORD 비밀 값을 먼저 넣어 주세요.</p>', 503);
     if (!(await authorized(req, env.ADMIN_PASSWORD))) {
@@ -17,6 +18,60 @@ export default {
     return dashboard(req, env, url);
   },
 };
+
+// 방문 기록 받기: 화면 이름, 머문 초, 기기, 언어 + Cloudflare 가 알려 주는 나라·시도. IP 는 저장하지 않는다.
+async function track(req, env) {
+  const ok = new Response(null, { status: 204 });
+  if (req.method !== 'POST' || !env.EVENTS) return ok;
+  try {
+    const b = JSON.parse((await req.text()).slice(0, 500));
+    const page = /^[a-z]{1,12}$/.test(b.p) ? b.p : 'other', secs = Math.max(0, Math.min(1800, Number(b.s) || 0));
+    const visit = /^[a-z0-9]{6,16}$/.test(b.v) ? b.v : 'none', mode = b.m === 'mobile' ? 'mobile' : 'pc', lang = ['ko', 'en', 'ja'].includes(b.l) ? b.l : 'ko';
+    const cf = req.cf || {}, ua = req.headers.get('User-Agent') || '', device = /Mobi|Android|iPhone/i.test(ua) ? '휴대폰' : /iPad|Tablet/i.test(ua) ? '태블릿' : '컴퓨터';
+    env.EVENTS.writeDataPoint({ indexes: [page], blobs: [page, cf.country || '?', cf.region || '?', device, mode, visit, lang], doubles: [secs] });
+  } catch (e) { /* 잘못된 요청은 버린다 */ }
+  return ok;
+}
+
+// 쌓인 방문 기록 읽기 (Analytics Engine SQL)
+async function visits(env) {
+  if (!env.CF_ANALYTICS_TOKEN) return { error: '방문 통계 열쇠가 없습니다.' };
+  const sql = "SELECT timestamp, blob1 AS page, blob2 AS country, blob3 AS region, blob4 AS device, blob5 AS mode, blob6 AS visit, double1 AS secs FROM wk_events WHERE timestamp > NOW() - INTERVAL '30' DAY ORDER BY timestamp DESC LIMIT 20000 FORMAT JSON";
+  try {
+    const r = await fetch(`https://api.cloudflare.com/client/v4/accounts/${ACCOUNT}/analytics_engine/sql`, { method: 'POST', headers: { Authorization: `Bearer ${env.CF_ANALYTICS_TOKEN}` }, body: sql });
+    const text = await r.text();
+    if (!r.ok) return { error: /does not exist|unknown table/i.test(text) ? 'empty' : `방문 기록을 읽지 못했습니다 (${r.status}): ${text.slice(0, 200)}` };
+    return { rows: JSON.parse(text).data || [] };
+  } catch (e) { return { error: '방문 기록을 읽지 못했습니다: ' + e.message }; }
+}
+
+const PAGE = { home: '홈', table: '순위', matches: '일정·결과', match: '경기 상세', teams: '팀', team: '팀 상세', players: '선수', player: '선수 상세', news: '소식', draft: '드래프트', cup: 'W코리아컵', nsf: '전국체전', analysis: '팀 분석', compare: '비교', best: '베스트 11', qor: '라운드 QOR', abroad: '해외파', go: '경기장 가는 길', predict: '예측', history: '역대 기록', cards: '카드뉴스', about: '용어·출처', other: '기타' };
+const REGION = { Seoul: '서울', Busan: '부산', Daegu: '대구', Incheon: '인천', Gwangju: '광주', Daejeon: '대전', Ulsan: '울산', Sejong: '세종', 'Gyeonggi-do': '경기', 'Gangwon-do': '강원', Gangwon: '강원', 'Chungcheongbuk-do': '충북', 'Chungcheongnam-do': '충남', 'Jeollabuk-do': '전북', Jeonbuk: '전북', 'Jeollanam-do': '전남', 'Gyeongsangbuk-do': '경북', 'Gyeongsangnam-do': '경남', 'Jeju-do': '제주', Jeju: '제주' };
+const COUNTRY = { KR: '한국', JP: '일본', US: '미국', CN: '중국', GB: '영국', CA: '캐나다', AU: '호주', DE: '독일', FR: '프랑스', VN: '베트남', TW: '대만', HK: '홍콩', '?': '알 수 없음' };
+const mmss = (s) => { s = Math.round(s); return s >= 60 ? `${Math.floor(s / 60)}분 ${s % 60}초` : `${s}초`; };
+
+// 방문 기록을 표로 정리
+function visitSection(V) {
+  if (V.error === 'empty' || (V.rows && !V.rows.length)) return '<section><h2>화면별 머문 시간 · 지역</h2><p class="mut">아직 쌓인 방문 기록이 없습니다. 사이트를 한 번 둘러보고 몇 분 뒤 다시 열어 보세요.</p></section>';
+  if (V.error) return `<section><h2>화면별 머문 시간 · 지역</h2><p class="warn">${esc(V.error)}</p></section>`;
+  const R = V.rows, by = (key) => { const m = {}; for (const r of R) { const k = key(r); (m[k] ||= { n: 0, s: 0, v: new Set() }); m[k].n++; m[k].s += Number(r.secs); m[k].v.add(r.visit); } return Object.entries(m); };
+  const visitsAll = by((r) => r.visit), totalVisits = visitsAll.length, avgVisit = totalVisits ? visitsAll.reduce((s, [, x]) => s + x.s, 0) / totalVisits : 0;
+  const pages = by((r) => r.page).sort((a, b) => b[1].s - a[1].s);
+  const regions = by((r) => (r.country === 'KR' ? REGION[r.region] || r.region || '알 수 없음' : `${COUNTRY[r.country] || r.country} (해외)`)).sort((a, b) => b[1].v.size - a[1].v.size);
+  const devices = by((r) => `${r.device} · ${r.mode === 'mobile' ? '모바일 버전' : 'PC 버전'}`).sort((a, b) => b[1].v.size - a[1].v.size);
+  const hours = Array.from({ length: 24 }, (_, h) => R.filter((r) => (new Date(r.timestamp.replace(' ', 'T') + 'Z').getUTCHours() + 9) % 24 === h).length), hmax = Math.max(1, ...hours);
+  const lens = [[60, '1분 미만'], [180, '1~3분'], [600, '3~10분'], [Infinity, '10분 이상']].map(([lim, label], i, a) => [label, visitsAll.filter(([, x]) => x.s < lim && (i === 0 || x.s >= a[i - 1][0])).length]);
+  const tbl = (head, rows) => `<table><tr>${head.map((h, i) => `<th${i ? ' class="n"' : ''}>${h}</th>`).join('')}</tr>${rows.join('')}</table>`;
+  return `<section><h2>화면별 머문 시간 · 지역 <small>최근 30일 · 이 사이트가 직접 모은 기록</small></h2>
+    <div class="tiles"><div><span>방문</span><b>${totalVisits}</b><em>창을 열고 닫기까지 한 번</em></div><div><span>방문당 평균 머문 시간</span><b>${mmss(avgVisit)}</b><em>화면을 보고 있던 시간만</em></div><div><span>화면 이동</span><b>${R.length}</b><em>방문당 ${totalVisits ? (R.length / totalVisits).toFixed(1) : 0}개</em></div></div>
+    <div class="grid" style="margin-top:14px">
+      <div><h3>오래 본 화면</h3>${tbl(['화면', '열람', '총 시간', '평균'], pages.slice(0, 12).map(([k, x]) => `<tr><td>${esc(PAGE[k] || k)}</td><td class="n">${x.n}</td><td class="n">${mmss(x.s)}</td><td class="n">${mmss(x.s / x.n)}</td></tr>`))}</div>
+      <div><h3>접속 지역 (시·도)</h3>${tbl(['지역', '방문', '머문 시간'], regions.slice(0, 12).map(([k, x]) => `<tr><td>${esc(k)}</td><td class="n">${x.v.size}</td><td class="n">${mmss(x.s)}</td></tr>`))}</div>
+      <div><h3>기기 · 보기 방식</h3>${tbl(['기기', '방문'], devices.map(([k, x]) => `<tr><td>${esc(k)}</td><td class="n">${x.v.size}</td></tr>`))}<h3>방문 길이</h3>${tbl(['머문 시간', '방문'], lens.map(([k, n]) => `<tr><td>${k}</td><td class="n">${n}</td></tr>`))}</div>
+    </div>
+    <h3>시간대별 (한국 시간)</h3><div class="bars">${hours.map((n, h) => `<div title="${h}시 화면 이동 ${n}"><i style="height:${(n / hmax) * 100}%"></i><span>${h}</span></div>`).join('')}</div>
+    <p class="mut">지역은 시·도까지만 모으고, 사람을 알아볼 수 있는 IP 주소나 쿠키는 저장하지 않습니다. 머문 시간은 화면을 실제로 보고 있던 시간만 셉니다(다른 앱으로 넘어간 시간 제외). 기록이 모이기 시작한 날부터 셉니다.</p></section>`;
+}
 
 // 비밀번호 확인: 같은 길이로 맞춰 해시를 비교한다 (글자 하나씩 비교하면 시간 차이로 새어 나갈 수 있어서)
 async function authorized(req, password) {
@@ -60,7 +115,7 @@ async function analytics(env) {
 }
 
 async function dashboard(req, env) {
-  const [A, M] = await Promise.all([analytics(env), summary(env, req)]);
+  const [A, M, V] = await Promise.all([analytics(env), summary(env, req), visits(env)]);
   const today = ymd(new Date()), week = ymd(new Date(Date.now() - 6 * 864e5));
   let body = '';
 
@@ -77,6 +132,8 @@ async function dashboard(req, env) {
       <div class="grid">${list(A.byRef || [], 'refererHost', '들어온 곳')}${list(A.byCountry || [], 'countryName', '나라')}${list(A.byDevice || [], 'deviceType', '기기')}${list(A.byBrowser || [], 'userAgentBrowser', '브라우저')}</div>
       <p class="mut">이 사이트는 화면 이동을 주소의 # 뒤로 처리해서, 페이지(순위·선수 등)별 조회수는 통계에 따로 잡히지 않습니다. 개인을 알아볼 수 있는 정보는 모으지 않습니다.</p></section>`;
   }
+
+  body = visitSection(V) + body;
 
   // 사이트 상태
   const age = (d) => (d ? Math.round((Date.now() - new Date(d)) / 60000) : null);
