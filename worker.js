@@ -4,7 +4,7 @@
 //   ADMIN_PASSWORD      : 관리자 화면 비밀번호 (아이디는 아무거나)
 //   CF_ANALYTICS_TOKEN  : 방문 통계를 읽는 열쇠 (권한: Account → Account Analytics → Read)
 //   GH_TOKEN            : GitHub 열쇠 (저장소 wk-league-data-portal 의 Actions: Read and write)
-import { renderAdmin, page, rangeFrom, RANGES } from './admin-view.mjs';
+import { renderAdmin, renderCsv, page, rangeFrom, RANGES } from './admin-view.mjs';
 
 const ACCOUNT = '9a6f0e2c70195ca71eed3f6a4228cc25';
 const HOST = 'wk-league-data.kwfall.workers.dev';
@@ -21,6 +21,10 @@ export default {
       return new Response('비밀번호가 필요합니다.', { status: 401, headers: { 'WWW-Authenticate': 'Basic realm="WK League Data admin", charset="UTF-8"', 'Content-Type': 'text/plain; charset=utf-8', 'Cache-Control': 'no-store' } });
     }
     const range = RANGES[url.searchParams.get('range')] ? url.searchParams.get('range') : 'week';
+    if (url.pathname === '/admin/export.csv') {
+      const V = await visits(env);
+      return new Response(renderCsv({ rows: V.rows || [], range }), { headers: { 'Content-Type': 'text/csv; charset=utf-8', 'Content-Disposition': `attachment; filename="wk-league-data-${range}.csv"`, 'Cache-Control': 'no-store' } });
+    }
     const [V, rum, summary] = await Promise.all([visits(env), analytics(env, range), readSummary(env, req)]);
     return html(renderAdmin({ rows: V.rows || [], rowsError: V.error || null, rum, summary, range, host: HOST }));
   },

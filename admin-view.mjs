@@ -86,6 +86,7 @@ const delta = (cur, prev) => { if (prev == null) return ''; if (!prev) return cu
 // ── 화면 ────────────────────────────────────────────────
 export function renderAdmin({ rows = [], rowsError = null, rum = null, summary = null, range = 'week', now = new Date(), host = '' }) {
   // 운영자가 동작 확인용으로 보낸 시험 기록(방문 번호가 selfcheck·check 로 시작)은 빼고, 글자가 깨진 상세 정보는 비운다
+  const rawN = rows.length, testN = rows.filter((r) => /^(selfcheck|check)\d/.test(String(r.visit))).length, brokenN = rows.filter((r) => /�/.test(String(r.detail))).length;
   rows = rows.filter((r) => !/^(selfcheck|check)\d/.test(String(r.visit))).map((r) => (/�/.test(String(r.detail)) ? { ...r, detail: '' } : r));
   const t = todayK(now), from = rangeFrom(range, now), span = daysBetween(from, t) + 1;
   const cur = rows.filter((r) => { const d = kday(r.timestamp); return d >= from && d <= t; });
@@ -111,6 +112,34 @@ export function renderAdmin({ rows = [], rowsError = null, rum = null, summary =
   const topOf = (pg, lab) => group(cur.filter((r) => r.page === pg && r.detail), lab).sort((a, b) => b.visits - a.visits || b.secs - a.secs).slice(0, 8);
   const players = topOf('player', (r) => { const [tm, nm] = String(r.detail).split('|'); return `${nm || r.detail}|${tm || ''}`; });
   const teams = topOf('team', (r) => r.detail), matches = topOf('match', (r) => names[r.detail] || `경기 ${r.detail}`);
+
+  // ── 포트폴리오용 분석 ──
+  const V = [...S.visits.values()];
+  const chOf = (v) => refName((v.rows.find((r) => r.ref) || {}).ref) || '알 수 없음';
+  const isDetail = (r) => ['player', 'team', 'match'].includes(r.page);
+  const engaged = (v) => v.n >= 2 || v.secs >= 60;
+  // 퍼널: 방문 → 다른 화면도 봄 → 선수·팀·경기 상세까지 → 3분 이상
+  const funnel = [['방문', V.length], ['홈 말고 다른 화면도 봄', V.filter((v) => v.rows.some((r) => r.page !== 'home')).length], ['선수·팀·경기 상세까지 봄', V.filter((v) => v.rows.some(isDetail)).length], ['3분 이상 머묾', V.filter((v) => v.secs >= 180).length]];
+  // 유입 경로별 비교 (세그먼트)
+  const seg = (keyOf) => { const m = new Map(); for (const v of V) { const k = keyOf(v); const g = m.get(k) || { k, n: 0, views: 0, secs: 0, eng: 0, det: 0 }; g.n++; g.views += v.n; g.secs += v.secs; g.eng += engaged(v) ? 1 : 0; g.det += v.rows.some(isDetail) ? 1 : 0; m.set(k, g); } return [...m.values()].sort((a, b) => b.n - a.n); };
+  const byCh = seg(chOf), byDev = seg((v) => v.first.device);
+  const engRate = pct(V.filter(engaged).length, V.length);
+  // 요일·시간대 최고점
+  const cell = new Map(); for (const r of cur) { const d = kst(r.timestamp), k = `${d.getUTCDay()}|${d.getUTCHours()}`; cell.set(k, (cell.get(k) || 0) + 1); }
+  const peak = [...cell.entries()].sort((a, b) => b[1] - a[1])[0];
+  // 인사이트 → 실행 제안 (규칙 기반, 표본이 너무 적으면 만들지 않는다)
+  const insights = [];
+  if (V.length >= 5) {
+    const top = byCh[0];
+    if (top) { const a = top.secs / top.n, longer = a >= S.avg; insights.push([`방문의 ${pct(top.n, V.length)}%가 <b>${esc(top.k)}</b>에서 왔고, 이 경로의 방문당 머문 시간은 ${mmss(a)}로 전체 평균(${mmss(S.avg)})보다 ${longer ? '깁니다' : '짧습니다'}.`, /인스타/.test(top.k) ? (longer ? '인스타그램이 핵심 유입 경로입니다. 게시물마다 관련 화면(선수·경기) 링크를 붙여 유입을 늘립니다.' : '인스타그램에서 온 방문이 빨리 나갑니다. 게시물 링크를 홈 대신 게시물과 관련된 선수·경기 화면으로 바로 연결합니다.') : '가장 큰 유입 경로입니다. 이 경로에 맞춘 첫 화면을 다듬는 것이 효과가 큽니다.']); }
+    let worst = null; for (let i = 1; i < funnel.length; i++) { const drop = funnel[i - 1][1] ? 1 - funnel[i][1] / funnel[i - 1][1] : 0; if (!worst || drop > worst.drop) worst = { i, drop }; }
+    if (worst) { const acts = ['', '첫 화면에서 다음 경기·순위 같은 바로 가기를 더 눈에 띄게 둡니다.', '목록 화면에서 선수·경기 상세로 들어가는 길(이름 누르기, 추천 선수)을 늘립니다.', '상세 화면 아래에 비교·관련 선수 같은 다음 볼거리를 붙여 더 머물게 합니다.']; insights.push([`가장 많이 빠져나가는 단계는 <b>${funnel[worst.i - 1][0]} → ${funnel[worst.i][0]}</b>로, ${Math.round(worst.drop * 100)}%가 여기서 멈춥니다.`, acts[worst.i]]); }
+    if (peak) { const [d, h] = peak[0].split('|').map(Number); insights.push([`가장 많이 보는 때는 <b>${WD[d]}요일 ${h}시</b>입니다.`, `인스타그램 게시물을 ${WD[d]}요일 ${h === 0 ? 23 : h - 1}시 무렵에 올리면 사이트 방문으로 이어지기 좋습니다.`]); }
+    const mob = byDev.find((x) => x.k === '휴대폰'), pc = byDev.find((x) => x.k === '컴퓨터');
+    if (mob && pct(mob.n, V.length) >= 50) insights.push([`방문의 ${pct(mob.n, V.length)}%가 휴대폰이고, 휴대폰 방문은 평균 ${mmss(mob.secs / mob.n)}${pc ? ` (컴퓨터 ${mmss(pc.secs / pc.n)})` : ''} 머뭅니다.`, '새 기능은 모바일 화면부터 설계하고 확인합니다.']);
+    if (players[0]) { const [n, tm] = players[0].k.split('|'); insights.push([`가장 많이 본 선수는 <b>${esc(n)}</b>(${esc(tm)})입니다.`, '관심이 확인된 선수를 카드뉴스·기록 해설 소재로 먼저 다룹니다.']); }
+  }
+  const small = V.length < 30;
 
   // 사이트 상태와 할 일
   const age = (d) => (d ? Math.round((now - new Date(d)) / 60000) : null);
@@ -144,8 +173,16 @@ export function renderAdmin({ rows = [], rowsError = null, rum = null, summary =
   </section>
   ${range === 'all' ? '' : `<p class="note">▲▼는 바로 앞 같은 길이 기간(${prevFrom} ~ ${prevTo})과 비교한 값입니다.</p>`}
 
+  ${insights.length ? `<section class="card ins"><div class="ch"><h2>이번 기간 인사이트와 제안</h2><span>${small ? `방문 ${V.length}명 · 표본이 적어 참고용` : `방문 ${fmt(V.length)}명 기준`}</span></div><ol class="insl">${insights.map(([a, b]) => `<li><p>${a}</p><p class="act"><span>제안</span>${esc(b)}</p></li>`).join('')}</ol></section>` : ''}
   ${noData ? `<section class="card"><p class="empty big">이 기간에는 아직 쌓인 방문 기록이 없습니다. 사이트를 둘러본 뒤 몇 분 지나 새로고침해 보세요.</p></section>` : `
   <section class="card"><div class="ch"><h2>${range === 'day' ? '시간대별 방문' : '날짜별 방문'}</h2><span>막대에 마우스를 올리면 숫자가 보입니다</span></div>${columns(series, { every: range === 'day' ? 3 : span > 20 ? Math.ceil(span / 10) : 1 })}</section>
+
+  <div class="g2">
+    <section class="card"><div class="ch"><h2>방문 흐름 (퍼널)</h2><span>방문 중 몇 %가 다음 단계까지 갔나</span></div>
+      <ol class="fn">${funnel.map(([k, n], i) => `<li><div class="fnb" style="width:${Math.max(4, pct(n, funnel[0][1]))}%"></div><div class="fnt"><span>${i + 1}. ${k}</span><b>${fmt(n)}명 · ${pct(n, funnel[0][1])}%</b>${i ? `<em>앞 단계에서 ${funnel[i - 1][1] ? 100 - pct(n, funnel[i - 1][1]) : 0}% 이탈</em>` : ''}</div></li>`).join('')}</ol></section>
+    <section class="card"><div class="ch"><h2>유입 경로별 비교</h2><span>참여 방문 = 화면 2개 이상 또는 1분 이상</span></div>
+      <div class="tw"><table class="seg"><tr><th>경로</th><th>방문</th><th>화면/방문</th><th>평균 머문 시간</th><th>참여율</th><th>상세 도달</th></tr>${byCh.map((g) => `<tr><td>${esc(g.k)}</td><td>${fmt(g.n)}</td><td>${(g.views / g.n).toFixed(1)}</td><td>${mmss(g.secs / g.n)}</td><td>${pct(g.eng, g.n)}%</td><td>${pct(g.det, g.n)}%</td></tr>`).join('')}<tr class="tot"><td>전체</td><td>${fmt(V.length)}</td><td>${V.length ? (S.nViews / V.length).toFixed(1) : 0}</td><td>${mmss(S.avg)}</td><td>${engRate}%</td><td>${pct(V.filter((v) => v.rows.some(isDetail)).length, V.length)}%</td></tr></table></div></section>
+  </div>
 
   <div class="g2">
     <section class="card"><div class="ch"><h2>오래 본 화면</h2><span>머문 시간 합계 순</span></div>${hbars(pages, { value: (x) => x.secs, label: (x) => PAGE[x.k] || x.k, sub: (x) => `${mmss(x.secs)} · ${fmt(x.n)}회 · 평균 ${mmss(x.secs / x.n)}` })}</section>
@@ -165,6 +202,37 @@ export function renderAdmin({ rows = [], rowsError = null, rum = null, summary =
     <section class="card"><div class="ch"><h2>많이 본 팀</h2><span>방문 수</span></div>${hbars(teams, { value: (x) => x.visits, label: (x) => x.k, sub: (x) => `${fmt(x.visits)}명 · ${mmss(x.secs)}` })}</section>
     <section class="card"><div class="ch"><h2>많이 본 경기</h2><span>방문 수</span></div>${hbars(matches, { value: (x) => x.visits, label: (x) => x.k, sub: (x) => `${fmt(x.visits)}명` })}</section>
   </div>`}
+
+  <section class="card"><div class="ch"><h2>지표 정의</h2><span>이 화면의 숫자가 무엇을 뜻하는지</span></div>
+    <div class="tw"><table class="def"><tr><th>지표</th><th>정의</th><th>왜 보나</th></tr>
+      <tr><td>방문</td><td>창(탭)을 열고 닫을 때까지 한 번. 창을 닫으면 사라지는 임시 번호로 묶음</td><td>사이트를 얼마나 찾는지</td></tr>
+      <tr><td>화면 열람</td><td>순위·선수 등 화면 하나를 본 횟수 (같은 화면을 다시 보면 다시 셈)</td><td>방문 한 번에 얼마나 둘러보는지</td></tr>
+      <tr><td>머문 시간</td><td>화면이 실제로 보이던 시간만 (다른 앱·탭으로 넘어간 시간 제외, 화면당 최대 30분)</td><td>내용이 읽히는지</td></tr>
+      <tr><td>참여 방문</td><td>화면 2개 이상을 봤거나 1분 이상 머문 방문</td><td>잠깐 들렀다 나간 방문과 구분</td></tr>
+      <tr><td>상세 도달</td><td>선수·팀·경기 상세 화면까지 본 방문</td><td>이 사이트만의 기록을 실제로 보는지</td></tr>
+      <tr><td>유입 경로</td><td>방문의 첫 화면에서 브라우저가 알려 준 이전 사이트 (인스타그램, 카카오톡 등)</td><td>홍보 채널별 효과</td></tr>
+      <tr><td>재방문</td><td>측정하지 않음. 개인을 다시 알아보는 쿠키·저장 번호를 쓰지 않기로 한 설계</td><td>개인정보 보호를 우선함</td></tr></table></div></section>
+
+  <div class="g2">
+    <section class="card"><div class="ch"><h2>데이터 흐름</h2><span>수집부터 분석까지 자동</span></div>
+      <ol class="pipe"><li><b>수집</b><span>연맹 경기 기록·뉴스<br>30분마다 (Node.js)</span></li><li><b>가공</b><span>순위·선수 지표 계산<br>배포 파일 생성</span></li><li><b>배포</b><span>GitHub Actions →<br>Cloudflare Workers</span></li><li><b>기록</b><span>화면별 방문 기록<br>(Analytics Engine)</span></li><li><b>분석</b><span>이 관리자 화면<br>(SQL 집계)</span></li></ol>
+      <p class="note">Cloudflare가 30분마다 GitHub에 실행 신호를 보내고, 수집이 실패하면 직전 기록으로 배포합니다.</p></section>
+    <section class="card"><div class="ch"><h2>데이터 품질 점검</h2><span>분석 전에 확인하는 것</span></div>
+      <ul class="qc">
+        <li class="${stale ? 'bad' : 'ok'}"><b>최신성</b><span>연맹 기록 ${ageTxt(dA)} 수집 (2시간 넘으면 경고)</span></li>
+        <li class="ok"><b>기록 수</b><span>최근 3개월 ${fmt(rawN)}줄 · 이 기간 ${fmt(cur.length)}줄</span></li>
+        <li class="${testN ? 'warn' : 'ok'}"><b>시험 기록 제외</b><span>운영자 확인용 ${fmt(testN)}줄 분석에서 뺌</span></li>
+        <li class="${brokenN ? 'warn' : 'ok'}"><b>깨진 글자</b><span>${fmt(brokenN)}줄 (해당 칸만 비우고 셈)</span></li>
+        <li class="ok"><b>지역 모름</b><span>${pct(cur.filter((r) => !r.region || r.region === '?').length, cur.length)}% (통신사 위치를 못 받은 경우)</span></li></ul></section>
+  </div>
+
+  <section class="card case"><div class="ch"><h2>프로젝트 요약</h2><span>포트폴리오용 · 숫자는 고른 기간 기준으로 자동 갱신</span></div>
+    <dl><div><dt>문제</dt><dd>한국 여자축구 WK리그 기록은 연맹 사이트에 경기별 표로만 흩어져 있어, 팬이 순위 흐름·선수 기록을 한눈에 보기 어렵다.</dd></div>
+      <div><dt>데이터</dt><dd>연맹 경기 기록(경기·선수 기록)을 30분마다 자동 수집하고, 사이트 이용 기록을 개인 식별 없이 직접 쌓는다.</dd></div>
+      <div><dt>방법</dt><dd>수집·가공·배포 자동화, 순위 예측·베스트 11 같은 파생 지표 설계, 방문 흐름(퍼널)과 유입 경로별 비교 분석.</dd></div>
+      <div><dt>결과</dt><dd>${RANGES[range][1]} 방문 ${fmt(V.length)}명, 참여율 ${engRate}%, 인스타그램 유입 ${pct(igVisits, S.nVisits)}%, 방문당 ${mmss(S.avg)} 머묾.</dd></div>
+      <div><dt>다음 단계</dt><dd>${insights.length ? esc(insights[0][1]) : '기록이 더 쌓이면 유입 경로별 효과를 비교해 홍보 방식을 정한다.'}</dd></div></dl>
+    <p class="note"><a href="/admin/export.csv?range=${range}">이 기간 날짜별 지표 내려받기 (CSV)</a></p></section>
 
   <div class="g2">
     <section class="card"><div class="ch"><h2>Cloudflare 기준 방문</h2><span>${RANGES[range][1]} · 나라 · 브라우저</span></div>${rumBlock || '<p class="empty">없음</p>'}<p class="note">Cloudflare가 따로 세는 수치라 위 숫자와 조금 다를 수 있습니다.</p></section>
@@ -197,7 +265,15 @@ h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.02em}h1 span{color:v
 .kpi span{font-size:13px;color:var(--ink2)}.kpi b{font-size:32px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.15}.kpi b small{font-size:18px;margin-left:2px}
 .kpi em{font-style:normal;font-size:12px;color:var(--ink3)}.d{font-size:12px;font-weight:600;color:var(--ink3)}.d.up{color:var(--ok)}.d.down{color:var(--bad)}
 .spark{position:absolute;right:14px;top:16px;width:96px;height:30px}.spark polyline{fill:none;stroke:var(--c1);stroke-width:2;stroke-linejoin:round}.spark circle{fill:var(--c1)}
-.note{margin:8px 2px 0;font-size:12px;color:var(--ink3)}
+.note{margin:8px 2px 0;font-size:12px;color:var(--ink3)}.note a{color:var(--c1)}
+.insl{margin:0;padding-left:20px;display:grid;gap:12px}.insl p{margin:0}.insl .act{margin-top:4px;color:var(--ink2);font-size:14px}.insl .act span{display:inline-block;font-size:11px;font-weight:700;color:var(--c1);border:1px solid var(--c1);border-radius:6px;padding:0 6px;margin-right:6px;vertical-align:1px}
+.fn{list-style:none;margin:0;padding:0;display:grid;gap:10px}.fn li{position:relative;background:var(--track);border-radius:10px;overflow:hidden}.fnb{position:absolute;inset:0 auto 0 0;background:color-mix(in srgb,var(--c1) 30%,transparent)}
+.fnt{position:relative;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline;padding:10px 12px}.fnt span{flex:1;font-weight:600;font-size:14px}.fnt b{font-variant-numeric:tabular-nums;font-size:14px}.fnt em{font-style:normal;font-size:12px;color:var(--ink2);width:100%}
+.tw{overflow-x:auto}.seg,.def{width:100%;border-collapse:collapse;font-size:14px}.seg th,.def th{text-align:left;font-size:12px;color:var(--ink3);font-weight:500;padding:6px 8px;border-bottom:1px solid var(--line)}.seg td,.def td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.seg th:not(:first-child),.seg td:not(:first-child){text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}.seg{min-width:520px}.seg td:first-child{white-space:nowrap}.seg tr.tot td{font-weight:700}.def td:first-child{white-space:nowrap;font-weight:600}
+.pipe{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;counter-reset:p}.pipe li{position:relative;border:1px solid var(--line);border-radius:10px;padding:10px;display:grid;gap:4px;font-size:12px;color:var(--ink2)}.pipe b{font-size:14px;color:var(--ink)}.pipe li:not(:last-child)::after{content:'→';position:absolute;right:-9px;top:50%;transform:translateY(-50%);color:var(--c1);font-weight:700;background:var(--card)}
+.qc{list-style:none;margin:0;padding:0;display:grid;gap:8px}.qc li{display:grid;grid-template-columns:12px 110px minmax(0,1fr);gap:8px;align-items:baseline;font-size:14px}.qc li::before{content:'';width:9px;height:9px;border-radius:50%;background:var(--ok)}.qc li.warn::before{background:var(--c4)}.qc li.bad::before{background:var(--bad)}.qc span{color:var(--ink2)}
+.case dl{margin:0;display:grid;gap:10px}.case dl div{display:grid;grid-template-columns:90px minmax(0,1fr);gap:12px}.case dt{font-weight:700;color:var(--c1)}.case dd{margin:0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-top:16px;min-width:0}
 .ch{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}.ch h2{margin:0;font-size:16px;font-weight:700}.ch span{font-size:12px;color:var(--ink3)}
 .g2{display:grid;grid-template-columns:1.4fr 1fr;gap:16px}.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.g2>.card,.g3>.card{margin-top:16px}
@@ -213,7 +289,18 @@ h1{margin:0;font-size:26px;font-weight:700;letter-spacing:-.02em}h1 span{color:v
 .cols2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .links{margin:0;padding-left:18px;display:grid;gap:6px}.links a{color:var(--c1);font-weight:500}
 .empty{color:var(--ink3);font-size:14px;margin:0}.empty.big{text-align:center;padding:40px 0}.warn{color:var(--bad);font-size:14px}
-@media (max-width:900px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.g2,.g3{grid-template-columns:1fr}.spark{display:none}}
+@media (max-width:900px){.pipe{grid-template-columns:1fr}.pipe li:not(:last-child)::after{content:'↓';right:auto;left:50%;top:auto;bottom:-14px;transform:translateX(-50%)}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.g2,.g3{grid-template-columns:1fr}.spark{display:none}}
 @media (max-width:520px){.donut{grid-template-columns:1fr;justify-items:center}.heat{gap:2px}.heat i{height:14px}.tabs a{padding:8px 12px}.kpi b{font-size:26px}.cols2{grid-template-columns:1fr}}
 </style></head><body><main>${body}</main></body></html>`;
+}
+
+// 날짜별 지표 CSV (엑셀에서 한글이 깨지지 않게 BOM 을 붙인다)
+export function renderCsv({ rows = [], range = 'week', now = new Date() }) {
+  rows = rows.filter((r) => !/^(selfcheck|check)\d/.test(String(r.visit)));
+  const t = todayK(now), from = rangeFrom(range, now), span = daysBetween(from, t) + 1, out = [['날짜', '방문', '화면 열람', '머문 시간 합계(초)', '방문당 머문 시간(초)', '참여 방문', '인스타그램 유입 방문']];
+  for (let i = 0; i < span; i++) {
+    const d = addDays(from, i), S = stats(rows.filter((r) => kday(r.timestamp) === d)), V = [...S.visits.values()];
+    out.push([d, S.nVisits, S.nViews, Math.round(S.secs), Math.round(S.avg), V.filter((v) => v.n >= 2 || v.secs >= 60).length, V.filter((v) => v.rows.some((r) => /instagram/.test(r.ref || ''))).length]);
+  }
+  return '\uFEFF' + out.map((r) => r.join(',')).join('\n') + '\n';
 }
