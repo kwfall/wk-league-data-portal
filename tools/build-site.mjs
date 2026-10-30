@@ -29,4 +29,17 @@ files.delete('index.html');
 let n = 0;
 for (const f of files) { if (!existsSync(f)) { console.log('없는 파일:', f); continue; } await mkdir(path.join(OUT, path.dirname(f)), { recursive: true }); await cp(f, path.join(OUT, f)); n++; }
 await writeFile(path.join(OUT, '.nojekyll'), '');
+// 관리자 화면(/admin)이 읽는 요약: 수집 시각, 손으로 넣을 대회 결과, 드래프트, 아직 끝나지 않은 경기
+{
+  const load = async (f, k) => { try { const w = {}; new Function('window', await readFile(f, 'utf8'))(w); return w[k]; } catch (e) { return null; } };
+  const [D, N, C, S, R] = await Promise.all([load('data.js', 'WK_DATA'), load('news.js', 'WK_NEWS'), load('cup.js', 'WK_CUP'), load('nsf.js', 'WK_NSF'), load('draft.js', 'WK_DRAFT')]);
+  const comp = (name, X) => ((X && X.matches) || []).filter((m) => m.date && m.home && m.away).map((m) => ({ name, date: m.date, home: m.home, away: m.away, done: m.hs != null || !!m.winner }));
+  const s = D && D.seasons && D.seasons[String(new Date().getFullYear())];
+  await writeFile(path.join(OUT, '_admin.json'), JSON.stringify({
+    built: new Date().toISOString(), dataUpdated: D && D.updated, newsUpdated: N && N.updated, newsCount: N ? N.items.length : null,
+    comps: [...comp('W코리아컵', C), ...comp('전국체전', S)],
+    draft: R ? { candidates: R.candidates.length, applyTo: R.event.applyTo, date: R.event.date } : null,
+    open: s ? s.matches.filter((m) => !m.finished).map((m) => ({ round: m.round, datetime: m.datetime, home: m.home, away: m.away })) : [],
+  }));
+}
 console.log(`_site 준비: index.html + 파일 ${n}개${process.env.SITE_URL ? ' · 주소 ' + site : ''}`);

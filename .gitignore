@@ -10,3 +10,7 @@ record-card/
 index.v1.html
 # 해외파 사진은 쓰지 않는다
 photos/abroad/
+
+# 내 컴퓨터에서 Worker 시험용 비밀 값
+.dev.vars
+.wrangler/
