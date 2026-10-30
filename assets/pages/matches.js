@@ -27,7 +27,7 @@
       return m.finished ? `<a class="chip" href="#/match/${m.id}" data-tip="${tip}">${body}</a>` : `<span class="chip up" data-tip="${tip}">${body}</span>`;
     };
     const cup = (U.cupMatches ? U.cupMatches() : []).filter((m) => !S.mTeam || m.home === S.mTeam || m.away === S.mTeam);
-    const cupChip = (m) => { const fin = m.hs != null, nm = (x) => (WK.logo(x) ? WK.tn(x) : t(x)); return `<a class="chip cupc${fin ? '' : ' up'}" href="#/cup" data-tip="${U.esc(`${t('W코리아컵')} · ${nm(m.home)} – ${nm(m.away)}${m.venue ? ' · ' + t(WK.vn(m.venue)) : ''}`)}"><em>${t('컵')}</em>${U.logo(m.home, 18)}${fin ? `<b>${m.hs}:${m.as}</b>` : `<i>${m.time || ''}</i>`}${U.logo(m.away, 18)}</a>`; };
+    const cupChip = (m) => { const fin = m.hs != null, nm = (x) => (WK.logo(x) ? WK.tn(x) : t(x)); return `<a class="chip cupc${fin ? '' : ' up'}" href="#/${m.comp}" data-tip="${U.esc(`${t(m.comp === 'nsf' ? '전국체전' : 'W코리아컵')} · ${nm(m.home)} – ${nm(m.away)}${m.venue ? ' · ' + t(WK.vn(m.venue)) : ''}`)}"><em class="c-${m.comp}">${t(m.tag)}</em>${U.logo(m.home, 18)}${fin ? `<b>${m.hs}:${m.as}</b>` : `<i>${m.time || ''}</i>`}${U.logo(m.away, 18)}</a>`; };
     let cells = '';
     for (let i = 0; i < first.getDay(); i++) cells += '<div class="cd off"></div>';
     for (let d = 1; d <= days; d++) {

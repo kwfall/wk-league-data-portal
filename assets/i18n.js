@@ -375,6 +375,14 @@
     ['{w} 승', '{w} won', '{w} 勝利'], ['스코어 확인 필요', 'score not yet confirmed', 'スコア未確認'],
     ['WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)', 'Not the official WK League site. An unofficial fan site run by the owner of Instagram @kwf.all, not affiliated with the Korea Women’s Football Federation. Records: KWFF.', 'WKリーグの公式サイトではありません。Instagram @kwf.all の運営者が作る非公式ファンサイトで、韓国女子サッカー連盟とは関係ありません。記録の出典: 韓国女子サッカー連盟(KWFF)'],
     ['비공식 팬 사이트', 'Unofficial fan site', '非公式ファンサイト'], ['운영', 'run by', '運営'],
+    ['전국체전', 'National Sports Festival', '全国体育大会'], ['코리아컵', 'Korea Cup', 'コリアカップ'], ['승부차기', 'pens', 'PK戦'],
+    ['{y} 제107회 전국체육대회 축구 여자 일반부 · WK리그 기록과는 따로 집계합니다.', '{y} 107th National Sports Festival, women\u2019s senior football · kept separate from WK League records.', '{y} 第107回全国体育大会 サッカー女子一般部 · WKリーグの記録とは別に集計します。'],
+    ['전국체전 기록은 연맹 경기 기록 페이지에 없어 언론 보도에서 옮겼습니다. 기사에서 확인한 4강과 결승만 넣었고, 1·2라운드 대진과 4강 스코어는 찾지 못해 비워 두었습니다. 대한체육회 대회 사이트에서 확인되면 보탤 수 있습니다.', 'National Sports Festival results are not in the federation\u2019s match records, so they are taken from press reports. Only the semi-finals and final confirmed in reports are included; earlier rounds and semi-final scores were not found.', '全国体育大会の記録は連盟の試合記録ページにないため、報道から転記しました。記事で確認できた準決勝と決勝のみ掲載し、1・2回戦の組み合わせと準決勝のスコアは見つからなかったため空欄です。'],
+    ['대한체육회 · 제107회 전국체육대회 (2026.10.16~10.22, 제주)', 'Korean Sport & Olympic Committee · 107th National Sports Festival (16–22 Oct 2026, Jeju)', '大韓体育会 · 第107回全国体育大会（2026.10.16〜10.22、済州）'],
+    ['시·도 대표 11개 팀 (WK리그 7개 팀, 대학 4개 팀). 세종스포츠토토는 세종 대표 선발전에서 고려대에 져 나가지 못함', '11 teams representing provinces (7 WK League clubs, 4 universities). Sejong Sportstoto lost the Sejong qualifier to Korea University.', '市・道代表11チーム（WKリーグ7クラブ、大学4チーム）。世宗スポーツトトは世宗代表選考戦で高麗大に敗れ出場できず'],
+    ['제주 서귀포 (결승: 서귀포축구공원)', 'Seogwipo, Jeju (final: Seogwipo Football Park)', '済州・西帰浦（決勝: 西帰浦サッカー公園）'], ['서귀포축구공원', 'Seogwipo Football Park', '西帰浦サッカー公園'],
+    ['승부차기 승 · 스코어 확인 필요', 'won on penalties · score not confirmed', 'PK戦で勝利 · スコア未確認'], ['득점: 김가연 84분 / 문미라', 'Scorers: Kim Ga-yeon 84\u2032 / Moon Mi-ra', '得点: キム・ガヨン 84分 / ムン・ミラ'],
+    ['방문 통계는 개인을 알아볼 수 없는 형태로만 집계합니다 (Cloudflare Web Analytics, 쿠키 없음).', 'Visits are counted only in a form that cannot identify individuals (Cloudflare Web Analytics, no cookies).', '訪問統計は個人を特定できない形でのみ集計します（Cloudflare Web Analytics、Cookieなし）。'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],

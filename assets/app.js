@@ -69,7 +69,7 @@
     return `<div class="legend" style="margin-bottom:8px"><span><span class="dot" style="background:var(--s1)"></span>${t('득점')}</span><span><span class="dot" style="background:var(--s2)"></span>${t('실점')}</span></div><svg viewBox="0 0 ${W} ${H}" role="img">${g}</svg><details><summary>${t('표로 보기')}</summary><div class="scroll">${tbl}</div></details>`;
   };
 
-  const NAV = [['', '홈'], ['table', '순위'], ['matches', '일정·결과'], ['teams', '팀'], ['players', '선수'], ['news', '소식'], ['cup', 'W코리아컵'], ['analysis', '팀 분석'], ['compare', '비교'], ['best', '베스트 11'], ['qor', '라운드 QOR'], ['abroad', '해외파'], ['go', '경기장 가는 길'], ['predict', '예측'], ['history', '역대 기록']];
+  const NAV = [['', '홈'], ['table', '순위'], ['matches', '일정·결과'], ['teams', '팀'], ['players', '선수'], ['news', '소식'], ['cup', 'W코리아컵'], ['nsf', '전국체전'], ['analysis', '팀 분석'], ['compare', '비교'], ['best', '베스트 11'], ['qor', '라운드 QOR'], ['abroad', '해외파'], ['go', '경기장 가는 길'], ['predict', '예측'], ['history', '역대 기록']];
   function render() {
     const [, name = '', arg = ''] = location.hash.match(/^#\/([^/]*)\/?(.*)$/) || [];
     const key = name || 'home', page = WK.pages[key], B = WK.season(S.season);
@@ -85,7 +85,7 @@
     const dark = document.documentElement.dataset.theme === 'dark';
     document.querySelectorAll('#lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === WK.lang));
     const tb = document.getElementById('theme'); tb.textContent = dark ? t('라이트') : t('다크'); tb.setAttribute('aria-label', dark ? t('라이트 모드로 전환') : t('다크 모드로 전환'));
-    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}</span>`; foot();
+    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}<br>${t('방문 통계는 개인을 알아볼 수 없는 형태로만 집계합니다 (Cloudflare Web Analytics, 쿠키 없음).')}</span>`; foot();
     WK.afterRender = null;
     const main = document.querySelector('main'), y = WK._keep ? scrollY : 0;
     main.innerHTML = page ? page(B, decodeURIComponent(arg)) : `<h1>${t((NAV.find(([k]) => k === group) || [, '페이지'])[1])}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;
