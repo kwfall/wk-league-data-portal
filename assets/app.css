@@ -409,6 +409,7 @@ html.mobile #tabbar svg { width: 22px; height: 22px; fill: none; stroke: current
 html.mobile #tabbar [aria-current="page"] { color: var(--ink); font-weight: 600; }
 html.mobile body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); font-size: 15px; }
 html.mobile .hero { min-height: 200px; }
+html.mobile #menu { display: none; } /* 모바일 버전은 아래쪽 '전체 메뉴'만 쓴다 */
 html.mobile .mlist .mrow { padding-block: 12px; }
 .mday { font-size: 13px; font-weight: 600; color: var(--ink-2); padding: 12px 0 2px; border-bottom: 1px solid var(--line); }
 html.mobile .card h2 { font-size: 18px; }
