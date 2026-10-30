@@ -40,6 +40,7 @@ await writeFile(path.join(OUT, '.nojekyll'), '');
     comps: [...comp('W코리아컵', C), ...comp('전국체전', S)],
     draft: R ? { candidates: R.candidates.length, applyTo: R.event.applyTo, date: R.event.date } : null,
     open: s ? s.matches.filter((m) => !m.finished).map((m) => ({ round: m.round, datetime: m.datetime, home: m.home, away: m.away })) : [],
+    matchNames: s ? Object.fromEntries(s.matches.map((m) => [m.id, `${m.round} ${m.home} ${m.finished ? `${m.homeScore}:${m.awayScore}` : 'vs'} ${m.away}`])) : {},
   }));
 }
 console.log(`_site 준비: index.html + 파일 ${n}개${process.env.SITE_URL ? ' · 주소 ' + site : ''}`);

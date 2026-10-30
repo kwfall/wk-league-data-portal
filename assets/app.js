@@ -74,21 +74,24 @@
   const track = (() => {
     if (!/\.workers\.dev$/.test(location.hostname)) return () => {};
     let visit = ''; try { visit = sessionStorage.getItem('wk-visit') || ''; if (!visit) { visit = Math.random().toString(36).slice(2, 12); sessionStorage.setItem('wk-visit', visit); } } catch (e) { visit = Math.random().toString(36).slice(2, 12); }
-    let cur = null, since = 0, shown = 0;
+    let cur = null, detail = '', since = 0, shown = 0;
+    // 들어온 곳: 이 방문의 첫 기록에만 붙인다 (다른 사이트에서 왔을 때만, 주소의 도메인까지만)
+    let ref = '';
+    try { if (!sessionStorage.getItem('wk-ref')) { const h = document.referrer ? new URL(document.referrer).hostname : ''; ref = h && h !== location.hostname ? h : 'direct'; sessionStorage.setItem('wk-ref', '1'); } } catch (e) { ref = ''; }
     const send = () => {
       if (!cur) return;
       const secs = Math.round((shown + (document.hidden ? 0 : Date.now() - since)) / 1000);
-      if (secs >= 1) { const body = JSON.stringify({ v: visit, p: cur, s: Math.min(secs, 1800), m: document.documentElement.classList.contains('mobile') ? 'mobile' : 'pc', l: WK.lang }); try { navigator.sendBeacon('/api/track', body); } catch (e) { /* 보내지 못하면 넘어간다 */ } }
+      if (secs >= 1) { const body = JSON.stringify({ v: visit, p: cur, d: detail, r: ref, s: Math.min(secs, 1800), m: document.documentElement.classList.contains('mobile') ? 'mobile' : 'pc', l: WK.lang }); ref = ''; try { navigator.sendBeacon('/api/track', body); } catch (e) { /* 보내지 못하면 넘어간다 */ } }
       shown = 0; since = Date.now();
     };
     document.addEventListener('visibilitychange', () => { if (document.hidden) { shown += Date.now() - since; send(); cur = cur; } else since = Date.now(); });
     addEventListener('pagehide', send);
-    return (page) => { if (page === cur) return; send(); cur = page; since = Date.now(); shown = 0; };
+    return (page, d = '') => { if (page === cur && d === detail) return; send(); cur = page; detail = String(d).slice(0, 80); since = Date.now(); shown = 0; };
   })();
 
   function render() {
     const [, name = '', arg = ''] = location.hash.match(/^#\/([^/]*)\/?(.*)$/) || [];
-    track(name || 'home');
+    track(name || 'home', ['player', 'team', 'match', 'abroad', 'cup', 'nsf'].includes(name) ? (() => { try { return decodeURIComponent(arg); } catch (e) { return arg; } })() : '');
     const key = name || 'home', page = WK.pages[key], B = WK.season(S.season);
     const group = { match: 'matches', team: 'teams', player: 'players', home: '' }[key] ?? name;
     document.documentElement.lang = WK.lang;
