@@ -1,7 +1,7 @@
 // Cloudflare 배포 설정: _site 폴더를 그대로 올리는 정적 사이트
-// 주소: https://data.kwfall.workers.dev/  (name 이 사이트 이름, kwfall 은 Cloudflare 계정의 workers.dev 이름)
+// 주소: https://wk-league-data.kwfall.workers.dev/  (name 이 사이트 이름, kwfall 은 Cloudflare 계정의 workers.dev 이름)
 {
-  "name": "data",
+  "name": "wk-league-data",
   "account_id": "9a6f0e2c70195ca71eed3f6a4228cc25",
   "compatibility_date": "2025-09-01",
   "workers_dev": true,

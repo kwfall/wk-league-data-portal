@@ -85,7 +85,7 @@
     const dark = document.documentElement.dataset.theme === 'dark';
     document.querySelectorAll('#lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === WK.lang));
     const tb = document.getElementById('theme'); tb.textContent = dark ? t('라이트') : t('다크'); tb.setAttribute('aria-label', dark ? t('라이트 모드로 전환') : t('다크 모드로 전환'));
-    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('개인이 만든 비공식 팬 사이트이며 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}</span>`; foot();
+    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}</span>`; foot();
     WK.afterRender = null;
     const main = document.querySelector('main'), y = WK._keep ? scrollY : 0;
     main.innerHTML = page ? page(B, decodeURIComponent(arg)) : `<h1>${t((NAV.find(([k]) => k === group) || [, '페이지'])[1])}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;

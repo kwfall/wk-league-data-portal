@@ -39,7 +39,8 @@
       <tbody>${B.table.map((r) => `<tr class="click" data-href="${U.tHref(r.team)}"><td>${r.rank}</td><td class="l">${U.team(B, r.team)}</td><td>${r.p}</td><td class="strong">${r.pts}</td><td>${U.sgn(r.gd)}</td><td class="l x">${U.form(r.form)}</td></tr>`).join('')}</tbody></table></div>${more('#/table', '순위 전체 보기')}`) : '';
 
     return `<div class="hero"><div class="hero-in"><p class="eyebrow">${t('한국 여자축구 WK리그 기록')}</p><h1>${t('{y} WK리그', { y: B.year })}</h1>
-        <p class="hero-sub">${t('정규리그 {n}경기 중 {m}경기 종료', { n: total, m: done })} · ${status}</p></div>
+        <p class="hero-sub">${t('정규리그 {n}경기 중 {m}경기 종료', { n: total, m: done })} · ${status}</p>
+        <p class="hero-own">${t('비공식 팬 사이트')} · ${t('운영')} <a href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">@kwf.all</a></p></div>
         <span class="credit">${t('사진 한국여자축구연맹(KWFF)')}</span></div>
       ${U.calendarCard ? U.calendarCard(B) : ''}
       <div class="two">

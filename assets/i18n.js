@@ -373,7 +373,8 @@
     ['기사 본문은 언론사 저작물이라 제목·날짜·언론사·링크만 보여 줍니다. 언론 기사는 구글 뉴스 검색(WK리그, W코리아컵), 영문 기사는 WK League News에서 가져옵니다. 팀 로고는 제목에 팀 이름이 나온 경우에 붙습니다. 기사 제목은 원문 언어 그대로입니다.', 'Article text belongs to each outlet, so only the headline, date, outlet and link are shown. Press items come from Google News searches (WK리그, W코리아컵) and English items from WK League News. Club logos appear when a club is named in the headline. Headlines are in their original language.', '記事本文は各媒体の著作物のため、見出し・日付・媒体名・リンクのみ表示します。報道はGoogleニュース検索（WK리그、W코리아컵）、英語記事はWK League Newsから取得します。クラブのロゴは見出しにクラブ名がある場合に表示されます。見出しは原文の言語のままです。'],
     ['이번 수집에서 가져오지 못한 곳: {f}', 'Not reached in this update: {f}', '今回取得できなかったところ: {f}'],
     ['{w} 승', '{w} won', '{w} 勝利'], ['스코어 확인 필요', 'score not yet confirmed', 'スコア未確認'],
-    ['개인이 만든 비공식 팬 사이트이며 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)', 'An unofficial fan site made by an individual, not affiliated with the Korea Women\'s Football Federation. Records: KWFF.', '個人が作った非公式ファンサイトで、韓国女子サッカー連盟とは関係ありません。記録の出典: 韓国女子サッカー連盟(KWFF)'],
+    ['WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)', 'Not the official WK League site. An unofficial fan site run by the owner of Instagram @kwf.all, not affiliated with the Korea Women’s Football Federation. Records: KWFF.', 'WKリーグの公式サイトではありません。Instagram @kwf.all の運営者が作る非公式ファンサイトで、韓国女子サッカー連盟とは関係ありません。記録の出典: 韓国女子サッカー連盟(KWFF)'],
+    ['비공식 팬 사이트', 'Unofficial fan site', '非公式ファンサイト'], ['운영', 'run by', '運営'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],
