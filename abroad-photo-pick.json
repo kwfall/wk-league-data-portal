@@ -1,0 +1,11 @@
+{
+  "_설명": "해외파 선수 사진 고르기 — 사람이 직접 정리하는 자료. 경기 중이거나 유니폼을 입은 사진만 쓴다. file: 위키미디어 공용 파일 이름(없으면 선수 문서의 사진), use: false 면 사진을 쓰지 않는다, focus: 얼굴 위치 [가로%, 세로%, 확대 배율]. 후보는 node tools/abroad-photo-candidates.mjs 로 볼 수 있다.",
+  "Choo Hyo-joo": { "focus": [42, 30, 1.2] },
+  "Shin Na-yeong": { "focus": [45, 22, 1.4] },
+  "Casey Phair": { "focus": [50, 30, 1.2] },
+  "Jang Chang": { "focus": [52, 13, 2.4] },
+  "Lee Geum-min": { "file": "Geum-Min Lee Brighton & Hove Albion Women v Manchester United Women 01 04 2023-334 (52787408104).jpg", "focus": [48, 18, 2.2] },
+  "Cho So-hyun": { "file": "Cho So-hyun Lewes FC Women v West Ham Utd Women 23 08 2020 pre season-65 (50259192413).jpg", "focus": [50, 17, 2.2] },
+  "Lee Min-a": { "use": false },
+  "Yeo Min-ji": { "use": false }
+}

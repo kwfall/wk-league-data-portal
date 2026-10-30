@@ -1,0 +1,48 @@
+{
+ "_설명": "선수 표기를 직접 고치는 파일입니다. players 아래에 \"팀|이름|등번호\": {\"en\": \"...\", \"ja\": \"...\", \"foreign\": true} 형태로 적고 node scrape-names.mjs 를 다시 실행하세요.",
+ "players": {
+  "화천KSPO|TANAKA ASUNA|4": {
+   "ja": "タナカ・アスナ",
+   "foreign": true
+  },
+  "화천KSPO|kitakata sae|24": {
+   "ja": "キタカタ・サエ",
+   "foreign": true
+  },
+  "수원FC위민|밀레니냐|9": {
+   "ja": "ミレニーニャ",
+   "foreign": true
+  },
+  "수원FC위민|아야카|8": {
+   "ja": "ニシカワ・アヤカ",
+   "foreign": true
+  },
+  "수원FC위민|하루히|39": {
+   "ja": "スズキ・ハルヒ",
+   "foreign": true
+  },
+  "경주한수원WFC|나카지마에미|35": {
+   "ja": "ナカジマ・エミ",
+   "foreign": true
+  },
+  "경주한수원WFC|쿄카와|9": {
+   "ja": "キョウカワ・マイ",
+   "foreign": true
+  },
+  "경주한수원WFC|레베카 발데즈|99": {
+   "ja": "レベッカ・バルデス",
+   "foreign": true
+  },
+  "인천현대제철|토리|32": {
+   "ja": "トリウミ・ユカ",
+   "foreign": true
+  },
+  "인천현대제철|성서울서라벌|13": {
+   "foreign": false
+  },
+  "인천현대제철|피오나 워츠|29": {
+   "ja": "フィオナ・ワーツ",
+   "foreign": true
+  }
+ }
+}

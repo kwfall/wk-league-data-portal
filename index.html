@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WK리그 Data</title>
+<meta name="description" content="한국 여자축구 WK리그 기록·순위·선수 분석. 인스타그램 @kwf.all">
+<meta property="og:type" content="website">
+<meta property="og:title" content="WK리그 Data">
+<meta property="og:description" content="한국 여자축구 WK리그 기록·순위·선수 분석. 인스타그램 @kwf.all">
+<meta property="og:image" content="assets/og.png">
+<meta property="og:url" content="./">
+<meta name="twitter:card" content="summary_large_image">
+<script>
+  // 화면이 그려지기 전에 테마를 정한다: 저장된 선택 → 없으면 기기 설정
+  (function () {
+    var th = null;
+    try { th = localStorage.getItem('wk-theme'); } catch (e) {}
+    if (th !== 'dark' && th !== 'light') th = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    document.documentElement.dataset.theme = th;
+  })();
+</script>
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+<div class="top"><div class="top-in">
+  <button id="menu" class="btn menu" type="button" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 18 18" width="18" height="18" aria-hidden="true"><path d="M2 4.5h14M2 9h14M2 13.5h14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  <a class="brand" href="#/"><img src="assets/logo.svg" alt="" width="26" height="26"><span>WK리그 Data</span></a>
+  <nav aria-label="Main"></nav>
+  <div class="tools">
+    <select id="season" aria-label="Season"></select>
+    <div class="seg" id="lang" role="group" aria-label="Language"><button type="button" data-lang="ko">한국어</button><button type="button" data-lang="en">EN</button><button type="button" data-lang="ja">日本語</button></div>
+    <button id="theme" class="btn" type="button"></button>
+  </div>
+</div>
+<div id="drawer" class="drawer" hidden><div class="drawer-in"></div><div class="drawer-tools"></div></div>
+</div>
+<main></main>
+<footer></footer>
+<div id="tip" role="status"></div>
+
+<script src="data.js"></script>
+<script src="history.js"></script>
+<script src="assets/model.js"></script>
+<script src="names.js"></script>
+<script src="events.js"></script>
+<script src="venues.js"></script>
+<script src="roster.js"></script>
+<script src="cup.js"></script>
+<script src="news.js"></script>
+<script src="abroad.js"></script>
+<script src="abroad-names.js"></script>
+<script src="cardnews.js"></script>
+<script src="assets/i18n.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/pages/home.js"></script>
+<script src="assets/pages/cup.js"></script>
+<script src="assets/pages/news.js"></script>
+<script src="assets/pages/abroad.js"></script>
+<script src="assets/pages/table.js"></script>
+<script src="assets/pages/matches.js"></script>
+<script src="assets/pages/teams.js"></script>
+<script src="assets/pages/players.js"></script>
+<script src="assets/pages/predict.js"></script>
+<script src="assets/pages/history.js"></script>
+<script src="assets/pages/qor.js"></script>
+<script src="assets/pages/go.js"></script>
+<script src="assets/pages/compare.js"></script>
+<script src="assets/pages/analysis.js"></script>
+<script src="assets/pages/best.js"></script>
+<script src="assets/pages/cards.js"></script>
+<script>
+  if (window.WK_DATA && Object.keys(WK_DATA.seasons).length) WK.start();
+  else document.querySelector('main').innerHTML = '<div class="card empty">데이터가 없습니다. 먼저 데이터_업데이트.bat을 실행해 주세요.</div>';
+</script>
+</body>
+</html>

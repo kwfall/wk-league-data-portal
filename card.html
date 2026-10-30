@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>카드뉴스</title>
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap">
+<style>
+  /* 인스타그램 카드뉴스(1080×1350). 계정에서 쓰는 방식 그대로: 흰색·분홍·검정, 가운데 정렬, 꾸밈 없이 큰 글자 */
+  :root { --pink: #ff66c4; --ink: #111; --gray: #8a8a8a; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Noto Sans KR", "Malgun Gothic", sans-serif; color: var(--ink); }
+  #card { width: 1080px; height: 1350px; position: relative; overflow: hidden; background: #fff; }
+  .handle { position: absolute; left: 0; right: 0; bottom: 34px; text-align: center; font-size: 26px; font-weight: 400; }
+
+  /* 1장: 위는 사진, 아래는 어두운 바탕에 흰 글자와 분홍 글자 */
+  .cover .photo { position: absolute; left: 0; right: 0; top: 0; height: 890px; background: #f3f3f3; display: flex; align-items: flex-end; justify-content: center; }
+  .cover .photo img { height: 860px; width: auto; }
+  .cover .band { position: absolute; left: 0; right: 0; top: 850px; bottom: 0; background: linear-gradient(180deg, #777 0%, #3a3a3a 26%, #0c0c0c 100%); color: #fff; text-align: center; padding-top: 112px; }
+  .cover .l1 { font-size: 62px; font-weight: 500; letter-spacing: -.01em; line-height: 1.25; }
+  .cover .l2 { font-size: 66px; font-weight: 500; letter-spacing: -.01em; line-height: 1.25; color: var(--pink); margin-top: 6px; }
+  .cover .handle { color: #e9e9e9; }
+
+  /* 2장: 흰 바탕에 순위 목록, 아래에 분홍 큰 글자 */
+  .list { padding: 84px 70px 0; }
+  .list h1 { margin: 0; text-align: center; font-size: 68px; font-weight: 700; letter-spacing: -.02em; }
+  .list .sub { text-align: center; font-size: 30px; color: var(--gray); margin: 10px 0 44px; }
+  .row { display: grid; grid-template-columns: 70px 118px 1fr max-content; align-items: center; column-gap: 24px; height: 138px; border-bottom: 2px solid #ededed; }
+  .row:first-of-type { border-top: 2px solid #ededed; }
+  .row .rk { font-size: 54px; font-weight: 900; text-align: center; }
+  .row.top .rk, .row.top .val { color: var(--pink); }
+  .row img.ph { width: 118px; height: 118px; border-radius: 50%; object-fit: cover; object-position: top; background: #f1f1f1; }
+  .row .nm { font-size: 46px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .tm { font-size: 27px; color: var(--gray); display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+  .row .tm img { width: 30px; height: 30px; object-fit: contain; }
+  .row .val { font-size: 62px; font-weight: 900; letter-spacing: -.02em; }
+  .row .val small { font-size: 30px; font-weight: 700; margin-left: 4px; }
+  .punch { text-align: center; color: var(--pink); font-size: 56px; font-weight: 700; line-height: 1.3; letter-spacing: -.01em; margin-top: 46px; }
+  /* 3장: 출전 기록 칸, 4장: 90분당 득점 비교 막대 */
+  .story { padding: 84px 70px 0; }
+  .story h1 { margin: 0; text-align: center; font-size: 62px; font-weight: 700; letter-spacing: -.02em; }
+  .story .sub { text-align: center; font-size: 29px; color: var(--gray); margin: 10px 0 40px; }
+  .boxes { display: grid; grid-template-columns: repeat(9, 1fr); gap: 10px; }
+  .bx { height: 96px; border-radius: 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 700; line-height: 1.15; }
+  .bx small { font-size: 19px; font-weight: 500; opacity: .8; } .bx b { font-size: 28px; }
+  .bx.goal { background: var(--pink); color: #fff; } .bx.play { background: #1a1a1a; color: #fff; } .bx.out { background: #efefef; color: #a3a3a3; }
+  .key { display: flex; justify-content: center; gap: 30px; font-size: 25px; color: #555; margin-top: 22px; }
+  .key i { display: inline-block; width: 22px; height: 22px; border-radius: 6px; vertical-align: -3px; margin-right: 8px; }
+  .story .punch { margin-top: 58px; font-size: 62px; }
+  .story .fact { text-align: center; font-size: 30px; font-weight: 500; color: #333; margin-top: 30px; line-height: 1.45; }
+  .cmp { display: grid; grid-template-columns: max-content 1fr max-content; align-items: center; gap: 22px 24px; margin-top: 8px; }
+  .cmp .n { font-size: 40px; font-weight: 700; } .cmp .n small { display: block; font-size: 24px; font-weight: 400; color: var(--gray); }
+  .cmp .t { height: 42px; } .cmp .t span { display: block; height: 100%; background: #1a1a1a; border-radius: 0 10px 10px 0; }
+  .cmp .v { font-size: 48px; font-weight: 900; text-align: right; }
+  .cmp .top { color: var(--pink); } .cmp .t.top span { background: var(--pink); }
+  .hero5 { background: #0b0b0b !important; color: #fff; }
+  .hero5 .ph5 { position: absolute; left: 0; right: 0; top: 0; height: 1010px; overflow: hidden; background: #d9d9d9; }
+  .hero5 .ph5 img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 0%; filter: grayscale(1) contrast(1.18) brightness(.92); }
+  .hero5 .shade { position: absolute; left: 0; right: 0; top: 0; height: 1012px; background: linear-gradient(180deg, rgba(11,11,11,.38) 0%, rgba(11,11,11,0) 22%, rgba(11,11,11,0) 48%, rgba(11,11,11,.82) 82%, #0b0b0b 100%); }
+  .hero5 .badge5 { position: absolute; left: 50%; top: 54px; transform: translateX(-50%); background: var(--pink); color: #fff; font-size: 30px; font-weight: 700; padding: 10px 26px; border-radius: 999px; white-space: nowrap; }
+  .hero5 .txt5 { position: absolute; left: 0; right: 0; bottom: 104px; text-align: center; }
+  .hero5 .stats5 { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; }
+  .hero5 .stats5 div { padding: 0 44px; border-left: 2px solid rgba(255,255,255,.28); }
+  .hero5 .stats5 div:first-child { border-left: 0; }
+  .hero5 .stats5 b { display: block; font-size: 104px; font-weight: 900; line-height: 1; letter-spacing: -.03em; }
+  .hero5 .stats5 span { display: block; font-size: 27px; color: #cfcfcf; margin-top: 8px; }
+  .hero5 .l1 { font-size: 58px; font-weight: 500; line-height: 1.25; }
+  .hero5 .l2 { font-size: 72px; font-weight: 700; line-height: 1.25; color: var(--pink); letter-spacing: -.01em; }
+  .hero5 .handle { color: #e9e9e9; }
+  /* 베스트 11: 1장 명단, 2장 점수 내역, 3장 선정 기준 */
+  .b11 { padding: 54px 50px 0; }
+  .b11 h1 { margin: 0; text-align: center; font-size: 62px; font-weight: 700; letter-spacing: -.02em; }
+  .b11 .sub { text-align: center; font-size: 27px; color: var(--gray); margin: 4px 0 22px; }
+  .b11 .ln { display: flex; justify-content: center; gap: 14px; margin-bottom: 12px; }
+  .b11 .sl { width: 232px; text-align: center; }
+  .b11 .sl img.ph { width: 110px; height: 110px; border-radius: 50%; object-fit: cover; object-position: top; background: #f1f1f1; display: block; margin: 0 auto; border: 5px solid #fff; box-shadow: 0 0 0 3px #e6e6e6; }
+  .b11 .sl.top img.ph { box-shadow: 0 0 0 5px var(--pink); }
+  .b11 .sl b { display: block; font-size: 31px; line-height: 1.25; font-weight: 700; letter-spacing: -.02em; margin-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .b11 .sl small { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 21px; line-height: 1.3; color: var(--gray); white-space: nowrap; }
+  .b11 .sl small img { width: 24px; height: 24px; object-fit: contain; }
+  .b11 .sl i { display: block; font-style: normal; font-size: 28px; line-height: 1.2; font-weight: 900; } .b11 .sl.top i { color: var(--pink); }
+  .b11 .punch { font-size: 44px; margin-top: 6px; }
+  .brow { display: grid; grid-template-columns: 76px 1fr max-content; align-items: center; column-gap: 22px; height: 82px; border-bottom: 2px solid #ededed; }
+  .brow:first-of-type { border-top: 2px solid #ededed; }
+  .brow .ps { font-size: 24px; font-weight: 700; color: #fff; background: #1a1a1a; border-radius: 8px; text-align: center; padding: 6px 0; }
+  .brow .nm { font-size: 33px; font-weight: 700; letter-spacing: -.02em; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .brow .why { font-size: 21px; color: var(--gray); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+  .brow .val { font-size: 44px; font-weight: 900; letter-spacing: -.02em; } .brow.top .val { color: var(--pink); } .brow.top .ps { background: var(--pink); }
+  .brow.rule { height: 82px; grid-template-columns: 1fr max-content; } .brow.rule .nm { font-size: 34px; font-weight: 500; } .brow.rule .val { font-size: 38px; } .brow.rule .val.minus { color: var(--gray); }
+  .b11 .note { font-size: 27px; line-height: 1.5; color: #333; text-align: center; margin-top: 30px; } .b11 .note b { color: var(--pink); font-weight: 700; }
+  .srcline { position: absolute; left: 0; right: 0; bottom: 84px; text-align: center; font-size: 21px; color: #b0b0b0; }
+</style>
+</head>
+<body>
+<div id="card"></div>
+<div id="tip"></div>
+<script src="data.js"></script>
+<script src="history.js"></script>
+<script src="assets/model.js"></script>
+<script src="names.js"></script>
+<script src="assets/i18n.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/pages/home.js"></script>
+<script src="assets/pages/best.js"></script>
+<script>
+  // 주소 예: card.html?type=goals&page=1&handle=@kwf.all   (type: goals | assists, page: 1 표지 | 2 순위 | 3 득점 1위의 출전 기록 | 4 90분당 득점 비교 | 5 득점 1위 선수 포스터 — 3~5는 goals 전용)
+  (function () {
+    const q = new URLSearchParams(location.search), WK = window.WK, U = WK.ui;
+    const type = q.get('type') === 'assists' ? 'assists' : 'goals', page = Math.min(5, Math.max(1, +q.get('page') || 1)), handle = q.get('handle') || '@kwf. all';
+    WK.lang = 'ko';
+    const B = WK.season(q.get('season') || WK.seasons[0]);
+    if (q.get('type') === 'best') {
+      // 베스트 11 카드: card.html?type=best&page=1~3[&round=25]  (round 를 안 쓰면 모든 경기가 끝난 가장 최근 라운드)
+      const el = document.getElementById('card'), rs = U.bestRounds(B), r = rs.includes(+q.get('round')) ? +q.get('round') : rs[0];
+      if (!r) { el.textContent = '모든 경기가 끝난 라운드가 없습니다'; return; }
+      const X = U.best11(B, r), max = Math.max(...X.list.map((x) => x.pts)), nm = (p) => U.esc(/^[\x00-\x7f]+$/.test(p.name) ? p.name.toUpperCase() : p.name), num = (v) => (Number.isInteger(v) ? String(v) : v.toFixed(1));
+      const last = B.league.filter((m) => m.r === r).reduce((a, m) => (m.datetime > a ? m.datetime : a), '').slice(0, 10).replace(/-/g, '.');
+      const short = { '득점': (v) => `${v / 4}골`, '도움': (v) => `${v / 3}도움`, '무실점': () => '무실점', '팀 승리': () => '승', '경고': () => '경고', '퇴장': () => '퇴장', '골이 아닌 유효슈팅': (v) => `유효슈팅 ${v / 0.5}`, '실점': (v) => `${v / -0.5}실점` };
+      const why = (x) => x.parts.filter(([k]) => short[k]).map(([k, v]) => short[k](v)).join(' · ');
+      const foot = `<div class="srcline">기록 출처 한국여자축구연맹 · ${last} 기준 · WK리그 Data 자체 선정 (연맹 공식 선정 아님)</div><div class="handle">${U.esc(handle)}</div>`;
+      const pg = Math.min(3, Math.max(1, +q.get('page') || 1)), best = X.list.filter((x) => x.pts === max);
+      el.className = 'b11';
+      if (pg === 1) el.innerHTML = `<h1>${r}라운드 베스트 11</h1><div class="sub">${B.year} WK리그 · 경기 기록에 점수를 매겨 뽑았습니다</div>
+        ${X.xi.map(([, list]) => `<div class="ln">${list.map((x) => `<div class="sl ${x.pts === max ? 'top' : ''}">${x.p.photo ? `<img class="ph" src="${x.p.photo}" alt="">` : ''}<b>${nm(x.p)}</b><small>${WK.logo(x.p.team) ? `<img src="${WK.logo(x.p.team)}" alt="">` : ''}${U.esc(x.p.team)}</small><i>${num(x.pts)}점</i></div>`).join('')}</div>`).join('')}
+        ${foot}`;
+      else if (pg === 2) el.innerHTML = `<h1>누가 몇 점을 받았나</h1><div class="sub">${r}라운드 베스트 11 · 한 경기 기록으로 매긴 점수</div>
+        ${X.list.map((x) => `<div class="brow ${x.pts === max ? 'top' : ''}"><div class="ps">${x.pos}</div><div><div class="nm">${nm(x.p)}</div><div class="why">${U.esc(x.p.team)} · ${x.l.minutes}분 · ${why(x)}</div></div><div class="val">${num(x.pts)}</div></div>`).join('')}
+        <div class="note" style="margin-top:22px">최고 점수 <b>${best.map((x) => nm(x.p)).join(', ')} ${num(max)}점</b></div>
+        ${foot}`;
+      else el.innerHTML = `<h1>어떻게 뽑았나</h1><div class="sub">한 경기 기록에 아래 점수를 더해 포지션별로 높은 순 (4-3-3)</div>
+        ${[['60분 이상 출전', '+2'], ['60분 미만 출전', '+1'], ['득점', '+4'], ['도움', '+3'], ['골이 아닌 유효슈팅', '+0.5'], ['팀 승리', '+1'], ['무실점 (60분 이상 출전)', 'GK·DF +4 / MF +1'], ['실점 (GK·DF)', '1골마다 −0.5'], ['경고', '−1'], ['퇴장', '−3']].map(([k, v]) => `<div class="brow rule"><div class="nm">${k}</div><div class="val ${v.includes('−') ? 'minus' : ''}">${v}</div></div>`).join('')}
+        <div class="note">점수가 같으면 FW·MF는 더 짧게 뛴 선수,<br>DF·GK는 더 오래 뛴 선수를 먼저 뽑습니다.<br>패스·태클·선방 기록은 공개되지 않아<br><b>수비수와 골키퍼는 팀 무실점 여부로 주로 갈립니다.</b></div>
+        ${foot}`;
+      return;
+    }
+    const word = type === 'goals' ? '득점' : '도움', unit = type === 'goals' ? '골' : '도움';
+    const rounds = [...new Set(B.all.map((m) => m.r))].sort((a, b) => a - b);
+    const doneRound = rounds.filter((r) => B.all.filter((m) => m.r === r).every((m) => m.finished)).pop() || 0;
+    const list = U.leaders(B, type, 5), top = list[0], second = list[1];
+    const el = document.getElementById('card');
+    if (!top) { el.textContent = '기록 없음'; return; }
+    if (page >= 3) {
+      // 득점 1위 선수의 출전·결장 기록. 팀이 치른 경기를 날짜순으로 놓고, 뛴 경기와 못 뛴 경기를 나눈다.
+      const p = top.p, team = p.team, name = U.esc(p.name);
+      const ms = B.league.filter((m) => m.home === team || m.away === team);
+      const log = Object.fromEntries(p.log.map((l) => [l.m.id, l]));
+      const lastM = p.log[p.log.length - 1].m, after = ms.filter((m) => m.datetime > lastM.datetime).length;
+      const lastDay = B.league.reduce((a, m) => (m.datetime > a ? m.datetime : a), '');
+      const days = Math.round((new Date(lastDay.slice(0, 10)) - new Date(lastM.datetime.slice(0, 10))) / 864e5), months = Math.floor(days / 30);
+      const d = new Date(lastM.datetime);
+      el.className = 'story';
+      if (after < 3) { el.innerHTML = `<h1>${name}</h1><div class="sub">최근 결장이 길지 않아 이 장은 만들지 않습니다.</div>`; return; }
+      if (page === 5) {
+        el.className = 'hero5';
+        el.innerHTML = `<div class="ph5">${p.photo ? `<img src="${p.photo}" alt="">` : ''}</div><div class="shade"></div>
+          <div class="badge5">${B.year} WK리그 득점 1위</div>
+          <div class="txt5"><div class="stats5"><div><b>${top.v}</b><span>골</span></div><div><b>${top.apps}</b><span>경기</span></div><div><b>${p.g90.toFixed(2)}</b><span>90분당 득점</span></div></div>
+            <div class="l1">${name} 선수는 얼마나</div><div class="l2">넘사벽인지 감도 안 온다</div></div>
+          <div class="handle">${U.esc(handle)}</div>`;
+        return;
+      }
+      if (page === 3) {
+        el.innerHTML = `<h1>${name}의 출전 기록</h1><div class="sub">${U.esc(team)} ${ms.length}경기 · 칸 하나가 한 경기</div>
+          <div class="boxes">${ms.map((m) => { const l = log[m.id]; return l ? (l.goals ? `<div class="bx goal"><small>${m.round}</small><b>${l.goals}골</b></div>` : `<div class="bx play"><small>${m.round}</small><b>출전</b></div>`) : `<div class="bx out"><small>${m.round}</small><b>결장</b></div>`; }).join('')}</div>
+          <div class="key"><span><i style="background:var(--pink)"></i>득점한 경기</span><span><i style="background:#1a1a1a"></i>출전</span><span><i style="background:#efefef"></i>결장</span></div>
+          <div class="punch">근데 이상한 건<br>${name} 선수는 부상으로<br>결장한 지 ${months}달이 넘었다</div>
+          <div class="fact">마지막 출전 ${d.getMonth() + 1}월 ${d.getDate()}일 ${lastM.round} · 이후 ${after}경기 연속 결장</div>
+          <div class="srcline">기록 출처 한국여자축구연맹 · ${lastDay.slice(0, 10).replace(/-/g, '.')} 기준</div>
+          <div class="handle">${U.esc(handle)}</div>`;
+      } else {
+        const max = Math.max(...list.map((x) => x.p.g90));
+        el.innerHTML = `<h1>득점 TOP 5의 90분당 득점</h1><div class="sub">뛴 시간이 같다면 누가 가장 많이 넣었나</div>
+          <div class="cmp">${list.map((x) => `<div class="n ${x.rank === 1 ? 'top' : ''}">${U.esc(x.p.name)}<small>${x.v}골 · ${x.minutes}분</small></div><div class="t ${x.rank === 1 ? 'top' : ''}"><span style="width:${(x.p.g90 / max) * 100}%"></span></div><div class="v ${x.rank === 1 ? 'top' : ''}">${x.p.g90.toFixed(2)}</div>`).join('')}</div>
+          <div class="punch" style="margin-top:64px">${after}경기를 못 뛰고도<br>아직 득점 1위</div>
+          <div class="srcline">기록 출처 한국여자축구연맹 · 90분당 득점 = 득점 ÷ 출전 시간 × 90</div>
+          <div class="handle">${U.esc(handle)}</div>`;
+      }
+      return;
+    }
+    if (page === 1) {
+      el.className = 'cover';
+      el.innerHTML = `<div class="photo">${top.p.photo ? `<img src="${top.p.photo}" alt="">` : ''}</div>
+        <div class="band"><div class="l1">${doneRound}라운드까지 ${word} 순위</div><div class="l2">1위 ${U.esc(top.p.name)}, ${top.v}${unit}</div></div>
+        <div class="handle">${U.esc(handle)}</div>`;
+    } else {
+      el.className = 'list';
+      const gap = second ? top.v - second.v : 0;
+      const punch = gap > 0 ? `${U.esc(top.p.name)}, ${top.apps}경기 ${top.v}${unit}<br>2위와 ${gap}${type === 'goals' ? '골' : '개'} 차 선두` : `${U.esc(top.p.name)} ${top.v}${unit}<br>${U.esc(second.p.name)}와 기록은 같고 경기 수가 적어 1위`;
+      el.innerHTML = `<h1>${B.year} WK리그 ${word} 순위</h1><div class="sub">${doneRound}라운드 종료 기준 · TOP 5</div>
+        ${list.map((x) => `<div class="row ${x.rank === 1 ? 'top' : ''}"><div class="rk">${x.rank}</div>${x.p.photo ? `<img class="ph" src="${x.p.photo}" alt="">` : '<span></span>'}
+          <div><div class="nm">${U.esc(x.p.name)}</div><div class="tm">${WK.logo(x.teams[x.teams.length - 1]) ? `<img src="${WK.logo(x.teams[x.teams.length - 1])}" alt="">` : ''}${x.teams.map(U.esc).join(' → ')} · ${x.apps}경기</div></div>
+          <div class="val">${x.v}<small>${unit}</small></div></div>`).join('')}
+        <div class="punch">${punch}</div>
+        <div class="srcline">기록 출처 한국여자축구연맹 · 기록이 같으면 경기 수가 적은 선수가 앞 순위</div>
+        <div class="handle">${U.esc(handle)}</div>`;
+    }
+  })();
+</script>
+</body>
+</html>

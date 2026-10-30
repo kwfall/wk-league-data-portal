@@ -1,0 +1,149 @@
+{
+ "checkedAt": "2026-10-04T07:23:57.113Z",
+ "report": {
+  "2026": {
+   "matches": 101,
+   "table": [],
+   "detail": true,
+   "goalList": [],
+   "ownGoals": 7,
+   "playerGoals": [],
+   "players": [
+    {
+     "name": "하루히",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 1361,
+       "computed": 1357
+      }
+     }
+    },
+    {
+     "name": "최유리",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 1190,
+       "computed": 1186
+      }
+     }
+    },
+    {
+     "name": "쿄카와",
+     "team": "경주한수원WFC",
+     "diff": {
+      "minutes": {
+       "official": 1504,
+       "computed": 1471
+      }
+     }
+    },
+    {
+     "name": "윤수정",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 1265,
+       "computed": 1261
+      }
+     }
+    },
+    {
+     "name": "손화연",
+     "team": "강진SWANSWFC",
+     "diff": {
+      "minutes": {
+       "official": 1883,
+       "computed": 1879
+      }
+     }
+    },
+    {
+     "name": "지소연",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 2161,
+       "computed": 2156
+      }
+     }
+    },
+    {
+     "name": "전은하",
+     "team": "경주한수원WFC",
+     "diff": {
+      "minutes": {
+       "official": 1783,
+       "computed": 1782
+      }
+     }
+    },
+    {
+     "name": "밀레니냐",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 1033,
+       "computed": 1032
+      }
+     }
+    },
+    {
+     "name": "아야카",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 2396,
+       "computed": 2391
+      }
+     }
+    },
+    {
+     "name": "김혜리",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 1248,
+       "computed": 1244
+      }
+     }
+    },
+    {
+     "name": "곽로영",
+     "team": "강진SWANSWFC",
+     "diff": {
+      "minutes": {
+       "official": 1210,
+       "computed": 1206
+      }
+     }
+    },
+    {
+     "name": "최정민",
+     "team": "화천KSPO",
+     "diff": {
+      "minutes": {
+       "official": 2007,
+       "computed": 2000
+      }
+     }
+    },
+    {
+     "name": "송지윤",
+     "team": "수원FC위민",
+     "diff": {
+      "minutes": {
+       "official": 634,
+       "computed": 633
+      }
+     }
+    }
+   ],
+   "sameName": [
+    "화천KSPO 이수빈 (94, 28번)",
+    "세종스포츠토토 김윤주 (14, 30번)"
+   ]
+  }
+ }
+}

@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- WK리그 Data 로고: W 모양 꺾은선 그래프의 마지막 점이 축구공 (흰 선, 흰 공에 분홍 무늬) -->
+  <defs><clipPath id="b"><circle cx="47" cy="22" r="10.8"/></clipPath></defs>
+  <rect width="64" height="64" rx="14" fill="#0b0b0f"/>
+  <line x1="8" x2="56" y1="22" y2="22" stroke="#ffffff" stroke-opacity=".16" stroke-width="1.2"/><line x1="8" x2="56" y1="34.5" y2="34.5" stroke="#ffffff" stroke-opacity=".16" stroke-width="1.2"/><line x1="8" x2="56" y1="47" y2="47" stroke="#ffffff" stroke-opacity=".16" stroke-width="1.2"/>
+  <polyline points="9,22 18.5,47 28,29 37.5,47 47,22" fill="none" stroke="#ffffff" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="9" cy="22" r="2.6" fill="#0b0b0f" stroke="#ffffff" stroke-width="2"/><circle cx="18.5" cy="47" r="2.6" fill="#0b0b0f" stroke="#ffffff" stroke-width="2"/><circle cx="28" cy="29" r="2.6" fill="#0b0b0f" stroke="#ffffff" stroke-width="2"/><circle cx="37.5" cy="47" r="2.6" fill="#0b0b0f" stroke="#ffffff" stroke-width="2"/>
+  <circle cx="47" cy="22" r="12.4" fill="#0b0b0f"/>
+  <circle cx="47" cy="22" r="10.8" fill="#ffffff"/>
+  <g clip-path="url(#b)">
+  <line x1="47.00" y1="17.68" x2="47.00" y2="14.44" stroke="#ff4f9a" stroke-width="1.5" stroke-linecap="round"/>
+  <polygon points="47.00,14.87 41.52,10.25 52.48,10.25" fill="#ff4f9a"/>
+  <line x1="51.11" y1="20.67" x2="54.19" y2="19.66" stroke="#ff4f9a" stroke-width="1.5" stroke-linecap="round"/>
+  <polygon points="53.78,19.80 56.48,13.16 59.86,23.58" fill="#ff4f9a"/>
+  <line x1="49.54" y1="25.49" x2="51.44" y2="28.12" stroke="#ff4f9a" stroke-width="1.5" stroke-linecap="round"/>
+  <polygon points="51.19,27.77 58.34,28.28 49.47,34.72" fill="#ff4f9a"/>
+  <line x1="44.46" y1="25.49" x2="42.56" y2="28.12" stroke="#ff4f9a" stroke-width="1.5" stroke-linecap="round"/>
+  <polygon points="42.81,27.77 44.53,34.72 35.66,28.28" fill="#ff4f9a"/>
+  <line x1="42.89" y1="20.67" x2="39.81" y2="19.66" stroke="#ff4f9a" stroke-width="1.5" stroke-linecap="round"/>
+  <polygon points="40.22,19.80 34.14,23.58 37.52,13.16" fill="#ff4f9a"/>
+  </g>
+  <polygon points="47.00,17.68 51.11,20.67 49.54,25.49 44.46,25.49 42.89,20.67" fill="#ff4f9a"/>
+</svg>

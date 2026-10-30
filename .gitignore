@@ -1,0 +1,12 @@
+# 설치 파일, 임시 파일
+node_modules/
+cache/
+_site/
+publish/
+screenshots/
+# 시안과 공모전 작업은 공개 저장소에 올리지 않는다
+logo-options/
+record-card/
+index.v1.html
+# 해외파 사진은 쓰지 않는다
+photos/abroad/

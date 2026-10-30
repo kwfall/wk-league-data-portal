@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<title>WK리그 Data 포스터</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+JP:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+  /* 사이트와 같은 색·글꼴 토큰. 크기는 1080×1350(인스타그램 세로)에 맞춘다. */
+  :root { --page: #f7f7f5; --surface: #fff; --ink: #111; --ink-2: #55544f; --muted: #8a8882; --line: #e5e4de; --accent: #2a78d6; --wash: rgba(17,17,17,.04);
+    --sans: "IBM Plex Sans KR", "IBM Plex Sans JP", system-ui, "Malgun Gothic", sans-serif; --mono: "IBM Plex Mono", Consolas, monospace; }
+  :root[data-theme="dark"] { --page: #0f0f10; --surface: #18181a; --ink: #f2f2f0; --ink-2: #bdbbb3; --muted: #8a8882; --line: #2a2a2d; --accent: #3987e5; --wash: rgba(255,255,255,.05); }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--page); font-family: var(--sans); color: var(--ink); }
+  #poster { width: 1080px; height: 1350px; padding: 56px 60px 44px; display: flex; flex-direction: column; background: var(--page); }
+  .top { display: flex; justify-content: space-between; align-items: baseline; font-size: 24px; }
+  .top b { font-weight: 600; display: inline-flex; align-items: center; gap: 12px; } .top b img { width: 38px; height: 38px; border-radius: 9px; } .top span { color: var(--ink-2); font-family: var(--mono); font-size: 21px; }
+  h1 { font-size: 92px; font-weight: 700; letter-spacing: -.03em; line-height: 1.05; margin: 36px 0 10px; }
+  .sub { font-size: 27px; color: var(--ink-2); margin: 0 0 30px; }
+  .list { flex: 1; display: flex; flex-direction: column; gap: 12px; min-height: 0; }
+  .row { flex: 1; min-height: 0; max-height: 190px; display: grid; grid-template-columns: 70px 112px 1fr max-content; align-items: center; gap: 22px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 0 30px 0 22px; position: relative; overflow: hidden; }
+  .row .bar { position: absolute; left: 0; bottom: 0; height: 5px; background: var(--accent); }
+  .rk { font: 500 40px var(--mono); color: var(--ink-2); text-align: center; }
+  .ph { width: 112px; height: 100%; max-height: 150px; align-self: end; object-fit: cover; object-position: top; }
+  .who { min-width: 0; }
+  .nm { font-size: 40px; font-weight: 600; letter-spacing: -.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; line-height: 1.2; }
+  .tm { display: flex; align-items: center; gap: 10px; font-size: 22px; color: var(--ink-2); margin-top: 4px; }
+  .tm img { width: 28px; height: 28px; object-fit: contain; }
+  .tm i { font: 400 20px var(--mono); font-style: normal; color: var(--muted); }
+  .val { font: 600 70px/1 var(--mono); text-align: right; }
+  .val small { font: 500 22px var(--sans); color: var(--ink-2); margin-left: 6px; }
+  .row.first { max-height: 240px; flex: 1.35; border-color: var(--ink); }
+  .row.first .nm { font-size: 50px; } .row.first .val { font-size: 96px; color: var(--accent); } .row.first .rk { color: var(--ink); font-size: 48px; }
+  .row.first .ph { max-height: 172px; width: 132px; } .row.first { grid-template-columns: 70px 132px 1fr max-content; }
+  .foot { display: flex; justify-content: space-between; gap: 20px; font-size: 19px; color: var(--muted); margin-top: 26px; line-height: 1.5; }
+</style>
+</head>
+<body>
+<div id="poster"></div>
+<div id="tip"></div>
+<script src="data.js"></script>
+<script src="history.js"></script>
+<script src="assets/model.js"></script>
+<script src="names.js"></script>
+<script src="assets/i18n.js"></script>
+<script src="assets/app.js"></script>
+<script src="assets/pages/home.js"></script>
+<script>
+  // 주소 예: poster.html?type=goals&lang=ko&theme=light&n=5   (type: goals | assists | points)
+  (function () {
+    const q = new URLSearchParams(location.search), WK = window.WK, U = WK.ui;
+    const type = q.get('type') || 'goals', n = +(q.get('n') || 5);
+    WK.lang = ['ko', 'en', 'ja'].includes(q.get('lang')) ? q.get('lang') : 'ko';
+    document.documentElement.lang = WK.lang;
+    document.documentElement.dataset.theme = q.get('theme') === 'dark' ? 'dark' : 'light';
+    const B = WK.season(q.get('season') || WK.seasons[0]);
+    const TXT = {
+      goals: { ko: ['득점 순위', '골'], en: ['Top scorers', 'goals'], ja: ['得点ランキング', '点'] },
+      assists: { ko: ['도움 순위', '도움'], en: ['Top assists', 'assists'], ja: ['アシストランキング', 'A'] },
+      points: { ko: ['공격포인트 순위', 'P'], en: ['Goals + assists', 'G+A'], ja: ['得点+アシスト', 'P'] },
+    }[type][WK.lang];
+    const L = { ko: { sub: '{y} WK리그 · {r}라운드 종료 기준', apps: '{n}경기', src: '출처 한국여자축구연맹(KWFF) 경기 기록', note: '기록이 같으면 경기 수가 적은 선수 우선 · {d} 기준' },
+      en: { sub: '{y} WK League · after round {r}', apps: '{n} apps', src: 'Source: KWFF match records', note: 'Ties: fewer matches ranks higher · as of {d}' },
+      ja: { sub: '{y} WKリーグ · 第{r}節終了時点', apps: '{n}試合', src: '出典：韓国女子サッカー連盟（KWFF）試合記録', note: '同記録は試合数の少ない選手が上位 · {d} 時点' } }[WK.lang];
+    // 모든 팀이 끝낸 가장 높은 라운드 (일찍 치른 뒤쪽 라운드 경기는 기록에는 포함하되 라운드 표기에는 쓰지 않는다)
+    const rounds = [...new Set(B.all.map((m) => m.r))].sort((a, b) => a - b);
+    const doneRound = rounds.filter((r) => B.all.filter((m) => m.r === r).every((m) => m.finished)).pop() || 0;
+    const last = B.league.reduce((a, m) => (m.datetime > a ? m.datetime : a), '').slice(0, 10).replace(/-/g, '.');
+    const list = U.leaders(B, type, n), max = list[0] ? list[0].v : 1;
+    document.getElementById('poster').innerHTML = `
+      <div class="top"><b><img src="assets/logo.svg" alt="">${WK.t('WK리그 Data')}</b><span>${last}</span></div>
+      <h1>${TXT[0]}</h1><p class="sub">${L.sub.replace('{y}', B.year).replace('{r}', doneRound)}</p>
+      <div class="list">${list.map((x, i) => `<div class="row ${x.rank === 1 ? 'first' : ''}"><div class="rk">${x.rank}</div>
+        ${x.p.photo ? `<img class="ph" src="${x.p.photo}" alt="">` : '<span></span>'}
+        <div class="who"><div class="nm">${U.pname(x.p.key)}</div><div class="tm">${WK.logo(x.teams[x.teams.length - 1]) ? `<img src="${WK.logo(x.teams[x.teams.length - 1])}" alt="">` : ''}${x.teams.map(U.tname).join(' → ')}<i>· ${L.apps.replace('{n}', x.apps)}</i></div></div>
+        <div class="val">${x.v}<small>${TXT[1]}</small></div><span class="bar" style="width:${(x.v / max) * 100}%"></span></div>`).join('')}</div>
+      <div class="foot"><span>${L.src}</span><span>${L.note.replace('{d}', last)}</span></div>`;
+    document.title = TXT[0];
+  })();
+</script>
+</body>
+</html>
