@@ -85,6 +85,8 @@ const delta = (cur, prev) => { if (prev == null) return ''; if (!prev) return cu
 
 // ── 화면 ────────────────────────────────────────────────
 export function renderAdmin({ rows = [], rowsError = null, rum = null, summary = null, range = 'week', now = new Date(), host = '' }) {
+  // 운영자가 동작 확인용으로 보낸 시험 기록(방문 번호가 selfcheck·check 로 시작)은 빼고, 글자가 깨진 상세 정보는 비운다
+  rows = rows.filter((r) => !/^(selfcheck|check)\d/.test(String(r.visit))).map((r) => (/�/.test(String(r.detail)) ? { ...r, detail: '' } : r));
   const t = todayK(now), from = rangeFrom(range, now), span = daysBetween(from, t) + 1;
   const cur = rows.filter((r) => { const d = kday(r.timestamp); return d >= from && d <= t; });
   const prevFrom = addDays(from, -span), prevTo = addDays(from, -1);
