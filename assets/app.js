@@ -110,11 +110,24 @@
     document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}</span>`; foot();
     WK.afterRender = null;
     const main = document.querySelector('main'), y = WK._keep ? scrollY : 0;
-    main.innerHTML = page ? page(B, decodeURIComponent(arg)) : `<h1>${t((NAV.find(([k]) => k === group) || [, '페이지'])[1])}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;
+    const html = page ? page(B, decodeURIComponent(arg)) : `<h1>${t((NAV.find(([k]) => k === group) || [, '페이지'])[1])}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;
+    const keep = WK._live && main.contains(WK._live) ? WK._live : null; WK._live = null;
+    if (keep) { const tpl = document.createElement('main'); tpl.innerHTML = html; if (!graft(main, tpl, keep)) main.innerHTML = html; } else main.innerHTML = html;
     scrollTo(0, y); WK._keep = false;
     const after = WK.afterRender; WK.afterRender = null; if (after) after();
   }
   WK.rerender = () => { WK._keep = true; render(); };
+  // 검색칸에 입력하는 동안에는 입력칸 자체는 그대로 두고 나머지만 바꾼다 (입력칸을 갈아끼우면 휴대폰 한글 입력이 끊겨 글자가 사라진다)
+  function graft(old, neu, keep) {
+    const a = [...old.childNodes], b = [...neu.childNodes];
+    if (a.length !== b.length) return false;
+    for (let i = 0; i < a.length; i++) {
+      if (a[i] === keep) continue;
+      if (a[i].contains && a[i].contains(keep)) { if (a[i].nodeName !== b[i].nodeName || !graft(a[i], b[i], keep)) return false; }
+      else a[i].replaceWith(b[i]);
+    }
+    return true;
+  }
   const save = (k, v) => { try { localStorage.setItem(k, v); } catch (e) { /* 저장이 막힌 환경에서는 이번 방문에만 적용 */ } };
 
   // 좁은 화면에서는 언어·화면 모드 단추를 펼친 메뉴 안으로 옮겨 윗줄에 사이트 이름이 보이게 한다
@@ -148,15 +161,17 @@
     if (el.dataset.also && el.value) { const [k, v] = el.dataset.also.split(':'); S[k] = v; }
     WK.rerender();
   });
-  // 한글은 글자를 조합하는 중에 다시 그리면 'ㄱㅣㅁ'처럼 풀리므로, 조합이 끝난 뒤에 반영한다
+  // 입력한 값으로 바로 다시 그린다. 조합이 끝날 때(compositionend)도 한 번 더 반영
   const live = (e) => {
     const el = e.target.closest && e.target.closest('[data-live]');
-    if (!el || e.isComposing) return;
+    if (!el) return;
     const k = el.dataset.live, pos = el.type === 'search' ? el.selectionStart : null;
-    S[k] = el.dataset.num ? Math.max(0, +el.value || 0) : el.value;
+    const v = el.dataset.num ? Math.max(0, +el.value || 0) : el.value;
+    if (S[k] === v) return;
+    S[k] = v; WK._live = el;
     WK.rerender();
-    const again = document.querySelector(`[data-live="${k}"]`); // 다시 그린 뒤에도 입력을 이어갈 수 있게
-    if (again) { again.focus(); if (pos != null) again.setSelectionRange(pos, pos); }
+    const again = document.querySelector(`[data-live="${k}"]`); // 입력칸이 바뀐 경우에도 입력을 이어갈 수 있게
+    if (again && again !== document.activeElement) { again.focus(); if (pos != null) again.setSelectionRange(pos, pos); }
   };
   document.addEventListener('input', live);
   document.addEventListener('compositionend', live);
