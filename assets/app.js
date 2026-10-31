@@ -69,7 +69,7 @@
     return `<div class="legend" style="margin-bottom:8px"><span><span class="dot" style="background:var(--s1)"></span>${t('득점')}</span><span><span class="dot" style="background:var(--s2)"></span>${t('실점')}</span></div><svg viewBox="0 0 ${W} ${H}" role="img">${g}</svg><details><summary>${t('표로 보기')}</summary><div class="scroll">${tbl}</div></details>`;
   };
 
-  const NAV = [['', '홈'], ['table', '순위'], ['matches', '일정·결과'], ['teams', '팀'], ['players', '선수'], ['news', '소식'], ['draft', '드래프트'], ['cup', 'W코리아컵'], ['nsf', '전국체전'], ['analysis', '팀 분석'], ['compare', '비교'], ['best', '베스트 11'], ['qor', '라운드 QOR'], ['abroad', '해외파'], ['go', '경기장 가는 길'], ['predict', '예측'], ['history', '역대 기록']];
+  const NAV = [['', '홈'], ['table', '순위'], ['matches', '일정·결과'], ['teams', '팀'], ['players', '선수'], ['news', '소식'], ['draft', '드래프트'], ['cup', 'W코리아컵'], ['nsf', '전국체전'], ['analysis', '팀 분석'], ['compare', '비교'], ['best', '베스트 11'], ['qor', '라운드 QOR'], ['go', '경기장 가는 길'], ['predict', '예측'], ['history', '역대 기록']];
   // 방문 기록: 화면(페이지)마다 머문 시간을 보낸다. 쿠키를 쓰지 않고, 창을 닫으면 사라지는 임시 번호로 한 번의 방문을 묶는다.
   const track = (() => {
     if (!/\.workers\.dev$/.test(location.hostname)) return () => {};
@@ -91,7 +91,7 @@
 
   function render() {
     const [, name = '', arg = ''] = location.hash.match(/^#\/([^/]*)\/?(.*)$/) || [];
-    track(name || 'home', ['player', 'team', 'match', 'abroad', 'cup', 'nsf'].includes(name) ? (() => { try { return decodeURIComponent(arg); } catch (e) { return arg; } })() : '');
+    track(name || 'home', ['player', 'team', 'match', 'cup', 'nsf'].includes(name) ? (() => { try { return decodeURIComponent(arg); } catch (e) { return arg; } })() : '');
     const key = name || 'home', page = WK.pages[key], B = WK.season(S.season);
     const group = { match: 'matches', team: 'teams', player: 'players', home: '' }[key] ?? name;
     document.documentElement.lang = WK.lang;

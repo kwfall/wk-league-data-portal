@@ -38,6 +38,6 @@
         ${U.card(t('선수별 선정 횟수'), multi.length ? t('두 번 이상 선정된 선수입니다.') : '', multi.length ? `<div class="scroll"><table class="stick"><thead><tr><th class="l">${t('선수')}</th><th class="l">${t('팀')}</th><th>${t('라운드 QOR')}</th></tr></thead><tbody>${multi.map((v) => `<tr><td class="l">${who(v.x)}</td><td class="l">${B.rank[v.x.team] ? U.team(B, v.x.team) : U.esc(v.x.team)}</td><td>${t('{n}회 ({r})', { n: v.rounds.length, r: v.rounds.sort((a, b) => a - b).map((r) => r + 'R').join(', ') })}</td></tr>`).join('')}</tbody></table></div>` : `<p class="foot" style="margin:0">${t('두 번 이상 선정된 선수가 없습니다.')}</p>`)}
         ${U.card(t('팀별 선정 횟수'), '', `<div class="bars">${teams.map(([tm, n]) => `<a href="${U.tHref(tm)}" class="tl">${U.logo(tm, 20)}<span class="name" title="${U.tname(tm)}">${U.tname(tm)}</span></a><div class="track"><div class="bar" style="width:${(n / max) * 100}%"></div></div><div class="val">${n}</div>`).join('')}</div>`)}
       </div>
-      <p class="foot">${t('라운드 QOR은 연맹 사이트의 팬 투표로 정해집니다(라운드마다 후보 4명). 이 표는 연맹이 공개한 선정 결과를 그대로 옮긴 것입니다. QOR이 무엇의 약자인지는 연맹 사이트에 설명이 없어 확인하지 못했습니다.')}</p>`;
+      <p class="foot">${t('라운드 QOR은 연맹 사이트의 팬 투표로 정해집니다(라운드마다 후보 4명). 이 표는 연맹이 공개한 선정 결과를 그대로 옮긴 것입니다.')}</p>`;
   };
 })();

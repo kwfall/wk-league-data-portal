@@ -1,7 +1,7 @@
 // 실시간 갱신: 켜 두면 경기 일정에 맞춰 연맹 기록을 알아서 다시 수집한다 (실시간_갱신.bat 으로 실행)
 //   경기 시작 30분 전 ~ 시작 후 3시간: 3분마다
 //   24시간 안에 경기가 있으면: 30분마다, 그 밖에는 1시간마다
-//   뉴스(scrape-news)는 확인할 때마다, 선수 정보(scrape-roster)와 해외파(scrape-abroad)는 하루에 한 번
+//   뉴스(scrape-news)는 확인할 때마다, 선수 정보(scrape-roster)는 하루에 한 번
 // 사이트(index.html)는 열어 둔 채로 1분마다 data.js 가 바뀌었는지 확인해 화면을 다시 그린다.
 // 끄려면 이 창을 닫거나 Ctrl+C 를 누른다.
 import { spawn } from 'node:child_process';
@@ -45,7 +45,7 @@ for (;;) {
   const nw = await run('scrape-news.mjs');
   console.log(`[${now()}] 뉴스 ${nw.code === 0 ? (nw.out.match(/(\d+)건/) || [])[0] || '완료' : '실패'}`);
   if (Date.now() - lastDaily > 24 * 60 * MIN) {
-    for (const f of ['scrape-roster.mjs', 'scrape-abroad.mjs']) { const x = await run(f); console.log(`[${now()}] ${f} ${x.code === 0 ? '완료' : '실패'}`); }
+    for (const f of ['scrape-roster.mjs']) { const x = await run(f); console.log(`[${now()}] ${f} ${x.code === 0 ? '완료' : '실패'}`); }
     lastDaily = Date.now();
   }
   const [wait, why] = await nextWait();

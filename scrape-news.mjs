@@ -52,9 +52,15 @@ try {
   for (const it of x.split('<item>').slice(1)) items.push({ title: tag(it, 'title'), url: tag(it, 'link'), source: 'WK League News', kind: 'en', date: iso(tag(it, 'pubDate')) });
 } catch (e) { fail.push('WK League News'); }
 
+// WK리그와 관계없는 것 거르기: 부고, 학생·유소년 대회, 대표팀 대회, 협회 일반 공지
+const OFF = /부고|모친상|부친상|별세|초등|중등|중학|고등|고교|유소년|추계|춘계|연맹전|\[KFA\]|아시안게임|Asian Games|퍼가기/i;
+// 연맹 자료와 영문 매체는 여자축구 전반을 다루므로 WK리그·대회·팀 이름이 제목에 있는 것만 남긴다 (구글 뉴스는 'WK리그' 검색 결과라 그대로)
+const ON = /WK|W코리아컵|W Korea Cup|위민|WFC|드래프트|draft/i;
+const relevant = (x) => !OFF.test(x.title) && (x.kind === 'press' || ON.test(x.title) || teamsOf(x.title).length > 0);
+
 // 정리: 날짜 있는 것만, 최근 60일, 같은 제목은 하나만
 const since = Date.now() - 60 * 864e5, seen = new Set(), key = (t) => t.replace(/[^가-힣A-Za-z0-9]/g, '').slice(0, 40);
-const out = items.filter((x) => x.title && x.url && x.date && +new Date(x.date) >= since)
+const out = items.filter((x) => x.title && x.url && x.date && +new Date(x.date) >= since && relevant(x))
   .sort((a, b) => b.date.localeCompare(a.date) || (a.kind === 'official' ? -1 : 1))
   .filter((x) => { const k = key(x.title); if (seen.has(k)) return false; seen.add(k); return true; })
   .slice(0, 120).map((x) => ({ ...x, teams: teamsOf(x.title) }));

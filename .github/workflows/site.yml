@@ -44,7 +44,7 @@ jobs:
       - name: 선수 정보·해외파 수집 (하루 한 번, 새벽 3시대)
         continue-on-error: true
         run: |
-          if [ "$(date +%H)" = "03" ]; then node scrape-roster.mjs && node scrape-abroad.mjs; else echo "건너뜀"; fi
+          if [ "$(date +%H)" = "03" ]; then node scrape-roster.mjs; else echo "건너뜀"; fi
       - name: 배포 파일 준비
         run: node tools/build-site.mjs
         env:

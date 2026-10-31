@@ -1,15 +1,35 @@
 // scrape-news.mjs 가 만든 파일입니다. 직접 고치지 마세요. 기사 제목과 링크만 담는다.
 window.WK_NEWS = {
- "updated": "2026-10-30T06:47:08.996Z",
+ "updated": "2026-10-31T14:43:18.157Z",
  "failed": [],
  "items": [
   {
-   "title": "수원FC, 10월 31일·11월 1일 연속 홈경기… 위민 정규리그 마무리·남자팀 승격 경쟁",
-   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE51S3doazBVTVJCU1FuaUV1UjBnYlVXd25MU1FSY1lmUGFjMWNqT3Qyb3RkTHlBdHdXVlM0b0VNV2JfclBubkNfYWxPTzkyZmhuWVdURXItVllxMWNzbElwRWpqTVJEOXBz?oc=5",
-   "source": "경인매일",
+   "title": "수원FC 위민, 구단 첫 자유계약 신인 원채은 영입…지소연의 러브콜에 수원행 결심",
+   "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE52V1NlTDZER0UxV2lld0RqU2FWQTdRMExpQU85aXY0WEVEODVEdFFpRUhVYzVvSWJxXzlzbUpNdGJNeDBvRTVLRmJBTVctc3hwbHUyNEVqUklTX0dCOXFZaTd3?oc=5",
+   "source": "스포츠월드",
    "kind": "press",
-   "date": "2026-10-29T08:33:53.000Z",
+   "date": "2026-10-31T04:52:10.000Z",
+   "teams": [
+    "수원FC위민"
+   ]
+  },
+  {
+   "title": "WK League playoff and championship schedule changes",
+   "url": "https://wkleaguenews.com/2026/10/30/wk-league-playoff-and-championship-schedule-changes/",
+   "source": "WK League News",
+   "kind": "en",
+   "date": "2026-10-30T13:27:50.000Z",
    "teams": []
+  },
+  {
+   "title": "[공식발표] 지소연 러브콜 통했다! 수원FC 위민, '고려대 MF' 원채은 자유계약 영입...구단 역사상 첫 FA 신인 품었다",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1wa194UTdqV2NyMkN5NGlxNnVaRVFObFBKX3JuRjRYOFliejRwLXpDTHJ6alhISmVjZ3JIbHdoQXFEemxjelZMSzRZdzd5Q3NCQjZMXw?oc=5",
+   "source": "OSEN",
+   "kind": "press",
+   "date": "2026-10-30T07:33:00.000Z",
+   "teams": [
+    "수원FC위민"
+   ]
   },
   {
    "title": "수원FC 남녀팀, 이틀 연속 홈경기…위민은 안방 최종전·남자팀은 승격 분수령",
@@ -57,12 +77,14 @@ window.WK_NEWS = {
    "teams": []
   },
   {
-   "title": "Kim Hyeri nominated for AFC Women's Player of the Year",
-   "url": "https://wkleaguenews.com/2026/10/19/kim-hyeri-nominated-for-afc-womens-player-of-the-year/",
-   "source": "WK League News",
-   "kind": "en",
-   "date": "2026-10-19T05:35:05.000Z",
-   "teams": []
+   "title": "화천KSPO 3연패 도전 쾌조의 출발…8골 터트리며 준결승 안착",
+   "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFB4cnNpaVRrQlVBZzM2dk5HZTY5WENHTEpodUZJYW4xRHctV19nUjJ6czFaUlV1MTBZc1ZOemZBdmlaOXZTdHVWeGZzUXBTd05TVm9MaWlrNHdkNEVPLXBIZzFwdFRxQVZ3?oc=5",
+   "source": "강원도민일보",
+   "kind": "press",
+   "date": "2026-10-19T14:43:46.000Z",
+   "teams": [
+    "화천KSPO"
+   ]
   },
   {
    "title": "Lee Soobin's injury time equaliser ends Sportstoto's playoff hopes",
@@ -122,6 +144,17 @@ window.WK_NEWS = {
    ]
   },
   {
+   "title": "수원FC 위민-세종 스포츠토토, W코리아컵 결승전서 초대 챔피언 자리 놓고 격돌",
+   "url": "https://news.google.com/rss/articles/CBMi4gdBVV95cUxNS0ZGUDQ2UXVCX3pWbTFzN2huQXJQdEwzQUNqSlRQRVR2N2FOVmZTQkdWMnVDVXVlN01DVkdWRmUxVzZ4SS0yZndFczhXRjNqc0ZKdGExNTVBdVpfMDE1RWlkdTlBUEFOVWZGdWZmVWx5VUdMWWhlU295eVpVeGNrVnlnaVN4SHRoOXFMdXdxTjZKMlR6cDhsT3VudksxNEtvOFJTNy1WLW1NVnRkdm5peVVCQ3paWDN0YWZxX2lvUEpHcVdORkI2TnFWZ04zTWlKaTFSSGRMZk5KVmFZMk14UlRyYlBkYmN3NWlHNVhwbUlnYnI1LTB4Y1hINEdTMmlCZ2lxMUhRR29oVFNsVTdUdzJ1OW02VVZlaHVhY043NWdrMmxKdV9UZncweUZ3LXJOMVRXSDBrbTdFdHFGVHhsRmduMlQ5bkhzMDFwUUloU1lKQmxqdllUZURFLXpuUWZHUVJIeWpBM3MxYzVscERWc1ZDemZTbGIyalppVk45bElwWWs0M2FpZjdiQ1JIaW55V2Y1QkJhLTZ4ck91bmZuQ0xUMGRWSzlCZndnaFJjYTRVb3pZUjhTdWp0N2pwVzlGaGNHSkZLV3A3amd2ZzdyRkhZS1dUc3pSTzhUeXZ5V2sxMmZZR1BTdG9peFlVT1VScmFkZW1mdUxrbXRPUTh3S29JV3JvUlB3eVdNc3g4Sjg4VjZFU2Iwa19Mb2NISG1meGlZTzdvdnNhVXRvQUxPanJaQ04xZ1RucEZzT3o4ajRJNVpoelN0bUtKejhKQkRCbGh4alRFOUtaLWJ1cWRfOWM2dUxGRjFWMHV0eFNORHRoUG4yaDBvTmRpckp1eS1TOWNKdWVFbVZwTWVnd1poRVNiMVF6ZEYxYy1QSDh3Z2RCMGJQZWJEVk1TVDlveU9CdDM5TFZUSjZsZ0xEVzdTMWgxZGZNaVVyb09PakNPSldwVThDa0hWVkFwVlg0SGxlV1VOX29rZ0syTW0zaldvd2xFWU1kWkhrODJTRk9UTG5MLUVpNWdHOG5NZ1k1amRuMmlESlAycE1CbG96NF9XM1JjQk4yVHl2VDFqN0VlVF9SWkZZZjFpNVNpRV9BWFg4RGFCM1k1VnlnaFpuaC1Db1puNXY4dktDSVhQdzloVHowNUN2RGRfNjZHQU5CazdVYXNTOTlpT0NPZkRPVUZzZlhqWmxvOG9MSldPWWplSjQ1U0hkSjlxWmFhcmxxTmNaeGROdnpJclMyOF9uNUNCNzl5dGsxZVZQdEFiTlFrUUlaaXRjVUVUdTlwcDFPSEhqZk12aGp0M1pCd1R3cFZEMERn?oc=5",
+   "source": "Goal.com",
+   "kind": "press",
+   "date": "2026-10-12T07:00:00.000Z",
+   "teams": [
+    "수원FC위민",
+    "세종스포츠토토"
+   ]
+  },
+  {
    "title": "수원FC 위민-스포츠토토, W코리아컵 초대 챔피언 자리 다툰다",
    "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5vX3k5Z3otU1JJNkdjVml6MFpodGs0dmtpT0lraWZWSC03Z1VTcDBKNW1nTndOa0NZbmptSG5JeS05cXRlMzZWVHdYbGpZRld0Q2tDNQ?oc=5",
    "source": "뉴스1",
@@ -152,8 +185,8 @@ window.WK_NEWS = {
   },
   {
    "title": "'리빙레전드' 지소연의 수원FC위민 VS '여축 신성' 김민지의 서울시청, W코리아컵 결승행 전쟁이 시작된다",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNekcxSTFTSWV0S1ZmQ1p3TXZBUVVHRXgwUWYtcUlLQjdQX09Nbk9KMWlSQjVoSlZpZGMwWWZHakVQZ1FfMF9vdHd5eW8zNTNxMVN1VFZVM2toRVdpX2RULXFSTWdJcWdiWHEzN1k3QnluSkVVQkg2U0hKWWI4bEFUWVczYw?oc=5",
-   "source": "조선일보",
+   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE5HbDJWNDBMMVhEZUh0TE0zaUZ1bmJPVldZd2tvbDVUV0VIaVEwTmlUVzl3ZTVZbDVsZXoyaEUtY0RtZGRTOGh1a3BRdUNieDQ3QWg1WTYtVnVOb2N2bGR5UldZYWpmaUpOYUxRbFJGSEpxN0tGT1d4ZkxsdmFsUQ?oc=5",
+   "source": "스포츠조선",
    "kind": "press",
    "date": "2026-10-11T07:00:00.000Z",
    "teams": [
@@ -224,22 +257,16 @@ window.WK_NEWS = {
    ]
   },
   {
-   "title": "\"오메 드디어 이겨브렀으야\" 강진스완스WFC, 리그 선두 꺾고 창단 첫 홈 승리",
-   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBqckV2WWZpdy1PNzhaWTJpOVptVWNFNGUwYlhZa2E3SEdKeVVUak1Kdm9yYkJqRWl0M2FLVV9WVzZDQ201dGE1ZWZmVHE0Qk5CbGZMeUlyVGR5REFZQk5McnhuZUR1TnB1QU95ZjNjSQ?oc=5",
-   "source": "여성신문",
+   "title": "W코리아컵 준결승 11일 개최…서울시청-수원FC, 현대제철-스포츠토토 '결승행 티켓 잡아라'",
+   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTFBWZ0JmanFsOHNPRlVwX0hIV1ZYYXhoM3pIdFV4T0VRMFlnd0VMZWpHYWNQdEszWUtDZS1IN0FTYndUNm1lRS01eEowMjFqWVU3Ry1oatIBWEFVX3lxTE1vTWZkYWQxWDNiSHJWcktGWFN1em5QZEpQbThIcUVQWEZBaFhoUFhEN3JBeWpyTGhmMGo3RGVvVGNEU3I1N3QwQzJ5cTQ5ZVRtZUdWeFJHdnc?oc=5",
+   "source": "미디어펜",
    "kind": "press",
-   "date": "2026-10-08T08:17:38.000Z",
+   "date": "2026-10-09T07:00:00.000Z",
    "teams": [
-    "강진SWANSWFC"
+    "인천현대제철",
+    "서울시청",
+    "세종스포츠토토"
    ]
-  },
-  {
-   "title": "South Korea's women return from Asian Games with bronze medal",
-   "url": "https://wkleaguenews.com/2026/10/08/south-koreas-women-return-from-asian-games-with-bronze-medal/",
-   "source": "WK League News",
-   "kind": "en",
-   "date": "2026-10-08T07:37:13.000Z",
-   "teams": []
   },
   {
    "title": "“강진 영랑구장 첫 승리”…여자축구 강진 스완스WFC, WK리그 1위 수원FC 꺾었다",
@@ -263,12 +290,14 @@ window.WK_NEWS = {
    ]
   },
   {
-   "title": "水려한합천 2026 추계 한국여자축구연맹전 경기일정 안내",
-   "url": "https://www.kwff.or.kr/notice/279",
-   "source": "한국여자축구연맹 공지",
-   "kind": "official",
-   "date": "2026-10-07T03:00:00.000Z",
-   "teams": []
+   "title": "\"오메 드디어 이겨브렀으야\" 강진스완스WFC, 리그 선두 꺾고 창단 첫 홈 승리",
+   "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBqckV2WWZpdy1PNzhaWTJpOVptVWNFNGUwYlhZa2E3SEdKeVVUak1Kdm9yYkJqRWl0M2FLVV9WVzZDQ201dGE1ZWZmVHE0Qk5CbGZMeUlyVGR5REFZQk5McnhuZUR1TnB1QU95ZjNjSQ?oc=5",
+   "source": "여성신문",
+   "kind": "press",
+   "date": "2026-10-08T07:00:00.000Z",
+   "teams": [
+    "강진SWANSWFC"
+   ]
   },
   {
    "title": "아무도 모르는 여자축구선수의 삶",
@@ -287,16 +316,6 @@ window.WK_NEWS = {
    "teams": [
     "수원FC위민",
     "세종스포츠토토"
-   ]
-  },
-  {
-   "title": "필드 플레이어로 WK리그 데뷔할 뻔한 수원FC위민 박현진 골키퍼 이야기",
-   "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTFBTakNhWmFxTTFMaFRhWGJHdzg0dVJ0a0FOOHZ4UlhwamtDZ2NTZktCQ2ZENTFwWnZ4UktucWhFbFlGMC1mbG1oNEdHV1c0YktvM3ZVUEhHVFdCLVhCSjE5U3FWRjFXMFZJbUHSAW5BVV95cUxNTWtBbkVrakpDQ0g5eC1WMG9LdVFEb2MxTFpjWVNGUy1mczJDSEVWcjdRMDZxSVlrWWtRbnpGdjVBblNxbGo0VDFHWTNtZEdhTkR4bUFNOE5maTgxd280d09NU1FBMm1PMXVJcS1MZw?oc=5",
-   "source": "스포츠니어스",
-   "kind": "press",
-   "date": "2026-10-04T07:00:00.000Z",
-   "teams": [
-    "수원FC위민"
    ]
   },
   {
@@ -345,32 +364,6 @@ window.WK_NEWS = {
    ]
   },
   {
-   "title": "水려한합천 2026 추계 한국여자축구연맹전 개최 알림",
-   "url": "https://www.kwff.or.kr/notice/273",
-   "source": "한국여자축구연맹 공지",
-   "kind": "official",
-   "date": "2026-09-30T03:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "2026 National Sports Festival schedule",
-   "url": "https://wkleaguenews.com/2026/09/29/2026-national-sports-festival-schedule/",
-   "source": "WK League News",
-   "kind": "en",
-   "date": "2026-09-29T06:42:58.000Z",
-   "teams": []
-  },
-  {
-   "title": "[부고] 유영실 씨(WK리그 서울시청 감독) 모친상",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE5odGo1empwZTh0VkJzV1pMLXJ0NWZCcFVfMGEyQW9mZFZhZU9SRUFWNnU0MmZSNlkxbFpqX0lkR2Z2YzhWSjhxd0RkVHJQTi05SjZ5ZA?oc=5",
-   "source": "뉴스1",
-   "kind": "press",
-   "date": "2026-09-24T07:00:00.000Z",
-   "teams": [
-    "서울시청"
-   ]
-  },
-  {
    "title": "[WK리그] 한채린의 동점골과 우서빈의 선방쇼.. 서울시청, 화천KSPO에 1-1 무승부",
    "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE5KczEwZGo2clk5MHpoc2R5cENGcjVhMDB6T3lxa3VDSmdxNU9pMWxXbUJDMHppc0xJQjhFZFlwOVN4b19tRkU3dWUxVFEyUjIyNGduYkdSQks0LXNlaXBQS1RRVFdtaFAzTTJ5bVF3?oc=5",
    "source": "국제뉴스",
@@ -380,24 +373,6 @@ window.WK_NEWS = {
     "화천KSPO",
     "서울시청"
    ]
-  },
-  {
-   "title": "[부고] 서울시청 유영실 감독 모친상",
-   "url": "https://www.kwff.or.kr/notice/272",
-   "source": "한국여자축구연맹 공지",
-   "kind": "official",
-   "date": "2026-09-24T03:00:00.000Z",
-   "teams": [
-    "서울시청"
-   ]
-  },
-  {
-   "title": "[KFA] 축구경기 공정성 훼손행위 집중신고 기간 안내",
-   "url": "https://www.kwff.or.kr/notice/270",
-   "source": "한국여자축구연맹 공지",
-   "kind": "official",
-   "date": "2026-09-23T03:00:00.000Z",
-   "teams": []
   },
   {
    "title": "W코리아컵 4강 대진 완성… 10월 11일 이천종합운동장서 결승 티켓 다툰다",
@@ -437,17 +412,6 @@ window.WK_NEWS = {
    ]
   },
   {
-   "title": "'더블 도전' 수원 FC 위민, 서울 시청과 격돌! W코리아컵 준결승전 대진 확정",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1VcHJlWERQMC1MSlFwZVk4MF9WWjFIdE9IbWZLdzV4WHpZUmRHdmNmSHhMbi16MlBOanlaMmN3bjRpaGZEX3N6S04yMy0wc1MxeEhDLXBSbEFHZ3Yt?oc=5",
-   "source": "네이트",
-   "kind": "press",
-   "date": "2026-09-11T08:36:00.000Z",
-   "teams": [
-    "수원FC위민",
-    "서울시청"
-   ]
-  },
-  {
    "title": "\"최후의 4팀, 결국 WK리그다\"... W코리아컵 4강 '수원FC vs 서울시청, 현대제철 vs 스포츠토토' 대진 확정 - 머니투데이",
    "url": "https://news.google.com/rss/articles/CBMiakFVX3lxTE8taWFqQmxtTHZmUWc2TjNrc1VLU1hmQzFSQ3VIUU5idXY0WXFWcng3ZThXcGUtMi05ODNHUUsxM2l1SDZMSjl5SlJwcnNkakppX2JWVFV1OUliQ0dkWjljcTJxamJfZUE5UkHSAW9BVV95cUxOWDg0YmNvOTVVb0FRdFprWS14eHVZQUlfY19sMHJvMzZRN2d1eXZsMkZxMDN0bjZVQkU4N19xa3pfNTFhaDhJX1BHanhBblVqSVp2aDE3SVVVU3dxRUJhYnBRLWZram1BcndwQ2lWeXc?oc=5",
    "source": "머니투데이",
@@ -480,27 +444,19 @@ window.WK_NEWS = {
    ]
   },
   {
-   "title": "2026 한국여자축구연맹 GK클리닉 참가신청 안내",
-   "url": "https://www.kwff.or.kr/notice/269",
-   "source": "한국여자축구연맹 공지",
-   "kind": "official",
-   "date": "2026-09-09T03:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "'걸스데이' 발언, 지소연한테 한 것 아냐... 선수 전체 향한 것' 논란, \"성인지 감수성 결함 심각\" 선수협 분노",
-   "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE8wVHprM2RIR1hOMzF3dUFHUUg5clVLRVVKU2JKWnFPUVB6Z3FHT1poallOYkVmWmdnenN6bHNBQ2lLeW5fZjgweS1vUGYyVVhIdk4yR25nZVZLT1RDdkxSTDFFMHBGdjJONWk5OWJGYnBiODZsVXc?oc=5",
-   "source": "스타뉴스",
-   "kind": "press",
-   "date": "2026-09-07T07:00:00.000Z",
-   "teams": []
-  },
-  {
    "title": "빅크-한국여자축구연맹, WK리그 디지털 팬 커뮤니티 ‘스페이스’ 오픈",
    "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFBsNFlmT1BkTWNIMlFiN3huR3psU1VkMWFyd2syWDBTejRHVlV1MXpPN0FwT3RMVmVoV1dBTkV2bXgwdHB3R1Q3VHpHZU5zOHhvUVVTVEU2ckFrZFk?oc=5",
    "source": "일간스포츠",
    "kind": "press",
    "date": "2026-09-07T00:00:00.000Z",
+   "teams": []
+  },
+  {
+   "title": "WK리그 통합 팬 커뮤니티 ‘스페이스’ 오픈…투표부터 소통까지",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE9fRDRocXBZSy1zLUtYeW1vYXdYd2x3Q3RXZ2Z0cHNROHFfMFpULWhJZEZud1I2YTRzb01HVW1UMGpsMzJDLXlGem1vRTg4VjBLbXJLWXNwN1JwTV9aMk53UFhTUmR3NXZOZkF5dk1WYUF6Zw?oc=5",
+   "source": "풋볼리스트",
+   "kind": "press",
+   "date": "2026-09-05T07:00:00.000Z",
    "teams": []
   },
   {
@@ -523,14 +479,6 @@ window.WK_NEWS = {
     "경주한수원WFC",
     "서울시청"
    ]
-  },
-  {
-   "title": "한국여자축구연맹, 초등선수 경기 경험 확대 위한 ‘2026 KWFF W초등 축구리그’ 개최",
-   "url": "https://www.kwff.or.kr/press/268",
-   "source": "한국여자축구연맹",
-   "kind": "official",
-   "date": "2026-09-05T03:00:00.000Z",
-   "teams": []
   },
   {
    "title": "한국여자축구연맹, WK리그 통합 팬 커뮤니티 '스페이스' 오픈",
@@ -574,13 +522,21 @@ window.WK_NEWS = {
   },
   {
    "title": "WK리그 화천 KSPO, ACWL 본선서 北 4.25 체육단과 '남북 대결'",
-   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE1qUmFTaWhPcWVXS0stZEhPUkJQdG90WnpxVXBKaXlCUXRzajZyVm9nN19PZjFMVmI3U05QWGlCeVU4S0FhWXBIR0d1azlXa3RaUGhKem13di1qR2tV?oc=5",
-   "source": "뉴스핌",
+   "url": "https://news.google.com/rss/articles/CBMiXEFVX3lxTE5kVWRWaVc0UDh3cHhWN2dwYTM1TVJrbFNwTHh4MnZQZDBzRlg3eVpjaDJqbXd6Yld1d1o2NkU3ZmNQVjlzQnE3N1Z5cFZDTzR2NU9LdDJmcy1GcWJz?oc=5",
+   "source": "네이트",
    "kind": "press",
-   "date": "2026-09-03T07:00:00.000Z",
+   "date": "2026-09-03T11:14:00.000Z",
    "teams": [
     "화천KSPO"
    ]
+  },
+  {
+   "title": "‘지소연 향한 부적절 발언 논란’ 대한축구협회, 해당 심판 징계 건의 대상으로 결정…공정위원회 이첩해 징계 수위 검토",
+   "url": "https://news.google.com/rss/articles/CBMickFVX3lxTE5manF6OElDamhHT1c4WmdoblJocDVCZEZCX2RRakJ5VWdwbnd4ZVVTN0RCRGRnaE51aUZDTDdrcy1EYXpfRU1jVjNFOEYxbWJHbV9NYXRmcGRXWkFCcHhMSjd0NkUxZ0FQanBlTDZWVTVKQQ?oc=5",
+   "source": "스포츠동아",
+   "kind": "press",
+   "date": "2026-09-03T07:00:00.000Z",
+   "teams": []
   },
   {
    "title": "축구협회, 여자축구 '부적절 발언' 논란 심판 징계 여부 검토 - 머니투데이",
@@ -627,70 +583,6 @@ window.WK_NEWS = {
     "경주한수원WFC",
     "서울시청"
    ]
-  },
-  {
-   "title": "'지소연 향한 WK리그 심판 발언 논란' 유승민 대한체육회장\"성별에 따른 부적절한 언행으로 선수 상처받아선 안돼...스포츠계 성인지 감수성 제고 위한 성평등위 개최 및 교육 강화\"[공식발표]",
-   "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQOFozckplTGtTR2lVd0kyUVkzMWZPSkJfcmcxN1h1TGQxN29tdEtDMVF0RXIzWUlfOEhLQ0U4QkFvYkJ1Q25aYmtNSjNjMnhSMVdmNEpjUmRtTFRjcDBETnNCcUhMVkxsNG5tS3hHV2dPazRod1NaUHFHQ003a011UXJrVQ?oc=5",
-   "source": "조선일보",
-   "kind": "press",
-   "date": "2026-09-01T07:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "대한체육회, WK리그 심판 성희롱성 발언 계기로 인권 보호 체계 점검",
-   "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBMYkhucGJrTUZmYnN3cy1EamItRVlSeGljX0Y5QkdpUkZXOFk4b211aFByVDE4bVNfNVVMeEFxRWxNZUNucnJPVWN6UG96Vnpf?oc=5",
-   "source": "문화일보",
-   "kind": "press",
-   "date": "2026-09-01T07:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "여자축구연맹, 지소연 향한 심판의 ‘부적절 발언’ 대응 착수",
-   "url": "https://news.google.com/rss/articles/CBMiZkFVX3lxTFBCYjB6RnlOVWdIQTVNMlV6UU0yMVRaWUZ6bVg4dzdxX3ZMZVpVemVEZUVESkhNTENRQXVxQmM1Slh3X0xTUFlQcEpOaHV4T1o2UU5MR2g5S0lVc21EeEJwSXFEZnlaQQ?oc=5",
-   "source": "KBS 뉴스",
-   "kind": "press",
-   "date": "2026-08-31T07:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "한국여자축구연맹, WK리그 지소연 관련 경기 중 '부적절' 발언 후속 대책 마련 착수",
-   "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE9wazM2YUw3Z0liT3BhdDdVN1I4X1N6T0JKZEU2cTZWOUsxSXFvVVJvS2MwY3Mxa3Vtb01USWhybGR4TWdMZTJPUkd1c1FSRzdNWTY0dFFuR1o1b2pPQWY2OGxQaUlXeEV3QkxuNEVQVk94YWJkb2JmdmJOdjBUZw?oc=5",
-   "source": "스포츠조선",
-   "kind": "press",
-   "date": "2026-08-31T07:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "심판이 지소연에게 \"생리하나봐\"…선수협 \"인권 침해이자 끔찍한 만행\"",
-   "url": "https://news.google.com/rss/articles/CBMia0FVX3lxTFB4dkF5Q1ljZEFvSlFNSkN0aHZ3NXlLLVFkdWtVNmJlQ3d3eER4dERrZEx1RGpmN2lsdTVKUzlreVJBRWhod0h2TUoyVEgtaE1iYWJfMF9hUG54NVRfaG9YMkk3Tk1UZjBwb2E4?oc=5",
-   "source": "한국부동산뉴스",
-   "kind": "press",
-   "date": "2026-08-31T07:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "\"韓 부끄럽고 수치스러운 일\" 지소연 향한 심판 부적절 발언, 결국 국제망신까지",
-   "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE83cm41RGVzNFc3RE9xRWtFWGdVdmNKM1FTalBQOUFmOEdrS1NaemtXN3RxTmM2X3U3cjh1RTBtRDhhaW1YdDVCclVIUWNlYWhaVkdpSnpIUkotYXIxTzlZa2RGWkpvYThhbEZ5enNGUHhSX0ZlSEE?oc=5",
-   "source": "스타뉴스",
-   "kind": "press",
-   "date": "2026-08-31T07:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "여자축구연맹, 지소연 향한 심판의 '생리하나봐' 발언 대응 착수",
-   "url": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1uTkdMaUtJa1dyNHp3WWdnc3NhbDd4R3RReEFGa2k3NnhhMjZ4LWlhcW52cV83Ym1CTU9RS01TN19NYy1pMkI3SzhVRG5ySlBnRWs3TA?oc=5",
-   "source": "뉴스1",
-   "kind": "press",
-   "date": "2026-08-31T07:00:00.000Z",
-   "teams": []
-  },
-  {
-   "title": "'걸스데이 파동' 대한축구협회는 WK리그 간담회 요청에 필히 응하기 바란다",
-   "url": "https://news.google.com/rss/articles/CBMixgdBVV95cUxNemlRczRudGxlZTNjVEc1UDd6d0xWMkEzR2U3MWFUZmh6WkF3bndaeDc5NWphTkZJckQ1dVlpd1cySnQycXN2VnRkU2FSaVVWa3RReDdzMXYzR0FKblMtUnNHbE5EN2pva2VzbXQzY0I5cU5kRTVGMHVwZzdZYVVBUnFQSzlsanFvUjUwaGcwLXpKNk9yUlFSdTdWSnJrNmZCXzBJRExDSnl5TnY5eWV5TXUtenplTmIzSU04RS1PamRuZ2F5QjRLU1hCeUt4T0dOSHFNT3lpUU9Nd01wbzJPeEY0bkx0THZseVNxdkxoaTRVal9YMnpsd1QzN2dxY2p2YXp5ZVlxS3o3eTh1V0doOWpCX0lNNzFXcHpSNVF2Wld5VXB1clJBbXpZWHp3X1RXdzJFbVd3bmx3clVhVWpuU2FubEFKT3ZkeGU5eF9WLVE0Q1BtTTh3c0J2NmVSX1RwVTQ3MVFjZTE1ZFhSaloxa0hnQmVGQUM2TlJGSG5jR2J6YUJ0MHNOX3hiMm9zdk8yY0UxU1RaOUI2ZU9rMlZNbklOeDdYdG5id3Y0OXdpS0l6MWVjendDNHEyNy1VZkJLV2dsc1hNSG5UYjJ6eWRqc0g5QkdfY1RSc3BuWEdmLXVPR1NXZEtYcXVCS3FtTW81WmpzOTBURnZhVHJMSFNGN0NPYnQ2X29odVAxLUNMbHhrVjBLcHFXdkpzX085LWNFMnA3eHhPS2RpYU9GNnh0aVJoV0x6M2dyVldYckNNZURZSUNJa0dCTnNMdjFKMzBYRkk2R2dvM0hSR1N6MEF4MDZqV0F5Z1BiLWQ3d0Q2MW5rS0RWVy1rZ1ZodnVHMFQ3azczRnhab252OG9RTmhYN2JTRUZVMGZpMS1YZDRYbjUyQjhZd0plOUExTWUycWZ1THBEdmFtOFhidExWOVhTNE5WbDdQbl9McTBMVzVGOVZCYUJFdGpNcGQ2WDZrNVVOR0NoNmVLcVpvQXhFV1N4UTRyQndvLVR3SGxSOUUyZEpyOGRjZlkxRmtoZXB6eDBtRXZDYktfUGdZTEQ0ak96QUhEU0pnNThZNENmQXdfYjZoOXEyNjZzMVdoSWpmR2hRaG9lODV0eWNqVGw4UmhUQU9GeVlDaDZZQUFSV3NIVERPcWkzbjVHcUtSeW1LTE12RW9ZMmZxcUNwXzVjeHFwS2tpTkowS2tsV3lZa1U5NGlVTFdJcEJrMHEwQWNtR2lxU1k0Rng5RmtuNXo0ejZIbkVseHlfemtJWXJ5ejdzdlNrY1FrdXc?oc=5",
-   "source": "Goal.com",
-   "kind": "press",
-   "date": "2026-08-31T07:00:00.000Z",
-   "teams": []
   }
  ]
 };
