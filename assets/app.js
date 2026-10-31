@@ -112,19 +112,21 @@
     const main = document.querySelector('main'), y = WK._keep ? scrollY : 0;
     const html = page ? page(B, decodeURIComponent(arg)) : `<h1>${t((NAV.find(([k]) => k === group) || [, '페이지'])[1])}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;
     const keep = WK._live && main.contains(WK._live) ? WK._live : null; WK._live = null;
-    if (keep) { const tpl = document.createElement('main'); tpl.innerHTML = html; if (!graft(main, tpl, keep)) main.innerHTML = html; } else main.innerHTML = html;
+    const soft = WK._soft; WK._soft = false;
+    if (keep) { const tpl = document.createElement('main'); tpl.innerHTML = html; if (graft(main, tpl, keep, true)) graft(main, tpl, keep); else if (!soft) main.innerHTML = html; } else main.innerHTML = html;
     scrollTo(0, y); WK._keep = false;
     const after = WK.afterRender; WK.afterRender = null; if (after) after();
   }
   WK.rerender = () => { WK._keep = true; render(); };
   // 검색칸에 입력하는 동안에는 입력칸 자체는 그대로 두고 나머지만 바꾼다 (입력칸을 갈아끼우면 휴대폰 한글 입력이 끊겨 글자가 사라진다)
-  function graft(old, neu, keep) {
+  // 구조가 달라 입력칸을 살릴 수 없으면(dry 로 먼저 확인) 글자 조합 중에는 다시 그리지 않고 조합이 끝난 뒤에 그린다
+  function graft(old, neu, keep, dry) {
     const a = [...old.childNodes], b = [...neu.childNodes];
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
-      if (a[i] === keep) continue;
-      if (a[i].contains && a[i].contains(keep)) { if (a[i].nodeName !== b[i].nodeName || !graft(a[i], b[i], keep)) return false; }
-      else a[i].replaceWith(b[i]);
+      if (a[i] === keep) { if (b[i].nodeName !== keep.nodeName) return false; continue; }
+      if (a[i].contains && a[i].contains(keep)) { if (a[i].nodeName !== b[i].nodeName || !graft(a[i], b[i], keep, dry)) return false; }
+      else if (!dry) a[i].replaceWith(b[i]);
     }
     return true;
   }
@@ -167,8 +169,8 @@
     if (!el) return;
     const k = el.dataset.live, pos = el.type === 'search' ? el.selectionStart : null;
     const v = el.dataset.num ? Math.max(0, +el.value || 0) : el.value;
-    if (S[k] === v) return;
-    S[k] = v; WK._live = el;
+    if (S[k] === v && e.type !== 'compositionend') return;
+    S[k] = v; WK._live = el; WK._soft = !!e.isComposing;
     WK.rerender();
     const again = document.querySelector(`[data-live="${k}"]`); // 입력칸이 바뀐 경우에도 입력을 이어갈 수 있게
     if (again && again !== document.activeElement) { again.focus(); if (pos != null) again.setSelectionRange(pos, pos); }
