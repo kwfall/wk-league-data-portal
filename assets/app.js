@@ -107,7 +107,7 @@
     const dark = document.documentElement.dataset.theme === 'dark';
     document.querySelectorAll('#lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === WK.lang));
     const tb = document.getElementById('theme'); tb.textContent = dark ? t('라이트') : t('다크'); tb.setAttribute('aria-label', dark ? t('라이트 모드로 전환') : t('다크 모드로 전환'));
-    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}<br>${t('방문 통계(지역은 시·도 단위, 화면별 머문 시간)는 개인을 알아볼 수 없는 형태로만 모읍니다. 쿠키와 IP 주소는 저장하지 않습니다.')}</span>`; foot();
+    document.querySelector('footer').innerHTML = `<a class="link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all</a> · <span id="live"></span><br><span class="mut">${t('WK리그 공식 사이트가 아닙니다. 인스타그램 @kwf.all 운영자가 만드는 비공식 팬 사이트이며, 한국여자축구연맹과 관계가 없습니다. 기록 출처: 한국여자축구연맹(KWFF)')}</span>`; foot();
     WK.afterRender = null;
     const main = document.querySelector('main'), y = WK._keep ? scrollY : 0;
     main.innerHTML = page ? page(B, decodeURIComponent(arg)) : `<h1>${t((NAV.find(([k]) => k === group) || [, '페이지'])[1])}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;
@@ -148,15 +148,18 @@
     if (el.dataset.also && el.value) { const [k, v] = el.dataset.also.split(':'); S[k] = v; }
     WK.rerender();
   });
-  document.addEventListener('input', (e) => {
-    const el = e.target.closest('[data-live]');
-    if (!el) return;
+  // 한글은 글자를 조합하는 중에 다시 그리면 'ㄱㅣㅁ'처럼 풀리므로, 조합이 끝난 뒤에 반영한다
+  const live = (e) => {
+    const el = e.target.closest && e.target.closest('[data-live]');
+    if (!el || e.isComposing) return;
     const k = el.dataset.live, pos = el.type === 'search' ? el.selectionStart : null;
     S[k] = el.dataset.num ? Math.max(0, +el.value || 0) : el.value;
     WK.rerender();
     const again = document.querySelector(`[data-live="${k}"]`); // 다시 그린 뒤에도 입력을 이어갈 수 있게
     if (again) { again.focus(); if (pos != null) again.setSelectionRange(pos, pos); }
-  });
+  };
+  document.addEventListener('input', live);
+  document.addEventListener('compositionend', live);
   document.addEventListener('keydown', (e) => { if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('th[data-sort]')) { e.preventDefault(); e.target.click(); } });
   const tip = document.getElementById('tip');
   document.addEventListener('mousemove', (e) => {
