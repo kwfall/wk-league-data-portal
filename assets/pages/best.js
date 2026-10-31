@@ -32,7 +32,9 @@
   U.best11 = (B, r) => pick(B, r);
   U.bestRounds = (B) => rounds(B).rs; // 모든 경기가 끝난 라운드, 최근 순
 
-  WK.pages.best = function (B) {
+  // 선정 방식이 공개 기록(골·도움 위주)에 치우쳐 정확하지 않아 준비 중으로 둔다. 다시 열 때는 WK.pages.best = full
+  WK.pages.best = () => `<h1>${t('라운드 베스트 11')}</h1><div class="card empty">${t('준비 중인 페이지입니다.')}</div>`;
+  const full = function (B) {
     const { rs, pending } = rounds(B);
     const wait = pending.length ? `<p class="notice">${pending.map((x) => t('{r}라운드는 {total}경기 중 {done}경기만 끝나 아직 뽑지 않았습니다.', x)).join(' ')} ${t('라운드의 모든 경기가 끝나면 뽑습니다.')}</p>` : '';
     if (!rs.length) return `<h1>${t('라운드 베스트 11')}</h1><div class="card"><p class="notice" style="margin:0">${t('이 시즌은 선수별 경기 기록이 없어 베스트 11을 뽑을 수 없습니다.')}</p></div>${wait}`;
