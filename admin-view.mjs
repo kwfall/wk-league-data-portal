@@ -246,6 +246,8 @@ export function renderAdmin({ rows = [], rowsError = null, rum = null, summary =
 
 export function page(body, title = 'WK리그 Data 관리자') {
   return `<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>${esc(title)}</title>
+<link rel="manifest" href="/manifest-admin.webmanifest"><link rel="apple-touch-icon" href="/assets/admin-apple-touch-icon.png"><meta name="theme-color" content="#d6338a"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="WK 관리자">
+<script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
 <style>
 :root{--bg:#f4f3f0;--card:#fff;--ink:#16161a;--ink2:#5f5e66;--ink3:#93929a;--line:#e6e4df;--c1:#d6338a;--c2:#3b5bdb;--c3:#0c8a73;--c4:#e8890c;--c5:#7048e8;--c6:#9a9aa3;--ok:#1b8a4b;--bad:#d1393a;--track:#efedea}
