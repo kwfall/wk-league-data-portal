@@ -88,8 +88,23 @@
         }
       }
     }
+    // 연맹 선수 순위에 나온 선수는 연맹이 집계한 숫자를 그대로 쓴다. 출전은 연맹과 같은 기준(명단에 든 경기)으로 센다.
+    const alias = {};
+    for (const a of Object.values(P)) a.played = a.apps; // 실제로 뛴 경기 수
+    for (const [k, o] of Object.entries(s.playerOfficial || {})) {
+      const a = P[k];
+      if (!a) continue;
+      // 시즌 중 팀을 옮긴 선수: 연맹은 지금 팀 한 줄로 합쳐 보여 주므로 같이 합친다 (명단 포함 횟수 합이 연맹 출전과 맞을 때만)
+      const others = Object.values(P).filter((x) => x !== a && x.name === a.name && x.team !== a.team);
+      if (others.length && others.reduce((n, x) => n + x.squad, a.squad) === o.apps) {
+        for (const x of others) { a.squad += x.squad; a.played += x.played; a.starts += x.starts; a.fullGames += x.fullGames; a.conceded += x.conceded; a.cleanSheets += x.cleanSheets; a.log.push(...x.log); alias[x.key] = a.key; delete P[x.key]; }
+        a.log.sort((p, q) => p.m.datetime.localeCompare(q.m.datetime));
+      }
+      Object.assign(a, { minutes: o.minutes, goals: o.goals, assists: o.assists, shots: o.shots, sot: o.sot, fouls: o.fouls, yellows: o.yellows, reds: o.reds, official: true });
+    }
+    for (const a of Object.values(P)) a.apps = a.squad;
     const per90 = (v, min) => (min ? (v / min) * 90 : NaN);
-    const players = Object.values(P).filter((p) => p.apps > 0).map((p) => ({
+    const players = Object.values(P).filter((p) => p.played > 0).map((p) => ({
       ...p, points: p.goals + p.assists,
       g90: per90(p.goals, p.minutes), a90: per90(p.assists, p.minutes), pt90: per90(p.goals + p.assists, p.minutes),
       s90: per90(p.shots, p.minutes), sot90: per90(p.sot, p.minutes), f90: per90(p.fouls, p.minutes),
@@ -97,6 +112,7 @@
       ga90: p.fullGames ? p.conceded / p.fullGames : NaN, csRate: p.fullGames ? p.cleanSheets / p.fullGames : NaN,
     }));
     const playerByKey = Object.fromEntries(players.map((p) => [p.key, p]));
+    for (const [from, to] of Object.entries(alias)) if (playerByKey[to]) playerByKey[from] = playerByKey[to];
     const maxMin = players.reduce((a, p) => Math.max(a, p.minutes), 0);
     const qualMin = Math.min(450, Math.round(maxMin * 0.3));
 

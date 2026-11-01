@@ -137,7 +137,7 @@
     ['합계 ({n}명)', 'Total ({n} players)', '合計（{n}人）'], ['합계 ({n}경기)', 'Total ({n} matches)', '合計（{n}試合）'],
     ['{y} WK리그 · 실제로 출전한 선수 {n}명', '{y} WK League · {n} players who took the field', '{y} WKリーグ · 実際に出場した選手 {n}人'],
     ['포지션 선택', 'Position', 'ポジションを選択'], ['전체 포지션', 'All positions', '全ポジション'], ['이름 검색', 'Search name', '名前で検索'], ['최소 출전(분)', 'Min. minutes', '最少出場（分）'],
-    ['열 제목을 누르면 정렬됩니다. 출전은 실제로 뛴 경기만 세므로, 명단 포함 횟수를 세는 연맹 사이트의 출전 수보다 적을 수 있습니다.', 'Select a column heading to sort. Appearances count only matches actually played in, so they can be lower than the federation site, which counts squad selections.', '列の見出しを押すと並べ替えます。出場は実際にプレーした試合のみ数えるため、メンバー入りの回数を数える連盟サイトの出場数より少ない場合があります。'],
+    ['열 제목을 누르면 정렬됩니다. 출전은 연맹과 같은 기준(명단에 든 경기)입니다. 연맹 선수 순위에 나온 선수는 연맹 숫자를 그대로 쓰고, 나머지 선수는 경기별 기록을 더했습니다.', 'Select a column heading to sort. Appearances follow the federation (matches in the squad). Players in the federation rankings use its figures as published; others are summed from match records.', '列見出しを押すと並べ替えます。出場は連盟と同じ基準（メンバー入りした試合）です。連盟の選手ランキングに載っている選手は連盟の数字をそのまま使い、それ以外の選手は試合ごとの記録を合計しました。'],
     ['조건에 맞는 선수가 없습니다.', 'No players match this filter.', '条件に合う選手がいません。'],
     ['공격P = 득점 + 도움 · 90분당 득점 = 득점 ÷ 출전 시간 × 90 · 득점률 = 득점 ÷ 슈팅 · 자책골은 어느 선수의 득점에도 넣지 않습니다.', 'G+A = goals + assists · Goals per 90 = goals ÷ minutes × 90 · Goals/shot = goals ÷ shots · Own goals are not credited to any player.', '得点+A = 得点 + アシスト · 90分あたり得点 = 得点 ÷ 出場時間 × 90 · 決定率 = 得点 ÷ シュート · オウンゴールはどの選手の得点にも含めません。'],
     ['{y}시즌 기록에서 해당 선수를 찾지 못했습니다. 상단에서 시즌을 확인해 주세요.', 'That player was not found in the {y} season. Check the season selector above.', '{y}シーズンの記録に該当選手が見つかりません。上部でシーズンをご確認ください。'],
@@ -160,7 +160,7 @@
     // 홈, 개인 순위
     ['{y} WK리그', '{y} WK League', '{y} WKリーグ'], ['정규리그 {n}경기 중 {m}경기 종료', 'Regular season: {m} of {n} matches played', 'レギュラーシーズン {n}試合中{m}試合終了'],
     ['개인 순위', 'Player rankings', '個人ランキング'], ['득점 순위', 'Top scorers', '得点ランキング'], ['도움 순위', 'Top assists', 'アシストランキング'], ['공격포인트 순위', 'Goals + assists', '得点+アシスト ランキング'],
-    ['기록이 같으면 경기 수가 적은 선수가 앞 순위입니다. 여기서 경기 수는 연맹 순위와 같은 기준(뛰지 않았어도 명단에 든 경기 포함)이며, 표의 출전은 실제로 뛴 경기 수입니다. 시즌 중 팀을 옮긴 선수는 두 팀 기록을 합쳤습니다.', 'When totals are equal, the player with fewer matches ranks higher. Matches here follow the federation\'s basis (squad selections, even without playing), while the Apps column counts matches actually played. For players who changed teams mid-season, records with both teams are combined.', '記録が同じ場合は試合数の少ない選手が上位です。ここでの試合数は連盟ランキングと同じ基準（出場しなくてもメンバー入りした試合を含む）で、表の「出場」は実際にプレーした試合数です。シーズン中に移籍した選手は両チームの記録を合算しています。'],
+    ['기록이 같으면 경기 수가 적은 선수가 앞 순위입니다. 출전은 연맹과 같은 기준(명단에 든 경기)이며, 시즌 중 팀을 옮긴 선수는 두 팀 기록을 합쳤습니다.', 'Ties are ranked by fewer matches. Appearances follow the federation (matches in the squad); players who moved mid-season have both clubs combined.', '記録が同じ場合は試合数が少ない選手が上位です。出場は連盟と同じ基準（メンバー入りした試合）で、シーズン途中に移籍した選手は両チームの記録を合算しました。'],
     ['기록 없음', 'No records', '記録なし'], ['선수 기록 표', 'Player records', '選手記録表'],
     ['아직 종료된 경기가 없습니다.', 'No matches have been played yet.', 'まだ終了した試合がありません。'], ['예정된 경기가 없습니다.', 'No upcoming matches.', '予定された試合がありません。'],
     ['정규리그 1위 확정: {team}', '{team} have secured first place in the regular season.', '{team}がレギュラーシーズン1位を確定させました。'],
@@ -409,6 +409,7 @@
     ['컴퓨터에서 휴대폰 화면으로 보는 중입니다.', 'Viewing the phone layout on a computer.', 'パソコンでスマートフォン画面を表示しています。'],
     ['앱으로 설치', 'Install as app', 'アプリとしてインストール'],
     ['앱으로 설치: Safari 아래쪽 공유 버튼 → 홈 화면에 추가', 'Install as app: in Safari, tap Share → Add to Home Screen', 'アプリとしてインストール：Safariの共有ボタン → ホーム画面に追加'],
+    ['합계는 경기별 기록을 더한 값이라 위의 연맹 집계와 몇 분 다를 수 있습니다.', 'The total adds up match records, so minutes may differ slightly from the federation total above.', '合計は試合ごとの記録を足した値のため、上の連盟集計と数分異なる場合があります。'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],

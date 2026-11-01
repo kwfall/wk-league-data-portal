@@ -19,7 +19,7 @@
     return `<div><h3>${t(title)}</h3><table class="lead"><thead><tr><th>${t('순위')}</th><th class="l">${t('선수')}</th><th>${t('출전')}</th><th>${t(title === '득점 순위' ? '득점' : title === '도움 순위' ? '도움' : '공격P')}</th></tr></thead>
       <tbody>${list.length ? list.map((x) => `<tr class="click" data-href="${U.pHref(x.p.key)}"><td>${x.rank}</td><td class="l"><span class="pl">${U.photo(x.p, 28)}<span class="who"><a href="${U.pHref(x.p.key)}" class="name" title="${U.pname(x.p.key)}">${U.pname(x.p.key)}</a><small>${x.teams.map((tm) => U.logo(tm, 14) + U.tname(tm)).join(' → ')}</small></span></span></td><td>${x.apps}</td><td class="strong">${x.v}</td></tr>`).join('') : `<tr><td class="l" colspan="4">${t('기록 없음')}</td></tr>`}</tbody></table></div>`;
   };
-  U.leaderCard = (B, n, right) => U.card(t('개인 순위'), t('기록이 같으면 경기 수가 적은 선수가 앞 순위입니다. 여기서 경기 수는 연맹 순위와 같은 기준(뛰지 않았어도 명단에 든 경기 포함)이며, 표의 출전은 실제로 뛴 경기 수입니다. 시즌 중 팀을 옮긴 선수는 두 팀 기록을 합쳤습니다.'),
+  U.leaderCard = (B, n, right) => U.card(t('개인 순위'), t('기록이 같으면 경기 수가 적은 선수가 앞 순위입니다. 출전은 연맹과 같은 기준(명단에 든 경기)이며, 시즌 중 팀을 옮긴 선수는 두 팀 기록을 합쳤습니다.'),
     `<div class="three">${U.leaderTable(B, '득점 순위', 'goals', n)}${U.leaderTable(B, '도움 순위', 'assists', n)}${U.leaderTable(B, '공격포인트 순위', 'points', n)}</div>${right || ''}`);
   const more = (href, label) => `<p class="more"><a class="link" href="${href}">${t(label)} →</a></p>`;
 

@@ -29,7 +29,7 @@
         <input type="search" data-live="pQ" value="${U.esc(S.pQ)}" placeholder="${t('이름 검색')}" aria-label="${t('이름 검색')}" style="width:130px">
         <label class="lbl">${t('최소 출전(분)')} <input type="number" data-live="pMin" data-num="1" value="${S.pMin}" min="0" step="90" style="width:76px"></label>
       </div></div>
-      <p class="desc" style="margin:0 0 8px">${t('열 제목을 누르면 정렬됩니다. 출전은 실제로 뛴 경기만 세므로, 명단 포함 횟수를 세는 연맹 사이트의 출전 수보다 적을 수 있습니다.')}</p>
+      <p class="desc" style="margin:0 0 8px">${t('열 제목을 누르면 정렬됩니다. 출전은 연맹과 같은 기준(명단에 든 경기)입니다. 연맹 선수 순위에 나온 선수는 연맹 숫자를 그대로 쓰고, 나머지 선수는 경기별 기록을 더했습니다.')}</p>
       <div class="scroll tall"><table class="stick sortable">
         <thead><tr>${COLS.map(([k, lab, l]) => `<th tabindex="0" data-sort="${k}" class="${l ? 'l' : ''} ${S.sort.key === k ? 'on' : ''}" aria-sort="${S.sort.key === k ? (S.sort.dir < 0 ? 'descending' : 'ascending') : 'none'}">${t(lab)}${S.sort.key === k ? (S.sort.dir < 0 ? ' ▼' : ' ▲') : ''}</th>`).join('')}</tr></thead>
         <tbody>${list.length ? list.map((p) => `<tr class="click" data-href="${U.pHref(p.key)}">${COLS.map(([k, , l]) => `<td class="${l ? 'l' : ''}">${cell(p, k)}</td>`).join('')}</tr>`).join('') : `<tr><td class="l" colspan="${COLS.length}">${t('조건에 맞는 선수가 없습니다.')}</td></tr>`}</tbody>
@@ -89,6 +89,6 @@
       ${U.card(t('포지션 내 위치'), t('같은 포지션 선수들 사이에서 이 선수의 기록이 어느 정도인지 보여 줍니다.'), pc)}
       ${pr.similar.length ? U.card(t('기록이 비슷한 선수'), t('90분당 득점·도움·슈팅·유효슈팅·파울이 가까운 같은 포지션 선수입니다.'), `<div class="scroll"><table class="stick"><thead><tr><th class="l">${t('선수')}</th><th class="l">${t('팀')}</th><th>${t('분')}</th><th>${t('90분당 득점')}</th><th>${t('90분당 도움')}</th><th>${t('90분당 슈팅')}</th></tr></thead><tbody>${pr.similar.map(({ q }) => `<tr class="click" data-href="${U.pHref(q.key)}"><td class="l"><span class="pl">${U.photo(q, 28)}<a href="${U.pHref(q.key)}" class="name">${U.pname(q.key)}</a></span></td><td class="l">${U.team(B, q.team)}</td><td>${q.minutes}</td><td>${U.f2(q.g90)}</td><td>${U.f2(q.a90)}</td><td>${U.f2(q.s90)}</td></tr>`).join('')}</tbody></table></div>`) : ''}
       ${U.card(t('경기별 기록'), t('최근 경기부터 보여 줍니다. 누르면 경기 기록으로 이동합니다.'), `<div class="scroll"><table class="stick"><thead><tr><th class="l">${t('라운드')}</th><th class="l">${t('날짜')}</th><th class="l">${t('상대')}</th><th class="l">${t('결과')}</th><th class="l">${t('선발')}</th><th>${t('분')}</th><th>${t('득점')}</th><th>${t('도움')}</th><th>${t('슈팅')}</th><th>${t('유효')}</th><th>${t('파울')}</th><th>${t('경고')}</th><th>${t('퇴장')}</th></tr></thead>
-        <tbody>${logRows}</tbody><tfoot><tr><td class="l" colspan="5">${t('합계 ({n}경기)', { n: p.log.length })}</td><td>${tot('minutes')}</td><td>${tot('goals')}</td><td>${tot('assists')}</td><td>${tot('shots')}</td><td>${tot('shotsOnTarget')}</td><td>${tot('fouls')}</td><td>${tot('yellows')}</td><td>${tot('reds')}</td></tr></tfoot></table></div>`)}`;
+        <tbody>${logRows}</tbody><tfoot><tr><td class="l" colspan="5">${t('합계 ({n}경기)', { n: p.log.length })}</td><td>${tot('minutes')}</td><td>${tot('goals')}</td><td>${tot('assists')}</td><td>${tot('shots')}</td><td>${tot('shotsOnTarget')}</td><td>${tot('fouls')}</td><td>${tot('yellows')}</td><td>${tot('reds')}</td></tr></tfoot></table></div>${p.official && tot('minutes') !== p.minutes ? `<p class="foot">${t('합계는 경기별 기록을 더한 값이라 위의 연맹 집계와 몇 분 다를 수 있습니다.')}</p>` : ''}`)}`;
   };
 })();

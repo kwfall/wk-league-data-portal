@@ -153,6 +153,23 @@ function parseOfficialTable(html) {
     .filter((r) => r.team);
 }
 
+// 연맹 선수 순위: 항목별(득점·도움·출전시간 등 10가지) 상위 30명씩만 공개되므로 모두 받아 합친다. 연맹이 집계한 숫자 그대로 쓴다.
+// 행 글자: 순위 | FW 하루히 #39 수원FC위민 | 출전 | 1361분 | 득점 | 도움 | 공격P | 슈팅 | 유효슈팅 | 파울 | 골킥 | 코너킥 | 오프사이드 | 경고 | 퇴장 …
+async function scrapePlayerRanking(season) {
+  const out = {};
+  for (const sort of ['goals', 'assists', 'ap', 'playtime', 'shots', 'sot', 'fouls', 'offsides', 'yellow', 'red']) {
+    const h = await get(`/wk-league/ranking/players?season=${season}&sort=${sort}`), body = h.slice(h.indexOf('<tbody'), h.indexOf('</tbody>'));
+    for (const row of body.split('<tr').slice(1)) {
+      const c = [...row.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((m) => tokens(m[1]).join(' ').trim());
+      const p = (c[1] || '').match(/^(\S+)\s+(.+?)\s+#(\d+)\s+(.+)$/);
+      if (!p) continue;
+      const n = (v) => (v === '-' || v == null ? 0 : parseInt(v, 10) || 0);
+      out[`${p[4]}|${p[2]}|${p[3]}`] = { apps: n(c[2]), minutes: n(c[3]), goals: n(c[4]), assists: n(c[5]), shots: n(c[7]), sot: n(c[8]), fouls: n(c[9]), yellows: n(c[13]), reds: n(c[14]) };
+    }
+  }
+  return out;
+}
+
 async function scrapeSeason(season) {
   console.log(`\n[${season}시즌] 일정 수집`);
   const byId = new Map();
@@ -183,6 +200,9 @@ async function scrapeSeason(season) {
   }
 
   const official = parseOfficialTable(await get(`/wk-league/ranking?season=${season}`));
+  let playerOfficial = {};
+  try { playerOfficial = await scrapePlayerRanking(season); } catch (e) { console.log(`  연맹 선수 순위를 받지 못함: ${e.message}`); }
+  console.log(`[${season}시즌] 연맹 선수 순위 ${Object.keys(playerOfficial).length}명`);
   // 라운드 QOR: 연맹이 라운드마다 선정해 공개하는 선수. 화면 글자는 "24 ROUND | NO.9 강태경 | 서울시청" 순서로 나온다.
   const qor = [];
   try {
@@ -199,7 +219,7 @@ async function scrapeSeason(season) {
     const t = tokens(await get('/mvp')), i = t.findIndex((x, k) => /^\d+ 라운드 QOR$/.test(x) && t[k - 1] === `WK리그 ${season}시즌`);
     if (i >= 0) qorVote = { round: parseInt(t[i], 10), period: t[i + 1], status: t[i + 2] };
   } catch (e) { /* 투표 정보는 없어도 된다 */ }
-  return { season, matches, official, qor, qorVote };
+  return { season, matches, official, playerOfficial, qor, qorVote };
 }
 
 // 선수 사진을 photos/ 폴더에 내려받고, 기록에는 내려받은 파일 경로를 넣는다 (실패하면 사진 없음)
