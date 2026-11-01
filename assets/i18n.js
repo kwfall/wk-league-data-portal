@@ -137,7 +137,7 @@
     ['합계 ({n}명)', 'Total ({n} players)', '合計（{n}人）'], ['합계 ({n}경기)', 'Total ({n} matches)', '合計（{n}試合）'],
     ['{y} WK리그 · 실제로 출전한 선수 {n}명', '{y} WK League · {n} players who took the field', '{y} WKリーグ · 実際に出場した選手 {n}人'],
     ['포지션 선택', 'Position', 'ポジションを選択'], ['전체 포지션', 'All positions', '全ポジション'], ['이름 검색', 'Search name', '名前で検索'], ['최소 출전(분)', 'Min. minutes', '最少出場（分）'],
-    ['열 제목을 누르면 정렬됩니다. 출전은 연맹과 같은 기준(명단에 든 경기)입니다. 연맹 선수 순위에 나온 선수는 연맹 숫자를 그대로 쓰고, 나머지 선수는 경기별 기록을 더했습니다.', 'Select a column heading to sort. Appearances follow the federation (matches in the squad). Players in the federation rankings use its figures as published; others are summed from match records.', '列見出しを押すと並べ替えます。出場は連盟と同じ基準（メンバー入りした試合）です。連盟の選手ランキングに載っている選手は連盟の数字をそのまま使い、それ以外の選手は試合ごとの記録を合計しました。'],
+    ['열 제목을 누르면 정렬됩니다. 출전은 연맹과 같은 기준(명단에 든 경기)입니다.', 'Select a column heading to sort. Appearances follow the federation (matches in the squad).', '列見出しを押すと並べ替えます。出場は連盟と同じ基準（メンバー入りした試合）です。'],
     ['조건에 맞는 선수가 없습니다.', 'No players match this filter.', '条件に合う選手がいません。'],
     ['공격P = 득점 + 도움 · 90분당 득점 = 득점 ÷ 출전 시간 × 90 · 득점률 = 득점 ÷ 슈팅 · 자책골은 어느 선수의 득점에도 넣지 않습니다.', 'G+A = goals + assists · Goals per 90 = goals ÷ minutes × 90 · Goals/shot = goals ÷ shots · Own goals are not credited to any player.', '得点+A = 得点 + アシスト · 90分あたり得点 = 得点 ÷ 出場時間 × 90 · 決定率 = 得点 ÷ シュート · オウンゴールはどの選手の得点にも含めません。'],
     ['{y}시즌 기록에서 해당 선수를 찾지 못했습니다. 상단에서 시즌을 확인해 주세요.', 'That player was not found in the {y} season. Check the season selector above.', '{y}シーズンの記録に該当選手が見つかりません。上部でシーズンをご確認ください。'],
@@ -410,6 +410,10 @@
     ['앱으로 설치', 'Install as app', 'アプリとしてインストール'],
     ['앱으로 설치: Safari 아래쪽 공유 버튼 → 홈 화면에 추가', 'Install as app: in Safari, tap Share → Add to Home Screen', 'アプリとしてインストール：Safariの共有ボタン → ホーム画面に追加'],
     ['합계는 경기별 기록을 더한 값이라 위의 연맹 집계와 몇 분 다를 수 있습니다.', 'The total adds up match records, so minutes may differ slightly from the federation total above.', '合計は試合ごとの記録を足した値のため、上の連盟集計と数分異なる場合があります。'],
+    ['정확한 기록은 한국여자축구연맹 사이트 기준입니다. 연맹은 선수 순위를 득점·도움·출전 시간 등 항목별 상위 30명씩만 공개합니다. 여기에 든 선수는 연맹 숫자를 그대로 옮겼고, 나머지 선수는 연맹의 경기별 기록을 더해 계산해 출전 시간 등이 연맹 집계와 조금 다를 수 있습니다.', 'The Korea Women’s Football Federation site is the authoritative record. The federation publishes player rankings only for the top 30 in each category (goals, assists, minutes and so on). Players in those lists use the federation figures as published; other players are summed from the federation’s match records, so minutes and similar figures may differ slightly from the federation total.', '正確な記録は韓国女子サッカー連盟サイトが基準です。連盟は選手ランキングを得点・アシスト・出場時間など項目ごとに上位30人ずつしか公開していません。そこに入っている選手は連盟の数字をそのまま載せ、それ以外の選手は連盟の試合ごとの記録を合計して計算したため、出場時間などが連盟の集計と少し異なる場合があります。'],
+    ['이 선수는 연맹 선수 순위(항목별 상위 30명)에 없어 연맹의 경기별 기록을 더해 계산했습니다. 출전 시간 등이 연맹 집계와 조금 다를 수 있으니 정확한 기록은 한국여자축구연맹 사이트에서 확인해 주세요.', 'This player is not in the federation rankings (top 30 per category), so figures are summed from the federation’s match records. Minutes and similar figures may differ slightly from the federation total; please check the federation site for the official record.', 'この選手は連盟の選手ランキング（項目ごとの上位30人）に入っていないため、連盟の試合ごとの記録を合計して計算しました。出場時間などが連盟の集計と少し異なる場合があるため、正確な記録は韓国女子サッカー連盟サイトでご確認ください。'],
+    ['연맹 선수 순위 보기', 'Federation player rankings', '連盟の選手ランキング'],
+    ['명단만 {c}', 'Unused sub {c}', 'ベンチのみ {c}'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],

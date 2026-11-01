@@ -29,13 +29,14 @@
         <input type="search" data-live="pQ" value="${U.esc(S.pQ)}" placeholder="${t('이름 검색')}" aria-label="${t('이름 검색')}" style="width:130px">
         <label class="lbl">${t('최소 출전(분)')} <input type="number" data-live="pMin" data-num="1" value="${S.pMin}" min="0" step="90" style="width:76px"></label>
       </div></div>
-      <p class="desc" style="margin:0 0 8px">${t('열 제목을 누르면 정렬됩니다. 출전은 연맹과 같은 기준(명단에 든 경기)입니다. 연맹 선수 순위에 나온 선수는 연맹 숫자를 그대로 쓰고, 나머지 선수는 경기별 기록을 더했습니다.')}</p>
+      <p class="desc" style="margin:0 0 8px">${t('열 제목을 누르면 정렬됩니다. 출전은 연맹과 같은 기준(명단에 든 경기)입니다.')}</p>
       <div class="scroll tall"><table class="stick sortable">
         <thead><tr>${COLS.map(([k, lab, l]) => `<th tabindex="0" data-sort="${k}" class="${l ? 'l' : ''} ${S.sort.key === k ? 'on' : ''}" aria-sort="${S.sort.key === k ? (S.sort.dir < 0 ? 'descending' : 'ascending') : 'none'}">${t(lab)}${S.sort.key === k ? (S.sort.dir < 0 ? ' ▼' : ' ▲') : ''}</th>`).join('')}</tr></thead>
         <tbody>${list.length ? list.map((p) => `<tr class="click" data-href="${U.pHref(p.key)}">${COLS.map(([k, , l]) => `<td class="${l ? 'l' : ''}">${cell(p, k)}</td>`).join('')}</tr>`).join('') : `<tr><td class="l" colspan="${COLS.length}">${t('조건에 맞는 선수가 없습니다.')}</td></tr>`}</tbody>
         ${list.length ? `<tfoot><tr>${COLS.map(([k, , l]) => `<td class="${l ? 'l' : ''}">${totCell(k)}</td>`).join('')}</tr></tfoot>` : ''}
       </table></div>
       <p class="foot"><b>${t('열 풀이')}</b> ${t('공격P = 득점 + 도움 · 90분당 득점 = 득점 ÷ 출전 시간 × 90 · 득점률 = 득점 ÷ 슈팅 · 자책골은 어느 선수의 득점에도 넣지 않습니다.')}</p>
+      <p class="notice" style="margin:10px 0 0">${t('정확한 기록은 한국여자축구연맹 사이트 기준입니다. 연맹은 선수 순위를 득점·도움·출전 시간 등 항목별 상위 30명씩만 공개합니다. 여기에 든 선수는 연맹 숫자를 그대로 옮겼고, 나머지 선수는 연맹의 경기별 기록을 더해 계산해 출전 시간 등이 연맹 집계와 조금 다를 수 있습니다.')} <a class="link" href="https://www.kwff.or.kr/wk-league/ranking/players" target="_blank" rel="noopener">${t('연맹 선수 순위 보기')} ↗</a></p>
       </section>`;
   };
 
@@ -73,13 +74,14 @@
     const cnt = [['득점', p.goals], ['도움', p.assists], ['슈팅', p.shots], ['유효슈팅', p.sot], ['유효가 아닌 슈팅', p.shots - p.sot], ['파울', p.fouls], ['경고', p.yellows], ['퇴장', p.reds]], cmax = Math.max(...cnt.map((x) => x[1]), 1);
     const viz = `<div class="pviz">${radar ? `<div>${radar}<p class="foot" style="margin:0;text-align:center">${t('바깥쪽일수록 같은 포지션에서 좋은 기록입니다. 점선은 한가운데(상위 50%)입니다.')}</p></div>` : ''}
       <div><div class="cbars">${cnt.map(([k, v]) => `<span>${t(k)}</span><div class="trk"><div class="bar" style="width:${(v / cmax) * 100}%"></div></div><b>${v}</b>`).join('')}</div>
-      <p class="foot" style="margin:12px 0 0">${t('총 출전 시간 {m}분 · 경기당 평균 {a}분', { m: p.minutes, a: Math.round(p.minutes / p.apps) })}</p></div></div>`;
+      <p class="foot" style="margin:12px 0 0">${t('총 출전 시간 {m}분 · 경기당 평균 {a}분', { m: p.minutes, a: Math.round(p.minutes / p.played) })}</p></div></div>`;
     const logRows = [...p.log].reverse().map((x) => `<tr class="click" data-href="#/match/${x.m.id}"><td class="l">${x.m.round}</td><td class="l">${U.day(x.m)}</td><td class="l">${x.home ? t('홈') : t('원정')} · <span class="name">${U.tname(x.opp)}</span></td><td class="l"><span class="res ${x.x}">${U.res(x.x)}</span> ${x.gf}:${x.ga}</td><td class="l">${x.starter ? t('선발') : t('교체')}</td><td>${x.minutes}</td><td>${x.goals}</td><td>${x.assists}</td><td>${x.shots}</td><td>${x.shotsOnTarget}</td><td>${x.fouls}</td><td>${x.yellows}</td><td>${x.reds}</td></tr>`).join('');
 
     return `${back}<div class="phead">${U.photo(p, 88)}<div><h1>${name} <span class="no" style="font-size:18px;width:auto">#${p.number ?? ''}</span></h1>
         <p class="lead" style="margin:0">${U.team(B, p.team)} · ${U.esc(p.position)} · ${t('{y}시즌', { y: B.year })}${WK.lang === 'ko' || name === U.esc(p.name) ? '' : ` · ${U.esc(p.name)}`}${qr.length ? ` · <a class="link" href="#/qor" data-tip="${qr.map((r) => r + 'R').join(', ')}">${t('라운드 QOR {n}회', { n: qr.length })}</a>` : ''}</p></div></div>
+      ${p.official ? '' : `<p class="notice">${t('이 선수는 연맹 선수 순위(항목별 상위 30명)에 없어 연맹의 경기별 기록을 더해 계산했습니다. 출전 시간 등이 연맹 집계와 조금 다를 수 있으니 정확한 기록은 한국여자축구연맹 사이트에서 확인해 주세요.')} <a class="link" href="https://www.kwff.or.kr/wk-league/ranking/players" target="_blank" rel="noopener">${t('연맹 선수 순위 보기')} ↗</a></p>`}
       <section class="card"><div class="head"><h2>${t('시즌 요약')}</h2>${U.src()}</div><div class="tiles">
-        ${U.tile(t('출전'), t('{n}경기', { n: p.apps }), t('선발 {a} · 교체 {b}', { a: p.starts, b: p.apps - p.starts }))}
+        ${U.tile(t('출전'), t('{n}경기', { n: p.apps }), t('선발 {a} · 교체 {b}', { a: p.starts, b: p.played - p.starts }) + (p.apps > p.played ? ' · ' + t('명단만 {c}', { c: p.apps - p.played }) : ''))}
         ${U.tile(t('출전 시간'), t('{n}분', { n: p.minutes }), t('팀 전체 경기 시간의 {p}', { p: U.pct(teamMin ? p.minutes / teamMin : NaN) }))}
         ${gk ? U.tile(t('무실점 경기'), p.cleanSheets, t('풀타임 {n}경기 중', { n: p.fullGames })) + U.tile(t('경기당 실점'), U.f2(p.ga90), t('풀타임 경기 기준'))
           : U.tile(t('득점 / 도움'), `${p.goals} / ${p.assists}`, t('팀 득점 {g}골 중 {p}에 관여', { g: teamGf, p: U.pct(teamGf ? p.points / teamGf : NaN) })) + U.tile(t('슈팅 / 유효슈팅'), `${p.shots} / ${p.sot}`, t('득점률 {p}', { p: U.pct(p.conv) }))}
