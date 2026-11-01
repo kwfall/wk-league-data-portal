@@ -169,11 +169,13 @@ async function scrapeSeason(season) {
   let fetched = 0;
   for (const m of finished) {
     const file = `cache/match-${m.id}.html`;
-    let html;
-    if (existsSync(file)) html = await readFile(file, 'utf8');
-    else {
+    // 저장해 둔 페이지를 다시 쓰되, 선수 기록이 비어 있거나(연맹이 경기 직후엔 기록을 늦게 올린다) 끝난 지 3일이 안 된 경기(기록 정정)는 새로 받는다
+    let html = existsSync(file) ? await readFile(file, 'utf8') : null;
+    const recent = Date.now() - new Date(m.datetime + ':00+09:00') < 3 * 864e5;
+    const empty = (h) => { const d = parseDetail(h); return !d.players || !(d.players.home.length + d.players.away.length); };
+    if (!html || recent || empty(html)) {
       html = await get(`/matches/${m.id}`);
-      await writeFile(file, html);
+      if (!empty(html)) await writeFile(file, html); // 빈 페이지는 저장하지 않아 다음에 다시 받는다
       fetched++;
       if (fetched % 10 === 0) console.log(`  ${fetched}경기 받음`);
     }
