@@ -21,11 +21,24 @@
     // 보기 방식: 모바일 버전이면 mobile 표시, 휴대폰에서 PC 버전을 고르면 컴퓨터 화면 너비로 그린다
     var md = null;
     try { md = sessionStorage.getItem('wk-mode'); } catch (e) {}
+    // 앱으로 설치해 열었으면 묻지 않고 화면 크기에 맞는 버전으로 연다
+    if (!md && (matchMedia('(display-mode: standalone)').matches || navigator.standalone)) {
+      md = matchMedia('(max-width: 900px)').matches ? 'mobile' : 'pc';
+      try { sessionStorage.setItem('wk-mode', md); } catch (e) {}
+    }
     if (md === 'mobile') document.documentElement.classList.add(window.top === window && !matchMedia('(max-width: 900px)').matches ? 'phone-frame' : 'mobile');
     if (md === 'pc' && matchMedia('(max-width: 900px)').matches) document.querySelector('meta[name=viewport]').setAttribute('content', 'width=1280');
   })();
 </script>
 <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+<!-- 앱으로 설치(홈 화면에 추가)할 때 쓰는 정보 -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta name="theme-color" content="#0b0b0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="WK리그 Data">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+JP:wght@400;500;600&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">

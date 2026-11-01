@@ -407,6 +407,8 @@
     ['한국여자축구연맹 공지', 'KWFF notice', '韓国女子サッカー連盟 告知'],
     ['{n}명', '{n} players', '{n}人'],
     ['컴퓨터에서 휴대폰 화면으로 보는 중입니다.', 'Viewing the phone layout on a computer.', 'パソコンでスマートフォン画面を表示しています。'],
+    ['앱으로 설치', 'Install as app', 'アプリとしてインストール'],
+    ['앱으로 설치: Safari 아래쪽 공유 버튼 → 홈 화면에 추가', 'Install as app: in Safari, tap Share → Add to Home Screen', 'アプリとしてインストール：Safariの共有ボタン → ホーム画面に追加'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],

@@ -13,7 +13,7 @@ let html = await readFile('index.html', 'utf8');
 const own = [...html.matchAll(/(?:src|href)="([^"]+)"/g)].map((m) => m[1]).filter((u) => !/^(https?:|#|mailto:)/.test(u));
 // 화면 코드가 그때그때 불러오는 폴더
 const dirs = ['assets', 'logos'];
-const files = new Set(own);
+const files = new Set([...own, 'sw.js']);
 for (const d of dirs) if (existsSync(d)) for (const f of await readdir(d, { recursive: true })) { const p = path.join(d, f).replace(/\\/g, '/'); if ((await stat(p)).isFile() && !/README|_draft/.test(p)) files.add(p); }
 // 선수 사진: 기록에 나오는 사진만
 { const w = {}; new Function('window', await readFile('data.js', 'utf8'))(w);

@@ -99,7 +99,7 @@
     document.querySelector('.brand span').textContent = t('WK리그 Data');
     const links = (list) => list.map(([k, l]) => `<a href="#/${k}" ${k === group ? 'aria-current="page"' : ''}>${t(l)}</a>`).join('');
     document.querySelector('nav').innerHTML = links(NAV.slice(0, 5));
-    document.querySelector('.drawer-in').innerHTML = links(NAV) + `<a class="ig-link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all ↗</a>`
+    document.querySelector('.drawer-in').innerHTML = links(NAV) + `<a class="ig-link" href="https://www.instagram.com/kwf.all/" target="_blank" rel="noopener">${t('인스타그램')} @kwf.all ↗</a>` + installLink()
       ;
     if (WK.afterTabs) WK.afterTabs();
     document.getElementById('menu').setAttribute('aria-label', t('메뉴'));
@@ -261,7 +261,26 @@
     if (e.target.closest('[data-open-menu]')) { e.stopPropagation(); WK.menu(document.getElementById('drawer').hidden); }
   }, true);
 
+  // 앱으로 설치: 안드로이드·PC 크롬/엣지는 설치 창을 띄우고, 아이폰은 방법을 알려 준다
+  let installEvt = null;
+  const standalone = () => matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+  const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+  addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); installEvt = e; if (WK.rerender) WK.rerender(); });
+  addEventListener('appinstalled', () => { installEvt = null; if (WK.rerender) WK.rerender(); });
+  function installLink() {
+    if (standalone() || window.top !== window) return '';
+    if (installEvt) return `<a class="install-link" href="#" data-install="1">${t('앱으로 설치')}</a>`;
+    if (isIOS) return `<p class="install-tip">${t('앱으로 설치: Safari 아래쪽 공유 버튼 → 홈 화면에 추가')}</p>`;
+    return '';
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('[data-install]')) return;
+    e.preventDefault(); if (!installEvt) return;
+    installEvt.prompt(); installEvt.userChoice.finally(() => { installEvt = null; WK.rerender(); });
+  });
+
   WK.start = function () {
+    if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) navigator.serviceWorker.register('/sw.js').catch(() => {});
     // 컴퓨터에서 모바일 버전: 휴대폰 크기 틀 안에 같은 사이트를 띄운다 (틀 안에서는 휴대폰 화면 규칙이 그대로 적용된다)
     if (document.documentElement.classList.contains('phone-frame')) {
       document.body.innerHTML = `<div class="pf"><div class="pf-bar"><b>${t('모바일 버전')}</b><span>${t('컴퓨터에서 휴대폰 화면으로 보는 중입니다.')}</span><button class="btn mode-top" data-mode-set="pc">${t('PC 버전')}</button></div><iframe src="${location.href}" title="${t('모바일 버전')}"></iframe></div>`;
