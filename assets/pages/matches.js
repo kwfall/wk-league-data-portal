@@ -63,9 +63,11 @@
     const F = prep(B, true);
     if (!F) return '';
     const list = F.all.filter((m) => m.datetime.startsWith(S.mMonth) && (!S.mTeam || m.home === S.mTeam || m.away === S.mTeam));
+    const cups = U.cupRow ? U.cupMatches().filter((m) => m.date.startsWith(S.mMonth) && (!S.mTeam || m.home === S.mTeam || m.away === S.mTeam)) : [];
+    const rows = [...list.map((m) => ({ k: m.datetime, d: m.datetime.slice(0, 10), html: matchRow(m) })), ...cups.map((m) => ({ k: `${m.date}T${m.time || '99:99'}`, d: m.date, html: U.cupRow(m) }))].sort((a, b) => a.k.localeCompare(b.k));
     return `<section class="card" style="margin-top:0"><div class="head"><div class="bar"><h2 style="margin-right:6px">${t(WK.mode === 'mobile' ? '이달의 경기' : '경기 달력')}</h2>${monthNav(F, false)}${teamPick(B, '')}</div>${U.src()}</div>
       <p class="desc" style="margin:0 0 4px">${S.mTeam ? t('{team} 경기만 보고 있습니다. 고른 팀은 다음에 열 때도 유지됩니다.', { team: U.tname(S.mTeam) }) : t('팀을 고르면 그 팀 경기만 볼 수 있습니다. 종료된 경기를 누르면 경기 기록으로 이동합니다.')}</p>
-      ${WK.mode === 'mobile' ? `<div class="mlist">${list.length ? list.map((m, i) => (i === 0 || list[i - 1].datetime.slice(0, 10) !== m.datetime.slice(0, 10) ? `<div class="mday">${U.date(m.datetime)}</div>` : '') + matchRow(m)).join('') : `<div class="empty">${t('이 달에는 경기가 없습니다.')}</div>`}</div>` : calendar(B, list, S.mMonth)}<p class="more"><a class="link" href="#/matches">${t('일정·결과 전체 보기')} →</a></p></section>`;
+      ${WK.mode === 'mobile' ? `<div class="mlist">${rows.length ? rows.map((r, i) => (i === 0 || rows[i - 1].d !== r.d ? `<div class="mday">${U.date(r.d)}</div>` : '') + r.html).join('') : `<div class="empty">${t('이 달에는 경기가 없습니다.')}</div>`}</div>` : calendar(B, list, S.mMonth)}<p class="more"><a class="link" href="#/matches">${t('일정·결과 전체 보기')} →</a></p></section>`;
   };
 
   WK.pages.matches = function (B) {
@@ -75,6 +77,9 @@
     const rounds = [...new Set(all.map((m) => m.round))];
     const list = all.filter((m) => (S.mMonth === 'all' || m.datetime.startsWith(S.mMonth)) && pick(m));
     const days = [...new Set(list.map(dateKey))];
+    // 목록에는 같은 기간의 코리아컵·전국체전 경기도 끼운다 (라운드를 고르면 리그 경기만)
+    const cups = S.mRound || !U.cupRow ? [] : U.cupMatches().filter((m) => (S.mMonth === 'all' || m.date.startsWith(S.mMonth)) && (!S.mTeam || m.home === S.mTeam || m.away === S.mTeam));
+    const allDays = [...new Set([...days, ...cups.map((m) => m.date)])].sort();
     const done = list.filter((m) => m.finished).length, allDone = all.filter((m) => m.finished).length;
     const view = (v, l) => `<button data-set="mView:${v}" aria-pressed="${S.mView === v}">${t(l)}</button>`, cal = S.mView === 'cal';
     const also = cal ? '' : ' data-also="mMonth:all"';
@@ -86,7 +91,7 @@
         <select data-bind="mTeam"${also} aria-label="${t('팀 선택')}"><option value="">${t('전체 팀')}</option>${B.teams.map((tm) => `<option value="${U.esc(tm)}" ${tm === S.mTeam ? 'selected' : ''}>${U.tname(tm)}</option>`).join('')}</select>
       </div>${U.src()}</div>
       <p class="desc" style="margin:0 0 4px">${S.mTeam ? `${t('{team} 경기만 보고 있습니다. 고른 팀은 다음에 열 때도 유지됩니다.', { team: U.tname(S.mTeam) })} ` : ''}${t('{n}경기 (종료 {a}, 예정 {b}) · 종료된 경기를 누르면 경기 기록으로 이동합니다.', { n: list.length, a: done, b: list.length - done })}</p>
-      ${cal ? calendar(B, list, S.mMonth) : days.length ? days.map((k) => `<h3 class="day">${U.date(k)}</h3>${list.filter((m) => dateKey(m) === k).map(matchRow).join('')}`).join('') : `<div class="empty">${t('조건에 맞는 경기가 없습니다.')}</div>`}
+      ${cal ? calendar(B, list, S.mMonth) : allDays.length ? allDays.map((k) => `<h3 class="day">${U.date(k)}</h3>${list.filter((m) => dateKey(m) === k).map(matchRow).join('')}${cups.filter((m) => m.date === k).map(U.cupRow).join('')}`).join('') : `<div class="empty">${t('조건에 맞는 경기가 없습니다.')}</div>`}
       </section>`;
   };
 

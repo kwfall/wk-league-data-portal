@@ -369,8 +369,9 @@ th.c, td.c { text-align: center; }
 @media (max-width: 760px) { .pviz { grid-template-columns: 1fr; } .spec { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* W코리아컵 */
-.chip.cupc em { font-style: normal; font-size: 10px; font-weight: 600; border-radius: 3px; padding: 0 4px; margin-right: 3px; white-space: nowrap; background: #e8f0fe; color: #1a4f93; } .chip.cupc em.c-nsf { background: #e9f6ee; color: #1f6b3a; }
-[data-theme="dark"] .chip.cupc em { background: #1d3557; color: #cfe0ff; } [data-theme="dark"] .chip.cupc em.c-nsf { background: #1f3d2b; color: #c9efd6; }
+.mrow em.ctag, .chip.cupc em { font-style: normal; font-size: 10px; font-weight: 600; border-radius: 3px; padding: 0 4px; margin-right: 3px; white-space: nowrap; background: #e8f0fe; color: #1a4f93; } .chip.cupc em.c-nsf, .mrow em.ctag.c-nsf { background: #e9f6ee; color: #1f6b3a; }
+.mrow em.ctag { font-size: 11px; margin-right: 6px; }
+[data-theme="dark"] .chip.cupc em, [data-theme="dark"] .mrow em.ctag { background: #1d3557; color: #cfe0ff; } [data-theme="dark"] .chip.cupc em.c-nsf, [data-theme="dark"] .mrow em.ctag.c-nsf { background: #1f3d2b; color: #c9efd6; }
 table.cup td.won .name { font-weight: 600; color: var(--ink); } table.cup td { vertical-align: middle; }
 .cupgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .cupm { display: grid; grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr); align-items: center; gap: 10px; background: var(--wash); border-radius: 10px; padding: 16px 12px; }

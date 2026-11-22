@@ -13,6 +13,13 @@
   const result = (m) => (done(m) ? `<b>${m.hs} : ${m.as}</b>${m.pk ? ` <span class="mut">(${t('승부차기')} ${m.pk})</span>` : ''}` : m.winner ? `<b>${t('{w} 승', { w: WK.logo(m.winner) ? U.tname(m.winner) : U.esc(t(m.winner)) })}</b>` : `<span class="mut">${t('예정')}</span>`);
   // 달력과 홈에서 쓰는 경기 목록 (대회 표시를 붙여서)
   U.cupMatches = () => COMPS.flatMap(([key, get, tag]) => ((get() || {}).matches || []).map((m, i) => ({ ...m, comp: key, tag, idx: i })).filter((m) => m.date && m.home && m.away));
+  // 일정·결과 목록에 끼우는 한 줄 (리그 경기 줄과 같은 모양, 앞에 대회 표시)
+  U.cupRow = (m) => {
+    const nm = (x) => `<span class="nm">${isWK(x) ? U.tname(x) : U.esc(t(x))}</span>`, lg = (x) => (isWK(x) ? U.logo(x) : '');
+    const sc = done(m) ? `<span class="sc">${m.hs} : ${m.as}</span>` : `<span class="sc pending">${m.winner ? t('{w} 승', { w: isWK(m.winner) ? U.tname(m.winner) : U.esc(t(m.winner)) }) : m.time || '–'}</span>`;
+    const meta = [done(m) || m.winner ? m.time : '', m.venue ? t(WK.vn(m.venue)) : '', m.pk ? `${t('승부차기')} ${m.pk}` : ''].filter(Boolean).join(' · ');
+    return `<a class="mrow" href="#/${m.comp}/${m.idx}"><span class="rd"><em class="ctag${m.comp === 'nsf' ? ' c-nsf' : ''}">${t(m.tag)}</em>${t(ROUND[m.round] || m.round)}</span><span class="tm h">${nm(m.home)}${lg(m.home)}</span>${sc}<span class="tm a">${lg(m.away)}${nm(m.away)}</span><span class="meta">${meta}</span></a>`;
+  };
   U.cupNext = (key = 'cup') => U.cupMatches().filter((m) => m.comp === key && !done(m) && !m.winner).sort((a, b) => (a.date + (a.time || '')).localeCompare(b.date + (b.time || '')));
 
   function page(key, title, lead, note, arg) {
