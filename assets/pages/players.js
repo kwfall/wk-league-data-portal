@@ -35,7 +35,7 @@
         <tbody>${list.length ? list.map((p) => `<tr class="click" data-href="${U.pHref(p.key)}">${COLS.map(([k, , l]) => `<td class="${l ? 'l' : ''}">${cell(p, k)}</td>`).join('')}</tr>`).join('') : `<tr><td class="l" colspan="${COLS.length}">${t('조건에 맞는 선수가 없습니다.')}</td></tr>`}</tbody>
         ${list.length ? `<tfoot><tr>${COLS.map(([k, , l]) => `<td class="${l ? 'l' : ''}">${totCell(k)}</td>`).join('')}</tr></tfoot>` : ''}
       </table></div>
-      <p class="foot"><b>${t('열 풀이')}</b> ${t('공격P = 득점 + 도움 · 90분당 득점 = 득점 ÷ 출전 시간 × 90 · 득점률 = 득점 ÷ 슈팅 · 자책골은 어느 선수의 득점에도 넣지 않습니다.')}</p>
+      <p class="foot"><b>${t('열 풀이')}</b> ${t('공격P = 득점 + 도움 · 90분당 득점 = 득점 ÷ 출전 시간 × 90 · 득점률 = 득점 ÷ 슈팅 · 자책골은 어느 선수의 득점에도 넣지 않습니다.')} ${t('선수별 슈팅·유효슈팅은 연맹 경기 기록에 빠진 경기가 많습니다(유효슈팅 0으로 적힌 득점이 전체의 약 30%). 슈팅·유효슈팅·득점률은 참고용으로 봐 주세요.')}</p>
       <p class="notice" style="margin:10px 0 0">${t('정확한 기록은 한국여자축구연맹 사이트 기준입니다. 연맹은 선수 순위를 득점·도움·출전 시간 등 항목별 상위 30명씩만 공개합니다. 여기에 든 선수는 연맹 숫자를 그대로 옮겼고, 나머지 선수는 연맹의 경기별 기록을 더해 계산해 출전 시간 등이 연맹 집계와 조금 다를 수 있습니다.')} <a class="link" href="https://www.kwff.or.kr/wk-league/ranking/players" target="_blank" rel="noopener">${t('연맹 선수 순위 보기')} ↗</a></p>
       </section>`;
   };

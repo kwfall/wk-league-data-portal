@@ -415,6 +415,7 @@
     ['연맹 선수 순위 보기', 'Federation player rankings', '連盟の選手ランキング'],
     ['명단만 {c}', 'Unused sub {c}', 'ベンチのみ {c}'],
     ['챔피언결정전 우승: {team}', 'Championship winner: {team}', 'チャンピオン決定戦優勝: {team}'],
+    ['선수별 슈팅·유효슈팅은 연맹 경기 기록에 빠진 경기가 많습니다(유효슈팅 0으로 적힌 득점이 전체의 약 30%). 슈팅·유효슈팅·득점률은 참고용으로 봐 주세요.', 'Many matches in the federation records lack player shot data (about 30% of goals are recorded with zero shots on target). Treat shots, shots on target and conversion rate as indicative only.', '連盟の試合記録には選手別シュートが抜けている試合が多くあります（枠内シュート0で記録された得点が全体の約30%）。シュート・枠内シュート・決定率は参考値としてご覧ください。'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],
