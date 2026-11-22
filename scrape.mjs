@@ -181,6 +181,13 @@ async function scrapeSeason(season) {
   const matches = [...byId.values()].sort((a, b) => a.datetime.localeCompare(b.datetime) || a.id - b.id);
 
   await mkdir('cache', { recursive: true });
+  // 연맹 일정 목록이 끝난 경기를 '경기중'으로 남겨 두는 경우가 있다: 시작한 지 4시간이 지났으면 경기 상세 페이지의 상태를 확인한다
+  for (const m of matches.filter((m) => !m.finished && Date.now() - new Date(m.datetime + ':00+09:00') > 4 * 3600e3 && m.homeScore != null)) {
+    try {
+      const h = await get(`/matches/${m.id}`), t = tokens(h.slice(h.indexOf('<main'), h.indexOf('</main>')));
+      if (t.includes('종료')) { m.status = '종료'; m.finished = true; console.log(`  ${m.round} ${m.home} vs ${m.away}: 목록은 '경기중'이지만 상세 페이지가 '종료'라 종료로 처리`); }
+    } catch (e) { /* 다음 수집 때 다시 확인 */ }
+  }
   const finished = matches.filter((m) => m.finished);
   console.log(`[${season}시즌] 경기 상세 수집 (종료 ${finished.length}경기)`);
   let fetched = 0;

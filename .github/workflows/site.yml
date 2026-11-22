@@ -1,7 +1,7 @@
 # WK리그 Data: 연맹 기록과 뉴스를 30분마다 다시 모아 Cloudflare(https://wk-league-data.kwfall.workers.dev/)에 배포한다.
 # 내 컴퓨터에서 고친 내용을 올려도(push) 바로 다시 배포된다. 수집이 실패하면 저장소에 있는 기록으로 배포한다.
-# 비공개 저장소의 무료 실행 시간(한 달 2,000분) 안에 들도록 30분마다 돈다.
-# 30분마다 실행 신호는 Cloudflare Worker 가 보낸다 (Cloudflare 비밀 값 GH_TOKEN 필요).
+# 실행 신호는 Cloudflare Worker 가 보낸다 (Cloudflare 비밀 값 GH_TOKEN 필요): 경기 있는 날 낮 12시~자정은 30분마다, 그 밖에는 3시간마다.
+# 코드를 올렸을 때(push)는 수집 없이 직전 수집 결과로 바로 배포해 몇 분 안에 반영되게 한다.
 # 필요한 비밀 값: CLOUDFLARE_API_TOKEN (저장소 Settings → Secrets and variables → Actions)
 name: 기록 갱신과 배포
 
@@ -35,16 +35,24 @@ jobs:
           path: cache
           key: kwff-${{ github.run_id }}
           restore-keys: kwff-
+      # 직전 수집 결과를 불러온다 (코드만 올린 경우 이것으로 배포하고, 수집이 실패해도 이것을 쓴다)
+      - name: 직전 수집 결과 불러오기
+        run: for f in data.js news.js roster.js; do if [ -f "cache/site-$f" ]; then cp "cache/site-$f" "$f"; fi; done
       - name: 경기 기록 수집
+        if: github.event_name != 'push'
         continue-on-error: true
         run: node scrape.mjs 2026
       - name: 뉴스 수집
+        if: github.event_name != 'push'
         continue-on-error: true
         run: node scrape-news.mjs
-      - name: 선수 정보·해외파 수집 (하루 한 번, 새벽 3시대)
+      - name: 선수 정보 수집 (하루 한 번, 새벽 3시대)
+        if: github.event_name != 'push'
         continue-on-error: true
         run: |
           if [ "$(date +%H)" = "03" ]; then node scrape-roster.mjs; else echo "건너뜀"; fi
+      - name: 수집 결과 보관
+        run: for f in data.js news.js roster.js; do cp "$f" "cache/site-$f"; done
       - name: 배포 파일 준비
         run: node tools/build-site.mjs
         env:

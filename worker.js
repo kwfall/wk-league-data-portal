@@ -29,8 +29,16 @@ export default {
     return html(renderAdmin({ rows: V.rows || [], rowsError: V.error || null, rum, summary, range, host: HOST }));
   },
   // 30분마다: GitHub Actions 의 '기록 갱신과 배포'를 실행시킨다
+  // 경기가 있는 날(리그·코리아컵·전국체전) 낮 12시~자정은 30분마다, 그 밖에는 3시간마다(0·3·6…시 정각) 실행한다
   async scheduled(event, env, ctx) {
     if (!env.GH_TOKEN) return;
+    const k = new Date(event.scheduledTime + 9 * 3600e3), h = k.getUTCHours(), mi = k.getUTCMinutes(), today = k.toISOString().slice(0, 10);
+    let matchDay = false;
+    try {
+      const s = await (await env.ASSETS.fetch(new Request('https://assets.local/_admin.json'))).json();
+      matchDay = [...(s.open || []).map((m) => String(m.datetime).slice(0, 10)), ...(s.comps || []).map((m) => m.date)].includes(today);
+    } catch (e) { /* 요약을 못 읽으면 3시간 간격만 지킨다 */ }
+    if (!(matchDay && h >= 12) && !(h % 3 === 0 && mi < 30)) return;
     ctx.waitUntil(fetch(`https://api.github.com/repos/${REPO}/actions/workflows/site.yml/dispatches`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${env.GH_TOKEN}`, Accept: 'application/vnd.github+json', 'User-Agent': 'wk-league-data-worker', 'X-GitHub-Api-Version': '2022-11-28' },

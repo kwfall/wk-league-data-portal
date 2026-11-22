@@ -144,7 +144,7 @@ export function renderAdmin({ rows = [], rowsError = null, rum = null, summary =
   // 사이트 상태와 할 일
   const age = (d) => (d ? Math.round((now - new Date(d)) / 60000) : null);
   const ageTxt = (a) => (a == null ? '읽지 못함' : a < 60 ? `${a}분 전` : a < 1440 ? `${Math.round(a / 60)}시간 전` : `${Math.round(a / 1440)}일 전`);
-  const dA = age(summary && summary.dataUpdated), nA = age(summary && summary.newsUpdated), stale = dA == null || dA > 120;
+  const dA = age(summary && summary.dataUpdated), nA = age(summary && summary.newsUpdated), stale = dA == null || dA > 240;
   const todo = [];
   for (const m of (summary && summary.comps) || []) if (m.date < t && !m.done) todo.push(`${m.name} ${m.date} ${m.home} vs ${m.away} 결과 입력`);
   if (summary && summary.draft && !summary.draft.candidates && now > new Date(summary.draft.applyTo)) todo.push('드래프트 신청자 명단 정리');
@@ -219,7 +219,7 @@ export function renderAdmin({ rows = [], rowsError = null, rum = null, summary =
       <p class="note">Cloudflare가 30분마다 GitHub에 실행 신호를 보내고, 수집이 실패하면 직전 기록으로 배포합니다.</p></section>
     <section class="card"><div class="ch"><h2>데이터 품질 점검</h2><span>분석 전에 확인하는 것</span></div>
       <ul class="qc">
-        <li class="${stale ? 'bad' : 'ok'}"><b>최신성</b><span>연맹 기록 ${ageTxt(dA)} 수집 (2시간 넘으면 경고)</span></li>
+        <li class="${stale ? 'bad' : 'ok'}"><b>최신성</b><span>연맹 기록 ${ageTxt(dA)} 수집 (4시간 넘으면 경고)</span></li>
         <li class="ok"><b>기록 수</b><span>최근 3개월 ${fmt(rawN)}줄 · 이 기간 ${fmt(cur.length)}줄</span></li>
         <li class="${testN ? 'warn' : 'ok'}"><b>시험 기록 제외</b><span>운영자 확인용 ${fmt(testN)}줄 분석에서 뺌</span></li>
         <li class="${brokenN ? 'warn' : 'ok'}"><b>깨진 글자</b><span>${fmt(brokenN)}줄 (해당 칸만 비우고 셈)</span></li>
