@@ -37,7 +37,7 @@ jobs:
           restore-keys: kwff-
       # 직전 수집 결과를 불러온다 (코드만 올린 경우 이것으로 배포하고, 수집이 실패해도 이것을 쓴다)
       - name: 직전 수집 결과 불러오기
-        run: for f in data.js news.js roster.js; do if [ -f "cache/site-$f" ]; then cp "cache/site-$f" "$f"; fi; done
+        run: node tools/restore-cache.mjs
       - name: 경기 기록 수집
         if: github.event_name != 'push'
         continue-on-error: true
