@@ -31,7 +31,8 @@
     const ev = (window.WK_EVENTS || []).filter((e) => String(e.season) === String(B.year)).sort((a, b) => b.date.localeCompare(a.date)).slice(0, 6);
     const TYPE = { in: '영입', out: '이적', coach: '감독', league: '리그' };
     const qor = U.qor ? U.qor(B).slice(0, 4) : [];
-    const status = !done ? t('아직 종료된 경기가 없습니다.') : B.clinched ? t('정규리그 1위 확정: {team}', { team: `<a class="link" href="${U.tHref(B.clinched)}">${U.tname(B.clinched)}</a>` })
+    const champ = B.champion ? ` · ${t('챔피언결정전 우승: {team}', { team: `<a class="link" href="${U.tHref(B.champion)}">${U.tname(B.champion)}</a>` })}` : '';
+    const status = !done ? t('아직 종료된 경기가 없습니다.') : !B.upcoming.length ? t('정규리그 종료 · 1위: {team} (승점 {p})', { team: `<a class="link" href="${U.tHref(B.table[0].team)}">${U.tname(B.table[0].team)}</a>`, p: B.table[0].pts }) + champ : B.clinched ? t('정규리그 1위 확정: {team}', { team: `<a class="link" href="${U.tHref(B.clinched)}">${U.tname(B.clinched)}</a>` })
       : B.upcoming.length ? t('현재 1위: {team} (승점 {p})', { team: `<a class="link" href="${U.tHref(B.table[0].team)}">${U.tname(B.table[0].team)}</a>`, p: B.table[0].pts })
       : t('정규리그 종료 · 1위: {team} (승점 {p})', { team: `<a class="link" href="${U.tHref(B.table[0].team)}">${U.tname(B.table[0].team)}</a>`, p: B.table[0].pts });
 

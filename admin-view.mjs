@@ -148,6 +148,9 @@ export function renderAdmin({ rows = [], rowsError = null, rum = null, summary =
   const todo = [];
   for (const m of (summary && summary.comps) || []) if (m.date < t && !m.done) todo.push(`${m.name} ${m.date} ${m.home} vs ${m.away} 결과 입력`);
   if (summary && summary.draft && !summary.draft.candidates && now > new Date(summary.draft.applyTo)) todo.push('드래프트 신청자 명단 정리');
+  for (const x of (summary && summary.noDetail) || []) todo.push(`${x}: 경기가 끝난 지 2일이 지났는데 연맹에 선수 기록이 없음 (연맹 페이지 확인)`);
+  if (summary && summary.tableDiff && summary.tableDiff.length) todo.push(`연맹 순위표와 경기 결과 합계가 다른 팀: ${summary.tableDiff.join(', ')}`);
+  if (summary && summary.rosterUpdated && now - new Date(summary.rosterUpdated) > 3 * 864e5) todo.push('선수 정보(등번호·통산 기록)가 3일 넘게 갱신되지 않음');
   for (const m of ((summary && summary.open) || []).filter((m) => new Date(m.datetime + ':00+09:00') < new Date(now - 3 * 3600e3))) todo.push(`${m.round} ${m.home} vs ${m.away}: 시간이 지났는데 종료 표시 없음`);
 
   const rumBlock = !rum ? '' : rum.error ? `<p class="empty">${esc(rum.error)}</p>` : (() => {

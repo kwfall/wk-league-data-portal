@@ -414,6 +414,7 @@
     ['이 선수는 연맹 선수 순위(항목별 상위 30명)에 없어 연맹의 경기별 기록을 더해 계산했습니다. 출전 시간 등이 연맹 집계와 조금 다를 수 있으니 정확한 기록은 한국여자축구연맹 사이트에서 확인해 주세요.', 'This player is not in the federation rankings (top 30 per category), so figures are summed from the federation’s match records. Minutes and similar figures may differ slightly from the federation total; please check the federation site for the official record.', 'この選手は連盟の選手ランキング（項目ごとの上位30人）に入っていないため、連盟の試合ごとの記録を合計して計算しました。出場時間などが連盟の集計と少し異なる場合があるため、正確な記録は韓国女子サッカー連盟サイトでご確認ください。'],
     ['연맹 선수 순위 보기', 'Federation player rankings', '連盟の選手ランキング'],
     ['명단만 {c}', 'Unused sub {c}', 'ベンチのみ {c}'],
+    ['챔피언결정전 우승: {team}', 'Championship winner: {team}', 'チャンピオン決定戦優勝: {team}'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],

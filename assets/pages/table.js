@@ -8,7 +8,7 @@
     const zone = (r) => (S.tableMode !== 'all' ? '' : r.rank === 1 ? 'class="zone" style="--zc:var(--s1)"' : r.rank <= 3 ? 'class="zone" style="--zc:var(--s3)"' : '');
     return `<div class="scroll"><table class="${S.tableWide ? 'wide' : 'compact'}">
       <thead><tr><th>${t('순위')}</th><th class="l">${t('팀')}</th><th>${t('경기')}</th><th>${t('승점')}</th><th class="x">${t('승')}</th><th class="x">${t('무')}</th><th class="x">${t('패')}</th><th class="x">${t('득점')}</th><th class="x">${t('실점')}</th><th>${t('득실')}</th><th class="l x">${t('최근 5경기')}</th></tr></thead>
-      <tbody>${rows.map((r) => `<tr class="click" data-href="${U.tHref(r.team)}"><td ${zone(r)}>${r.rank}</td><td class="l">${U.team(B, r.team)}${S.tableMode === 'all' && B.clinched === r.team ? ` <span class="tag good">${t('정규리그 1위 확정')}</span>` : ''}</td><td>${r.p}</td><td class="strong">${r.pts}</td><td class="x">${r.w}</td><td class="x">${r.d}</td><td class="x">${r.l}</td><td class="x">${r.gf}</td><td class="x">${r.ga}</td><td>${U.sgn(r.gd)}</td><td class="l x">${U.form(r.form)}</td></tr>`).join('')}</tbody></table></div>`;
+      <tbody>${rows.map((r) => `<tr class="click" data-href="${U.tHref(r.team)}"><td ${zone(r)}>${r.rank}</td><td class="l">${U.team(B, r.team)}${S.tableMode === 'all' && B.clinched === r.team ? ` <span class="tag good">${t(B.upcoming.length ? '정규리그 1위 확정' : '정규리그 1위')}</span>` : ''}</td><td>${r.p}</td><td class="strong">${r.pts}</td><td class="x">${r.w}</td><td class="x">${r.d}</td><td class="x">${r.l}</td><td class="x">${r.gf}</td><td class="x">${r.ga}</td><td>${U.sgn(r.gd)}</td><td class="l x">${U.form(r.form)}</td></tr>`).join('')}</tbody></table></div>`;
   }
 
   function bump(B) {
@@ -49,7 +49,7 @@
         <p class="desc" style="margin:0 0 10px">${t(modeNote)}</p>
         ${standings(B)}
         ${S.tableMode === 'all' ? `<div class="legend" style="margin-top:12px"><span><span class="key" style="--zc:var(--s1)"></span>${t('1위 챔피언결정전 직행')}</span><span><span class="key" style="--zc:var(--s3)"></span>${t('2~3위 플레이오프')}</span></div>` : ''}
-        ${B.clinched ? `<p class="foot"><b>${t('정규리그 1위 확정')}</b> ${t('{team}: 다른 팀이 남은 경기를 모두 이겨도 승점에서 앞서 정규리그 1위가 확정됐습니다.', { team: U.tname(B.clinched) })}</p>` : ''}
+        ${B.clinched && B.upcoming.length ? `<p class="foot"><b>${t('정규리그 1위 확정')}</b> ${t('{team}: 다른 팀이 남은 경기를 모두 이겨도 승점에서 앞서 정규리그 1위가 확정됐습니다.', { team: U.tname(B.clinched) })}</p>` : ''}
         <p class="foot" style="margin-top:0"><b>${t('순위 결정')}</b> ${t('승점(승 3, 무 1) → 득실차 → 다득점 순으로 계산했습니다. 대회 규정의 동률 처리 기준과 포스트시즌 진출 방식은 연맹 자료로 확인하지 못해 확인이 필요합니다.')}<br><b>${t('열 풀이')}</b> ${t('득실 = 득점 − 실점 · 최근 5경기는 오른쪽이 가장 최근이며 누르면 해당 경기로 이동합니다.')}</p>
       </section>
       ${U.card(t('라운드별 순위 변동'), t('각 라운드까지의 누적 순위입니다. 팀 이름이나 선을 누르면 그 팀만 진하게 보이고, 다시 누르면 풀립니다. 순연된 경기는 원래 라운드에 포함해 계산했습니다.'), bump(B))}

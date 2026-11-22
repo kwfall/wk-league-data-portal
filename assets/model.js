@@ -129,6 +129,14 @@
     const left = (tm) => upcoming.filter((m) => m.home === tm || m.away === tm).length;
     const lead = table[0];
     const clinched = lead && league.length > 0 && table.slice(1).every((r) => r.pts + 3 * left(r.team) < lead.pts) ? lead.team : null;
+    // 챔피언결정전 우승: 챔피언결정전 경기가 모두 끝났고 합계 득점(연장 포함)이 갈렸을 때만 정한다
+    let champion = null;
+    { const cf = post.filter((m) => /^CF/.test(m.round)), agg = {};
+      if (cf.length && cf.every((m) => m.finished)) {
+        for (const m of cf) { agg[m.home] = (agg[m.home] || 0) + m.homeScore; agg[m.away] = (agg[m.away] || 0) + m.awayScore; }
+        const [x, z] = Object.entries(agg).sort((p, q) => q[1] - p[1]);
+        if (z && x[1] > z[1]) champion = x[0];
+      } }
     // 같은 이름으로 두 팀에서 뛰었고 기간이 겹치지 않으면 시즌 중 이적으로 본다 (기간이 겹치면 동명이인)
     const byName = {};
     for (const p of players) (byName[p.name] ||= []).push(p);
@@ -139,7 +147,7 @@
       if (a.log[a.log.length - 1].m.datetime < b.log[0].m.datetime) movers.push({ from: a, to: b, last: a.log[a.log.length - 1].m.datetime.slice(0, 10), first: b.log[0].m.datetime.slice(0, 10) });
     }
 
-    return (cache[y] = { year: y, clinched, movers, s, all, teams, league, upcoming, post, color, byId, table, rank, maxR, totalR, history, T, timing, players, playerByKey, qualMin, streaks, hasDetail: players.length > 0 });
+    return (cache[y] = { year: y, clinched, champion, movers, s, all, teams, league, upcoming, post, color, byId, table, rank, maxR, totalR, history, T, timing, players, playerByKey, qualMin, streaks, hasDetail: players.length > 0 });
   };
 
   // ---------- 예측: 팀별 기대 득점·실점(포아송 모형) + 남은 일정 모의실험 ----------
@@ -315,14 +323,7 @@
       const B = WK.season(y);
       if (!B.league.length) continue;
       const done = !B.upcoming.length;
-      let champion = null;
-      const finals = B.post.filter((m) => /^CF/.test(m.round) && m.finished);
-      if (finals.length) {
-        const agg = {};
-        for (const m of finals) { agg[m.home] = (agg[m.home] || 0) + m.homeScore; agg[m.away] = (agg[m.away] || 0) + m.awayScore; }
-        const [x, z] = Object.entries(agg).sort((p, q) => q[1] - p[1]);
-        if (z && x[1] > z[1]) champion = CLUB_BY_NAME[x[0]];
-      }
+      const champion = B.champion ? CLUB_BY_NAME[B.champion] : null;
       seasons[y] = { year: +y, done, champion, src: 'kwff', table: B.table.map((r) => ({ rank: r.rank, club: CLUB_BY_NAME[r.team] || r.team, p: r.p, w: r.w, d: r.d, l: r.l, gf: r.gf, ga: r.ga, pts: r.pts })) };
     }
     const years = Object.keys(seasons).map(Number).sort((a, b) => a - b);

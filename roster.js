@@ -1,12 +1,12 @@
 // scrape-roster.mjs 가 만든 파일입니다. 직접 고치지 마세요.
 window.WK_ROSTER = {
- "updated": "2026-10-29T05:55:03.246Z",
+ "updated": "2026-11-22T11:43:53.492Z",
  "source": "https://www.kwff.or.kr/wk-league/clubs",
  "bornSource": "https://en.wikipedia.org/wiki/South_Korea_women's_national_football_team",
  "players": {
   "강진SWANSWFC|김예린|1": {
    "position": "GK",
-   "totalApps": 50,
+   "totalApps": 51,
    "totalGoals": 0,
    "totalAssists": 0
   },
@@ -18,13 +18,13 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|구가람|4": {
    "position": "DF",
-   "totalApps": 12,
+   "totalApps": 13,
    "totalGoals": 0,
    "totalAssists": 0
   },
   "강진SWANSWFC|김혜영|5": {
    "position": "DF",
-   "totalApps": 153,
+   "totalApps": 154,
    "totalGoals": 8,
    "totalAssists": 0
   },
@@ -48,13 +48,13 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|이영서|9": {
    "position": "FW",
-   "totalApps": 117,
+   "totalApps": 118,
    "totalGoals": 8,
    "totalAssists": 1
   },
   "강진SWANSWFC|이소희|10": {
    "position": "MF",
-   "totalApps": 122,
+   "totalApps": 123,
    "totalGoals": 4,
    "totalAssists": 6
   },
@@ -67,7 +67,7 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|이예솔|12": {
    "position": "DF",
-   "totalApps": 44,
+   "totalApps": 45,
    "totalGoals": 1,
    "totalAssists": 2
   },
@@ -79,13 +79,13 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|곽로영|14": {
    "position": "FW",
-   "totalApps": 59,
+   "totalApps": 60,
    "totalGoals": 4,
    "totalAssists": 2
   },
   "강진SWANSWFC|이효경|15": {
    "position": "DF",
-   "totalApps": 89,
+   "totalApps": 90,
    "totalGoals": 6,
    "totalAssists": 0
   },
@@ -97,7 +97,7 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|이덕주|17": {
    "position": "DF",
-   "totalApps": 61,
+   "totalApps": 62,
    "totalGoals": 0,
    "totalAssists": 1
   },
@@ -110,13 +110,13 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|김성미|19": {
    "position": "MF",
-   "totalApps": 163,
+   "totalApps": 164,
    "totalGoals": 26,
    "totalAssists": 12
   },
   "강진SWANSWFC|최은형|20": {
    "position": "MF",
-   "totalApps": 24,
+   "totalApps": 25,
    "totalGoals": 0,
    "totalAssists": 0
   },
@@ -128,7 +128,7 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|양은서|22": {
    "position": "MF",
-   "totalApps": 19,
+   "totalApps": 20,
    "totalGoals": 2,
    "totalAssists": 2
   },
@@ -152,7 +152,7 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|박가현|27": {
    "position": "FW",
-   "totalApps": 28,
+   "totalApps": 29,
    "totalGoals": 1,
    "totalAssists": 1
   },
@@ -164,13 +164,13 @@ window.WK_ROSTER = {
   },
   "강진SWANSWFC|고다영|33": {
    "position": "MF",
-   "totalApps": 53,
+   "totalApps": 54,
    "totalGoals": 0,
    "totalAssists": 2
   },
   "강진SWANSWFC|강채림|47": {
    "position": "FW",
-   "totalApps": 133,
+   "totalApps": 134,
    "totalGoals": 41,
    "totalAssists": 5,
    "born": "1998-03-23"
@@ -183,7 +183,7 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|김진희|2": {
    "position": "DF",
-   "totalApps": 181,
+   "totalApps": 182,
    "totalGoals": 2,
    "totalAssists": 11,
    "born": "1998-10-07"
@@ -202,7 +202,7 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|김혜지|7": {
    "position": "MF",
-   "totalApps": 103,
+   "totalApps": 104,
    "totalGoals": 5,
    "totalAssists": 8
   },
@@ -214,7 +214,7 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|쿄카와|9": {
    "position": "FW",
-   "totalApps": 80,
+   "totalApps": 81,
    "totalGoals": 39,
    "totalAssists": 7
   },
@@ -226,9 +226,9 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|현슬기|11": {
    "position": "FW",
-   "totalApps": 115,
-   "totalGoals": 15,
-   "totalAssists": 8,
+   "totalApps": 116,
+   "totalGoals": 17,
+   "totalAssists": 9,
    "born": "2001-01-28"
   },
   "경주한수원WFC|곽민정|12": {
@@ -239,8 +239,8 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|전은하|14": {
    "position": "MF",
-   "totalApps": 260,
-   "totalGoals": 48,
+   "totalApps": 261,
+   "totalGoals": 49,
    "totalAssists": 36
   },
   "경주한수원WFC|오서연|15": {
@@ -251,14 +251,14 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|장슬기|16": {
    "position": "MF",
-   "totalApps": 270,
+   "totalApps": 271,
    "totalGoals": 72,
    "totalAssists": 63,
    "born": "1994-05-31"
   },
   "경주한수원WFC|이영주|17": {
    "position": "MF",
-   "totalApps": 192,
+   "totalApps": 193,
    "totalGoals": 13,
    "totalAssists": 11
   },
@@ -276,9 +276,9 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|노진영|21": {
    "position": "MF",
-   "totalApps": 116,
+   "totalApps": 117,
    "totalGoals": 16,
-   "totalAssists": 2,
+   "totalAssists": 3,
    "born": "2000-06-03"
   },
   "경주한수원WFC|정영아|22": {
@@ -289,13 +289,13 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|홍혜지|23": {
    "position": "DF",
-   "totalApps": 140,
+   "totalApps": 141,
    "totalGoals": 8,
    "totalAssists": 5
   },
   "경주한수원WFC|전하늘|24": {
    "position": "GK",
-   "totalApps": 167,
+   "totalApps": 168,
    "totalGoals": 0,
    "totalAssists": 0
   },
@@ -308,9 +308,9 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|문미라|27": {
    "position": "FW",
-   "totalApps": 353,
+   "totalApps": 354,
    "totalGoals": 125,
-   "totalAssists": 25
+   "totalAssists": 26
   },
   "경주한수원WFC|엄민경|28": {
    "position": "DF",
@@ -320,7 +320,7 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|심효정|29": {
    "position": "MF",
-   "totalApps": 114,
+   "totalApps": 115,
    "totalGoals": 7,
    "totalAssists": 3
   },
@@ -338,13 +338,13 @@ window.WK_ROSTER = {
   },
   "경주한수원WFC|나카지마에미|35": {
    "position": "MF",
-   "totalApps": 37,
+   "totalApps": 38,
    "totalGoals": 2,
    "totalAssists": 7
   },
   "경주한수원WFC|김소은|37": {
    "position": "MF",
-   "totalApps": 149,
+   "totalApps": 150,
    "totalGoals": 13,
    "totalAssists": 19
   },
@@ -457,7 +457,8 @@ window.WK_ROSTER = {
    "position": "GK",
    "totalApps": 40,
    "totalGoals": 0,
-   "totalAssists": 0
+   "totalAssists": 0,
+   "born": "2001-11-14"
   },
   "화천KSPO|최민아|22": {
    "position": "DF",
@@ -528,40 +529,40 @@ window.WK_ROSTER = {
   },
   "인천현대제철|맹다희|4": {
    "position": "DF",
-   "totalApps": 146,
+   "totalApps": 147,
    "totalGoals": 3,
    "totalAssists": 3
   },
   "인천현대제철|고유진|5": {
    "position": "DF",
-   "totalApps": 143,
+   "totalApps": 144,
    "totalGoals": 3,
    "totalAssists": 3,
    "born": "1997-01-24"
   },
   "인천현대제철|정유진|6": {
    "position": "DF",
-   "totalApps": 87,
+   "totalApps": 88,
    "totalGoals": 0,
    "totalAssists": 0,
    "born": "2000-12-25"
   },
   "인천현대제철|박혜정|7": {
    "position": "MF",
-   "totalApps": 67,
+   "totalApps": 68,
    "totalGoals": 4,
-   "totalAssists": 6,
+   "totalAssists": 7,
    "born": "2000-03-30"
   },
   "인천현대제철|김수진|8": {
    "position": "MF",
-   "totalApps": 97,
+   "totalApps": 98,
    "totalGoals": 7,
    "totalAssists": 2
   },
   "인천현대제철|강지우|9": {
    "position": "FW",
-   "totalApps": 93,
+   "totalApps": 94,
    "totalGoals": 7,
    "totalAssists": 6,
    "born": "2000-05-09"
@@ -574,13 +575,13 @@ window.WK_ROSTER = {
   },
   "인천현대제철|박아현|11": {
    "position": "FW",
-   "totalApps": 45,
+   "totalApps": 46,
    "totalGoals": 1,
    "totalAssists": 3
   },
   "인천현대제철|성서울서라벌|13": {
    "position": "GK",
-   "totalApps": 9,
+   "totalApps": 10,
    "totalGoals": 0,
    "totalAssists": 0
   },
@@ -599,13 +600,13 @@ window.WK_ROSTER = {
   },
   "인천현대제철|김명진|16": {
    "position": "MF",
-   "totalApps": 54,
+   "totalApps": 55,
    "totalGoals": 2,
    "totalAssists": 2
   },
   "인천현대제철|조미진|17": {
    "position": "FW",
-   "totalApps": 84,
+   "totalApps": 85,
    "totalGoals": 10,
    "totalAssists": 6
   },
@@ -617,7 +618,7 @@ window.WK_ROSTER = {
   },
   "인천현대제철|윤혜인|19": {
    "position": "DF",
-   "totalApps": 71,
+   "totalApps": 72,
    "totalGoals": 0,
    "totalAssists": 2
   },
@@ -629,13 +630,13 @@ window.WK_ROSTER = {
   },
   "인천현대제철|홍채빈|21": {
    "position": "DF",
-   "totalApps": 13,
+   "totalApps": 14,
    "totalGoals": 0,
    "totalAssists": 0
   },
   "인천현대제철|김은솔|22": {
    "position": "DF",
-   "totalApps": 131,
+   "totalApps": 132,
    "totalGoals": 2,
    "totalAssists": 9
   },
@@ -653,14 +654,14 @@ window.WK_ROSTER = {
   },
   "인천현대제철|피오나 워츠|29": {
    "position": "FW",
-   "totalApps": 23,
+   "totalApps": 24,
    "totalGoals": 5,
    "totalAssists": 2
   },
   "인천현대제철|천가람|30": {
    "position": "FW",
-   "totalApps": 80,
-   "totalGoals": 3,
+   "totalApps": 81,
+   "totalGoals": 4,
    "totalAssists": 7
   },
   "인천현대제철|토리|32": {
@@ -678,38 +679,38 @@ window.WK_ROSTER = {
   },
   "인천현대제철|배예빈|46": {
    "position": "MF",
-   "totalApps": 45,
+   "totalApps": 46,
    "totalGoals": 1,
    "totalAssists": 1
   },
   "상무여자축구단|서인경|4": {
    "position": "DF",
-   "totalApps": 94,
+   "totalApps": 95,
    "totalGoals": 2,
    "totalAssists": 1
   },
   "상무여자축구단|김지원|6": {
    "position": "DF",
-   "totalApps": 113,
+   "totalApps": 114,
    "totalGoals": 2,
    "totalAssists": 0
   },
   "상무여자축구단|송다희|7": {
    "position": "DF",
-   "totalApps": 166,
+   "totalApps": 167,
    "totalGoals": 1,
-   "totalAssists": 2
+   "totalAssists": 3
   },
   "상무여자축구단|권하늘|8": {
    "position": "MF",
-   "totalApps": 360,
+   "totalApps": 361,
    "totalGoals": 76,
-   "totalAssists": 25
+   "totalAssists": 27
   },
   "상무여자축구단|양서영|9": {
    "position": "FW",
-   "totalApps": 97,
-   "totalGoals": 6,
+   "totalApps": 98,
+   "totalGoals": 8,
    "totalAssists": 2
   },
   "상무여자축구단|권다은|10": {
@@ -727,31 +728,31 @@ window.WK_ROSTER = {
   },
   "상무여자축구단|김혜정|13": {
    "position": "MF",
-   "totalApps": 94,
+   "totalApps": 95,
    "totalGoals": 7,
    "totalAssists": 6
   },
   "상무여자축구단|이아름|14": {
    "position": "MF",
-   "totalApps": 8,
+   "totalApps": 9,
    "totalGoals": 0,
    "totalAssists": 0
   },
   "상무여자축구단|정은진|15": {
    "position": "MF",
-   "totalApps": 34,
+   "totalApps": 35,
    "totalGoals": 1,
    "totalAssists": 1
   },
   "상무여자축구단|윤채현|16": {
    "position": "FW",
-   "totalApps": 81,
+   "totalApps": 82,
    "totalGoals": 1,
    "totalAssists": 2
   },
   "상무여자축구단|박현아|17": {
    "position": "DF",
-   "totalApps": 104,
+   "totalApps": 105,
    "totalGoals": 0,
    "totalAssists": 6
   },
@@ -763,7 +764,7 @@ window.WK_ROSTER = {
   },
   "상무여자축구단|김태양|19": {
    "position": "FW",
-   "totalApps": 0,
+   "totalApps": 1,
    "totalGoals": 0,
    "totalAssists": 0
   },
@@ -775,13 +776,13 @@ window.WK_ROSTER = {
   },
   "상무여자축구단|이선빈|22": {
    "position": "FW",
-   "totalApps": 25,
+   "totalApps": 26,
    "totalGoals": 1,
    "totalAssists": 0
   },
   "상무여자축구단|하지희|23": {
    "position": "GK",
-   "totalApps": 53,
+   "totalApps": 54,
    "totalGoals": 1,
    "totalAssists": 0
   },
@@ -793,14 +794,14 @@ window.WK_ROSTER = {
   },
   "상무여자축구단|손윤희|25": {
    "position": "MF",
-   "totalApps": 340,
+   "totalApps": 341,
    "totalGoals": 36,
    "totalAssists": 21
   },
   "상무여자축구단|이세란|27": {
    "position": "MF",
-   "totalApps": 77,
-   "totalGoals": 9,
+   "totalApps": 78,
+   "totalGoals": 11,
    "totalAssists": 8
   },
   "상무여자축구단|김륜경|28": {
@@ -830,45 +831,45 @@ window.WK_ROSTER = {
   },
   "세종스포츠토토|김도연|4": {
    "position": "DF",
-   "totalApps": 324,
+   "totalApps": 325,
    "totalGoals": 3,
    "totalAssists": 2
   },
   "세종스포츠토토|신담영|5": {
    "position": "DF",
-   "totalApps": 226,
+   "totalApps": 227,
    "totalGoals": 14,
    "totalAssists": 7
   },
   "세종스포츠토토|김미연|6": {
    "position": "DF",
-   "totalApps": 212,
+   "totalApps": 213,
    "totalGoals": 19,
    "totalAssists": 10,
    "born": "1995-03-21"
   },
   "세종스포츠토토|지선미|7": {
    "position": "MF",
-   "totalApps": 271,
+   "totalApps": 272,
    "totalGoals": 15,
    "totalAssists": 10
   },
   "세종스포츠토토|고민정|8": {
    "position": "MF",
-   "totalApps": 94,
+   "totalApps": 95,
    "totalGoals": 10,
    "totalAssists": 2
   },
   "세종스포츠토토|박희영|9": {
    "position": "FW",
-   "totalApps": 265,
+   "totalApps": 266,
    "totalGoals": 56,
    "totalAssists": 35
   },
   "세종스포츠토토|이하림|10": {
    "position": "FW",
-   "totalApps": 92,
-   "totalGoals": 6,
+   "totalApps": 93,
+   "totalGoals": 7,
    "totalAssists": 0
   },
   "세종스포츠토토|신혜빈|11": {
@@ -879,21 +880,21 @@ window.WK_ROSTER = {
   },
   "세종스포츠토토|윤민지|13": {
    "position": "FW",
-   "totalApps": 20,
+   "totalApps": 21,
    "totalGoals": 0,
    "totalAssists": 1
   },
   "세종스포츠토토|김윤주|14": {
    "position": "DF",
-   "totalApps": 59,
+   "totalApps": 60,
    "totalGoals": 0,
    "totalAssists": 0
   },
   "세종스포츠토토|김지현|16": {
    "position": "MF",
-   "totalApps": 42,
+   "totalApps": 43,
    "totalGoals": 5,
-   "totalAssists": 5,
+   "totalAssists": 6,
    "born": "2004-07-27"
   },
   "세종스포츠토토|오연희|17": {
@@ -904,7 +905,7 @@ window.WK_ROSTER = {
   },
   "세종스포츠토토|류지수|18": {
    "position": "GK",
-   "totalApps": 98,
+   "totalApps": 99,
    "totalGoals": 0,
    "totalAssists": 0,
    "born": "1997-09-03"
@@ -917,7 +918,7 @@ window.WK_ROSTER = {
   },
   "세종스포츠토토|김혜인|20": {
    "position": "DF",
-   "totalApps": 131,
+   "totalApps": 132,
    "totalGoals": 4,
    "totalAssists": 1
   },
@@ -929,13 +930,13 @@ window.WK_ROSTER = {
   },
   "세종스포츠토토|이정연|22": {
    "position": "DF",
-   "totalApps": 77,
+   "totalApps": 78,
    "totalGoals": 3,
    "totalAssists": 3
   },
   "세종스포츠토토|조민아|23": {
    "position": "DF",
-   "totalApps": 122,
+   "totalApps": 123,
    "totalGoals": 1,
    "totalAssists": 5,
    "born": "2000-10-26"
@@ -948,13 +949,13 @@ window.WK_ROSTER = {
   },
   "세종스포츠토토|서아리|27": {
    "position": "DF",
-   "totalApps": 144,
+   "totalApps": 145,
    "totalGoals": 4,
    "totalAssists": 8
   },
   "세종스포츠토토|이정인|29": {
    "position": "FW",
-   "totalApps": 21,
+   "totalApps": 22,
    "totalGoals": 0,
    "totalAssists": 0
   },
@@ -1107,51 +1108,52 @@ window.WK_ROSTER = {
   },
   "수원FC위민|이수인|5": {
    "position": "DF",
-   "totalApps": 46,
+   "totalApps": 47,
    "totalGoals": 0,
    "totalAssists": 0
   },
   "수원FC위민|이유진|6": {
    "position": "DF",
-   "totalApps": 92,
+   "totalApps": 93,
    "totalGoals": 2,
-   "totalAssists": 4
+   "totalAssists": 4,
+   "born": "2000-05-15"
   },
   "수원FC위민|권은솜|7": {
    "position": "MF",
-   "totalApps": 305,
+   "totalApps": 306,
    "totalGoals": 23,
    "totalAssists": 28
   },
   "수원FC위민|아야카|8": {
    "position": "MF",
-   "totalApps": 64,
+   "totalApps": 65,
    "totalGoals": 7,
    "totalAssists": 5
   },
   "수원FC위민|밀레니냐|9": {
    "position": "FW",
-   "totalApps": 49,
+   "totalApps": 50,
    "totalGoals": 12,
    "totalAssists": 2
   },
   "수원FC위민|지소연|10": {
    "position": "MF",
-   "totalApps": 50,
+   "totalApps": 51,
    "totalGoals": 17,
    "totalAssists": 16,
    "born": "1991-02-21"
   },
   "수원FC위민|최유리|11": {
    "position": "MF",
-   "totalApps": 197,
-   "totalGoals": 57,
+   "totalApps": 198,
+   "totalGoals": 58,
    "totalAssists": 20,
    "born": "1994-09-16"
   },
   "수원FC위민|송지윤|13": {
    "position": "FW",
-   "totalApps": 98,
+   "totalApps": 99,
    "totalGoals": 6,
    "totalAssists": 3
   },
@@ -1163,21 +1165,21 @@ window.WK_ROSTER = {
   },
   "수원FC위민|김경희|16": {
    "position": "GK",
-   "totalApps": 69,
+   "totalApps": 70,
    "totalGoals": 0,
    "totalAssists": 1,
    "born": "2003-03-17"
   },
   "수원FC위민|한다인|17": {
    "position": "DF",
-   "totalApps": 69,
+   "totalApps": 70,
    "totalGoals": 1,
    "totalAssists": 4,
    "born": "2002-02-09"
   },
   "수원FC위민|전민지|18": {
    "position": "MF",
-   "totalApps": 71,
+   "totalApps": 72,
    "totalGoals": 3,
    "totalAssists": 3
   },
@@ -1189,14 +1191,14 @@ window.WK_ROSTER = {
   },
   "수원FC위민|김혜리|20": {
    "position": "DF",
-   "totalApps": 303,
+   "totalApps": 304,
    "totalGoals": 8,
    "totalAssists": 22,
    "born": "1990-06-25"
   },
   "수원FC위민|서진주|22": {
    "position": "DF",
-   "totalApps": 125,
+   "totalApps": 126,
    "totalGoals": 3,
    "totalAssists": 5
   },
@@ -1208,14 +1210,14 @@ window.WK_ROSTER = {
   },
   "수원FC위민|서예진|25": {
    "position": "DF",
-   "totalApps": 221,
+   "totalApps": 222,
    "totalGoals": 7,
    "totalAssists": 8,
    "born": "1996-01-25"
   },
   "수원FC위민|윤수정|26": {
    "position": "FW",
-   "totalApps": 56,
+   "totalApps": 57,
    "totalGoals": 8,
    "totalAssists": 5,
    "born": "2002-06-20"

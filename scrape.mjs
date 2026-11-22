@@ -134,7 +134,7 @@ function parseDetail(html) {
         fouls: num(tokens(tds[5])[0]),
         yellows: parseCardCell(tds[6], 'yellow'),
         reds: parseCardCell(tds[7], 'red'),
-        minutes: num(tokens(tds[8])[0]),
+        minutes: Math.max(0, num(tokens(tds[8])[0]) || 0), // 연맹 페이지에 음수(-16 등)로 잘못 적힌 경우가 있어 0으로 본다
       });
     });
   });
