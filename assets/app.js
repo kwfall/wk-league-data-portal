@@ -103,6 +103,7 @@
       ;
     if (WK.afterTabs) WK.afterTabs();
     document.getElementById('menu').setAttribute('aria-label', t('메뉴'));
+    const bk = document.getElementById('back'); if (bk) { bk.hidden = !name; bk.setAttribute('aria-label', t('뒤로 가기')); bk.title = t('뒤로 가기'); }
     document.getElementById('season').innerHTML = WK.seasons.map((s) => `<option value="${s}" ${s === S.season ? 'selected' : ''}>${t('{y}시즌', { y: s })}</option>`).join('');
     const dark = document.documentElement.dataset.theme === 'dark';
     document.querySelectorAll('#lang button').forEach((b) => b.setAttribute('aria-pressed', b.dataset.lang === WK.lang));
@@ -136,6 +137,13 @@
   const mq = matchMedia('(max-width: 640px)'), place = () => { const to = document.querySelector(mq.matches && !document.documentElement.classList.contains('mobile') ? '.drawer-tools' : '.tools'); if (to) to.append(document.getElementById('lang'), document.getElementById('theme')); }; // 카드·포스터 화면에는 윗줄이 없다
   mq.addEventListener('change', place); place();
   // 전체 메뉴 펼치기·접기
+  // 뒤로 가기: 이 사이트 안에서 이동한 기록이 있으면 이전 화면으로, 없으면(주소로 바로 들어온 경우) 홈으로
+  const trail = [location.hash || '#/'];
+  addEventListener('hashchange', () => { const h = location.hash || '#/'; if (trail.length > 1 && trail[trail.length - 2] === h) trail.pop(); else if (trail[trail.length - 1] !== h) trail.push(h); });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#back')) return;
+    if (trail.length > 1) history.back(); else location.hash = '#/';
+  });
   WK.menu = (open) => { const d = document.getElementById('drawer'), b = document.getElementById('menu'); if (!d || !b) return; d.hidden = !open; b.setAttribute('aria-expanded', String(open)); };
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') WK.menu(false); });
   addEventListener('hashchange', () => WK.menu(false));
