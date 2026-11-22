@@ -77,13 +77,21 @@
         const full = Math.max(90, ...list.map((p) => p.minutes));
         for (const p of list) {
           const key = `${me}|${p.name}|${p.number}`;
-          const a = (P[key] ||= { key, name: p.name, team: me, number: p.number, position: p.position, photo: p.photo || null, squad: 0, apps: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, sot: 0, fouls: 0, yellows: 0, reds: 0, fullGames: 0, conceded: 0, cleanSheets: 0, log: [] });
+          const a = (P[key] ||= { key, name: p.name, team: me, number: p.number, position: p.position, photo: p.photo || null, squad: 0, apps: 0, starts: 0, minutes: 0, goals: 0, assists: 0, shots: 0, sot: 0, fouls: 0, yellows: 0, reds: 0, fullGames: 0, conceded: 0, cleanSheets: 0, svGames: 0, oppSot: 0, saves: 0, log: [] });
           a.squad++; // 0분 경기도 포함한 명단 포함 횟수 (연맹 사이트의 경기 수와 같은 기준)
           if (!p.minutes) continue;
           a.apps++; if (p.starter) a.starts++;
           a.minutes += p.minutes; a.goals += p.goals; a.assists += p.assists; a.shots += p.shots; a.sot += p.shotsOnTarget;
           a.fouls += p.fouls; a.yellows += p.yellows; a.reds += p.reds;
-          if (p.minutes >= full) { a.fullGames++; a.conceded += ga; if (!ga) a.cleanSheets++; }
+          if (p.minutes >= full) {
+            a.fullGames++; a.conceded += ga; if (!ga) a.cleanSheets++;
+            // 추정 세이브 = 상대 유효슈팅 − 실점(자책골 제외). 연맹은 세이브를 따로 기록하지 않는다.
+            // 상대 슈팅 기록이 비었거나(0개) 유효슈팅이 실점보다 적게 적힌 경기는 기록이 빠진 것으로 보고 뺀다.
+            if (p.position === 'GK') {
+              const oSot = st.shotsOnTarget ? st.shotsOnTarget[o] : null, oSh = st.shots ? st.shots[o] : 0, nonOwn = ga - ((m.goals && m.goals[o]) || []).filter((g) => g.own).length;
+              if (oSot != null && oSh > 0 && oSot >= nonOwn) { a.svGames++; a.oppSot += oSot; a.saves += oSot - nonOwn; }
+            }
+          }
           a.log.push({ m, r: m.r, opp, home: side === 'home', gf, ga, x: res(gf, ga), ...p });
         }
       }
@@ -97,7 +105,7 @@
       // 시즌 중 팀을 옮긴 선수: 연맹은 지금 팀 한 줄로 합쳐 보여 주므로 같이 합친다 (명단 포함 횟수 합이 연맹 출전과 맞을 때만)
       const others = Object.values(P).filter((x) => x !== a && x.name === a.name && x.team !== a.team);
       if (others.length && others.reduce((n, x) => n + x.squad, a.squad) === o.apps) {
-        for (const x of others) { a.squad += x.squad; a.played += x.played; a.starts += x.starts; a.fullGames += x.fullGames; a.conceded += x.conceded; a.cleanSheets += x.cleanSheets; a.log.push(...x.log); alias[x.key] = a.key; delete P[x.key]; }
+        for (const x of others) { a.squad += x.squad; a.played += x.played; a.starts += x.starts; a.fullGames += x.fullGames; a.conceded += x.conceded; a.cleanSheets += x.cleanSheets; a.svGames += x.svGames; a.oppSot += x.oppSot; a.saves += x.saves; a.log.push(...x.log); alias[x.key] = a.key; delete P[x.key]; }
         a.log.sort((p, q) => p.m.datetime.localeCompare(q.m.datetime));
       }
       Object.assign(a, { minutes: o.minutes, goals: o.goals, assists: o.assists, shots: o.shots, sot: o.sot, fouls: o.fouls, yellows: o.yellows, reds: o.reds, official: true });
@@ -110,6 +118,7 @@
       s90: per90(p.shots, p.minutes), sot90: per90(p.sot, p.minutes), f90: per90(p.fouls, p.minutes),
       conv: p.shots ? p.goals / p.shots : NaN, acc: p.shots ? p.sot / p.shots : NaN,
       ga90: p.fullGames ? p.conceded / p.fullGames : NaN, csRate: p.fullGames ? p.cleanSheets / p.fullGames : NaN,
+      sv90: p.svGames ? p.saves / p.svGames : NaN, svPct: p.oppSot ? p.saves / p.oppSot : NaN,
     }));
     const playerByKey = Object.fromEntries(players.map((p) => [p.key, p]));
     for (const [from, to] of Object.entries(alias)) if (playerByKey[to]) playerByKey[from] = playerByKey[to];
@@ -238,7 +247,7 @@
 
   // ---------- 선수 프로필: 같은 포지션 안에서의 백분위와 비슷한 선수 ----------
   const FIELD = [['g90', '90분당 득점'], ['a90', '90분당 도움'], ['pt90', '90분당 공격P'], ['s90', '90분당 슈팅'], ['sot90', '90분당 유효슈팅'], ['conv', '슈팅 대비 득점률'], ['acc', '유효슈팅 비율']];
-  const GK = [['ga90', '경기당 실점 (풀타임)', true], ['csRate', '무실점 경기 비율']];
+  const GK = [['ga90', '경기당 실점 (풀타임)', true], ['csRate', '무실점 경기 비율'], ['sv90', '경기당 추정 세이브'], ['svPct', '추정 세이브율']];
   WK.profile = function (B, key) {
     const p = B.playerByKey[key]; if (!p) return null;
     const peers = B.players.filter((q) => q.position === p.position && q.minutes >= B.qualMin);

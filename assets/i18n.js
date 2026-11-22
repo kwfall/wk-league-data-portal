@@ -417,6 +417,13 @@
     ['챔피언결정전 우승: {team}', 'Championship winner: {team}', 'チャンピオン決定戦優勝: {team}'],
     ['선수별 슈팅·유효슈팅은 연맹 경기 기록에 빠진 경기가 많습니다(유효슈팅 0으로 적힌 득점이 전체의 약 30%). 슈팅·유효슈팅·득점률은 참고용으로 봐 주세요.', 'Many matches in the federation records lack player shot data (about 30% of goals are recorded with zero shots on target). Treat shots, shots on target and conversion rate as indicative only.', '連盟の試合記録には選手別シュートが抜けている試合が多くあります（枠内シュート0で記録された得点が全体の約30%）。シュート・枠内シュート・決定率は参考値としてご覧ください。'],
     ['뒤로 가기', 'Back', '戻る'],
+    ['경기당 추정 세이브', 'Est. saves per match', '1試合あたり推定セーブ'],
+    ['추정 세이브율', 'Est. save rate', '推定セーブ率'],
+    ['풀타임 경기', 'Full matches', 'フル出場試合'],
+    ['상대 유효슈팅', 'Opponent shots on target', '相手の枠内シュート'],
+    ['추정 세이브', 'Est. saves', '推定セーブ'],
+    ['연맹은 골키퍼 세이브를 기록하지 않아, 끝까지 뛴 경기의 상대 유효슈팅에서 실점(자책골 제외)을 빼서 추정했습니다. 상대 슈팅 기록이 빠진 경기는 제외했습니다 ({a}경기 중 {b}경기 사용).', 'The federation does not record goalkeeper saves, so they are estimated as opponent shots on target minus goals conceded (excluding own goals) in matches the keeper played in full. Matches with missing opponent shot data are excluded ({b} of {a} matches used).', '連盟はGKのセーブを記録していないため、フル出場した試合の相手枠内シュートから失点（オウンゴール除く）を引いて推定しました。相手のシュート記録が欠けた試合は除外しています（{a}試合中{b}試合を使用）。'],
+    ['풀타임 경기 실점', 'Goals conceded (full matches)', 'フル出場試合の失点'],
   ];
   const TEAMS = {
     수원FC위민: ['Suwon FC Women', '水原FCウィメン'], 화천KSPO: ['Hwacheon KSPO', '華川KSPO'], 상무여자축구단: ['Sangmu WFC', '尚武女子サッカー団'], 경주한수원WFC: ['Gyeongju KHNP WFC', '慶州韓水原WFC'],

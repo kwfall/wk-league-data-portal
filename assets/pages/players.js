@@ -47,7 +47,7 @@
     const p = pr.p, gk = p.position === 'GK', name = U.pname(p.key);
     // 팀 전체 경기 시간(각 경기에서 가장 오래 뛴 선수 기준) 대비 출전 비율
     const teamMin = B.league.filter((m) => (m.home === p.team || m.away === p.team) && m.players).reduce((a, m) => a + Math.max(90, ...m.players[m.home === p.team ? 'home' : 'away'].map((x) => x.minutes)), 0);
-    const teamGf = B.T[p.team].gf, fmt = (k, v) => (['conv', 'acc', 'csRate'].includes(k) ? U.pct(v) : U.f2(v));
+    const teamGf = B.T[p.team].gf, fmt = (k, v) => (['conv', 'acc', 'csRate', 'svPct'].includes(k) ? U.pct(v) : U.f2(v));
     const qr = (B.s.qor || []).filter((q) => `${q.team}|${q.name}|${q.number}` === p.key).map((q) => q.round).sort((a, b) => a - b);
     const mv = B.movers.find((m) => m.from.key === p.key || m.to.key === p.key);
     const moved = mv ? `<p class="notice">${mv.to.key === p.key
@@ -71,10 +71,12 @@
       ${ax.map((m, i) => { const [x, y] = pt(i, 1); return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" class="ring"/>`; }).join('')}
       <polygon points="${ax.map((m, i) => pt(i, Math.max(0.04, m.pct / 100)).map((v) => v.toFixed(1)).join(',')).join(' ')}" class="area"/>
       ${ax.map((m, i) => { const [x, y] = pt(i, Math.max(0.04, m.pct / 100)), [lx, ly] = pt(i, 1.16), c = Math.cos(-Math.PI / 2 + (2 * Math.PI * i) / ax.length); return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4" class="dotp" data-tip="${U.esc(`${t(m.label)} ${fmt(m.k, m.value)} · ${t('상위 {n}%', { n: Math.max(1, 100 - m.pct) })}`)}"/><text x="${lx.toFixed(1)}" y="${(ly + 4).toFixed(1)}" text-anchor="${c > 0.3 ? 'start' : c < -0.3 ? 'end' : 'middle'}">${t(m.label)}</text>`; }).join('')}</svg>`;
-    const cnt = [['득점', p.goals], ['도움', p.assists], ['슈팅', p.shots], ['유효슈팅', p.sot], ['유효가 아닌 슈팅', p.shots - p.sot], ['파울', p.fouls], ['경고', p.yellows], ['퇴장', p.reds]], cmax = Math.max(...cnt.map((x) => x[1]), 1);
+    const cnt = gk ? [['풀타임 경기', p.fullGames], ['풀타임 경기 실점', p.conceded], ['무실점 경기', p.cleanSheets], ['상대 유효슈팅', p.oppSot], ['추정 세이브', p.saves], ['경고', p.yellows], ['퇴장', p.reds]]
+      : [['득점', p.goals], ['도움', p.assists], ['슈팅', p.shots], ['유효슈팅', p.sot], ['유효가 아닌 슈팅', p.shots - p.sot], ['파울', p.fouls], ['경고', p.yellows], ['퇴장', p.reds]], cmax = Math.max(...cnt.map((x) => x[1]), 1);
+    const gkNote = gk ? `<p class="foot" style="margin:8px 0 0">${t('연맹은 골키퍼 세이브를 기록하지 않아, 끝까지 뛴 경기의 상대 유효슈팅에서 실점(자책골 제외)을 빼서 추정했습니다. 상대 슈팅 기록이 빠진 경기는 제외했습니다 ({a}경기 중 {b}경기 사용).', { a: p.fullGames, b: p.svGames })}</p>` : '';
     const viz = `<div class="pviz">${radar ? `<div>${radar}<p class="foot" style="margin:0;text-align:center">${t('바깥쪽일수록 같은 포지션에서 좋은 기록입니다. 점선은 한가운데(상위 50%)입니다.')}</p></div>` : ''}
       <div><div class="cbars">${cnt.map(([k, v]) => `<span>${t(k)}</span><div class="trk"><div class="bar" style="width:${(v / cmax) * 100}%"></div></div><b>${v}</b>`).join('')}</div>
-      <p class="foot" style="margin:12px 0 0">${t('총 출전 시간 {m}분 · 경기당 평균 {a}분', { m: p.minutes, a: Math.round(p.minutes / p.played) })}</p></div></div>`;
+      <p class="foot" style="margin:12px 0 0">${t('총 출전 시간 {m}분 · 경기당 평균 {a}분', { m: p.minutes, a: Math.round(p.minutes / p.played) })}</p>${gkNote}</div></div>`;
     const logRows = [...p.log].reverse().map((x) => `<tr class="click" data-href="#/match/${x.m.id}"><td class="l">${x.m.round}</td><td class="l">${U.day(x.m)}</td><td class="l">${x.home ? t('홈') : t('원정')} · <span class="name">${U.tname(x.opp)}</span></td><td class="l"><span class="res ${x.x}">${U.res(x.x)}</span> ${x.gf}:${x.ga}</td><td class="l">${x.starter ? t('선발') : t('교체')}</td><td>${x.minutes}</td><td>${x.goals}</td><td>${x.assists}</td><td>${x.shots}</td><td>${x.shotsOnTarget}</td><td>${x.fouls}</td><td>${x.yellows}</td><td>${x.reds}</td></tr>`).join('');
 
     return `${back}<div class="phead">${U.photo(p, 88)}<div><h1>${name} <span class="no" style="font-size:18px;width:auto">#${p.number ?? ''}</span></h1>
